@@ -28,8 +28,8 @@
 		href="{{ asset('images/logo_title1.png') }}" rel="shortcut icon">
 
 		<!-- 
-																																																																																  Essential stylesheets
-																																																																																		  =====================================-->
+																																																																																																										  Essential stylesheets
+																																																																																																												  =====================================-->
 		{% block css %}
 
 			<link href="{{asset('plugins/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
@@ -47,12 +47,12 @@
 	<body class="body-wrapper">
 
 
-		<header>
+		<header style="background-color:rgb(247, 239, 14)">
 
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
-						<nav class="navbar navbar-expand-lg navbar-light navigation">
+						<nav class="navbar navbar-expand-lg navbar-light navigation" style="col">
 							<a class="navbar-brand" href="{{ path('page_utilisateur_connecte') }}">
 								<img src="{{ asset('images/logo.png') }}" alt="">
 							</a>
@@ -63,34 +63,34 @@
 								<ul class="navbar-nav ml-auto main-nav ">
 									<li class="nav-item active">
 										{%	block home %}
-											<a class="nav-link" href="{{ path('page_utilisateur_connecte') }}">Magic Book</a>
+											<a class="nav-link" href="{{ path('page_utilisateur_connecte') }}" style="color: rgb(25, 23, 60);">Magic Book</a>
 										{% endblock %}
 									</li>
 									<li class="nav-item active">
 										{%	block reclamations %}
-											<a class="nav-link" href="{{ path('page_utilisateur_connecte') }}">Réclamations</a>
+											<a class="nav-link" href="{{ path('page_utilisateur_connecte') }}" style="color: rgb(25, 23, 60);">Réclamations</a>
 										{% endblock %}
 									</li>
 									<li class="nav-item active">
 										{%	block cours %}
-											<a class="nav-link" href="{{ path('page_utilisateur_connecte') }}">Cours</a>
+											<a class="nav-link" href="{{ path('page_utilisateur_connecte') }}" style="color: rgb(25, 23, 60);">Cours</a>
 										{% endblock %}
 									</li>
 									<li class="nav-item active">
 										{%	block formations %}
-											<a class="nav-link" href="{{ path('page_utilisateur_connecte') }}">Formations</a>
+											<a class="nav-link" href="{{ path('page_utilisateur_connecte') }}" style="color: rgb(25, 23, 60);">Formations</a>
 										{% endblock %}
 									</li>
 									<li class="nav-item active">
 										{%	block activites %}
-											<a class="nav-link" href="{{ path('page_utilisateur_connecte') }}">Activités</a>
+											<a class="nav-link" href="{{ path('page_utilisateur_connecte') }}" style="color: rgb(25, 23, 60);">Activités</a>
 										{% endblock %}
 									</li>
 
 
 									<li class="nav-item dropdown dropdown-slide @@listing">
 										{%	block moncompte %}
-											<a class="nav-link dropdown-toggle" href="{{asset('#!')}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<a class="nav-link dropdown-toggle" href="{{asset('#!')}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: rgb(25, 23, 60);">
 												Mon compte
 												<span>
 													<i class="fa fa-angle-down"></i>
@@ -127,16 +127,16 @@
 </html></header><!-- ******************************* Limite Header ************************************ -->{% block body %}
 
 <!-- ******************************* C'est le bloc à modifier  ************************************ -->{% endblock %}<!-- =============================
-																																																																																=            Hero Area            =
-																																																																																================================--><section>
+																																																																																													=            Hero Area            =
+																																																																																													================================--><section>
 <!-- Container Start -->
 <div>
 	<img src="{{ asset('images/arrière_plan.jpg') }}" alt="fond">
 </div>
 
 <!-- Container End --></section><!--============================
-																																																																																=            Footer            =
-																																																																																=============================--><footer class="footer section section-sm">
+																																																																																													=            Footer            =
+																																																																																													=============================--><footer class="footer section section-sm">
 {% block footer1 %}
 	<!-- Container Start -->
 	<div class="container">
@@ -153,7 +153,7 @@
 					<!-- description -->
 					<p class="alt-color">
 						Tel : 70 666 666
-																																																																																																																																																																																																																																				email : magic.book@gmail.com
+																																																																																																																																																																																																																																																																																																																		email : magic.book@gmail.com
 					</p>
 				</div>
 			</div>
@@ -241,9 +241,7 @@ document.write(CurrentYear)
 	<div class="scroll-top-to">
 		<i class="fa fa-angle-up"></i>
 	</div>
-{% endblock %}</footer><!-- 
-																																																																																Essential Scripts
-																																																																																=====================================-->{% block js %}
+{% endblock %}</footer>{% block js %}
 
 <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('plugins/bootstrap/popper.min.js')}}"></script>
@@ -257,4 +255,4 @@ document.write(CurrentYear)
 <script src="{{asset('https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU')}}" defer></script>
 <script src="{{asset('plugins/google-map/map.js')}}" defer></script>
 
-<script src="{{asset('js/script.js')}}"></script>{% endblock %}</body></html>
+<script src="{{asset('js/script.js')}}"></script>{% endblock %}</body></html></body></html>
