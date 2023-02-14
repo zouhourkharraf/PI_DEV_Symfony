@@ -1,0 +1,34 @@
+<h1>La liste des administrateurs</h1>
+
+<table border="1">
+	<tr>
+		<th>Role</th>
+		<th>Id</th>
+		<th>Nom</th>
+		<th>Prenom</th>
+		<th>Pseudo</th>
+		<th>Mot de passe</th>
+		<th>Email</th>
+		<th>Age</th>
+		<th>Genre</th>
+		<th>Réponse</th>
+
+	</tr>
+	{%for admin in liste_administrateurs %}
+		<tr>
+			<td>{{admin.roleutil}}</td>
+			<td>{{admin.id}}</td>
+			<td>Indéfini</td>
+			<td>Indéfini</td>
+			<td>{{admin.pseudoutil}}</td>
+			<td>{{admin.motdepasseutil}}</td>
+			<td>{{admin.emailutil}}</td>
+			<td>Indéfini</td>
+			<td>Indéfini</td>
+			<td>réponses</td>
+
+		</tr>
+
+	{% endfor %}
+
+</table><br>
