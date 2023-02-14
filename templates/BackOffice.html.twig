@@ -79,7 +79,7 @@
 							<div class="sb-sidenav-menu-heading">Gérer</div>
 							<div>
 								{% block utilisateurs %}
-									<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+									<a class="nav-link collapsed" href="{{ path('liste_utilisateur')}}">
 										<div class="sb-nav-link-icon">
 											<i class="fas fa-columns"></i>
 										</div>
@@ -179,6 +179,7 @@
 				</main>
 
 			</div>
+
 			{% block footer %}
 
 				<footer class="py-4 bg-light mt-auto">

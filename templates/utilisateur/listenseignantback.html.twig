@@ -2,7 +2,7 @@
 {% block contenu %}
 
 	<div class="container-fluid px-4">
-		<h1 class="mt-4">Listes des administrateurs</h1>
+		<h1 class="mt-4">Listes des Enseignants</h1>
 		<ol class="breadcrumb mb-4">
 			<li class="breadcrumb-item">
 				<a href="{{ path('page_acceuil_back_office')}}">Dashboard Magic Book</a>
@@ -10,16 +10,16 @@
 			<li class="breadcrumb-item active">
 				<a href="{{ path('liste_utilisateur')}}">Utilisateurs</a>
 			</li>
-			<li class="breadcrumb-item active">Administrateurs</li>
+			<li class="breadcrumb-item active">Enseignants</li>
 		</ol>
 
 		<div class="card mb-4">
 			<div class="card-header">
 				<i class="fas fa-table me-1"></i>
-				Table des administrateurs
+				Table des enseignants
 			</div>
 			<div class="card-body">
-				<table id="datatablesSimple">
+				<table id="datatablesSimple" cellspacing="1">
 					<thead>
 						<tr>
 							<th>Rôle</th>
@@ -31,7 +31,11 @@
 							<th>Émail</th>
 							<th>Age</th>
 							<th>Genre</th>
-							<th>Réponse</th>
+							<th>Cours</th>
+							<th>Formations</th>
+							<th>Réclamations</th>
+							<th>Modifier</th>
+							<th>Supprimer</th>
 						</tr>
 					</thead>
 					<tfoot>
@@ -45,27 +49,43 @@
 							<th>Émail</th>
 							<th>Age</th>
 							<th>Genre</th>
-							<th>Réponse</th>
+							<th>Cours</th>
+							<th>Formations</th>
+							<th>Réclamations</th>
+							<th>Modifier</th>
+							<th>Supprimer</th>
+
 						</tr>
 					</tfoot>
 					<tbody>
-						{%for admin in liste_administrateurs %}
+						{% for enseignant in liste_enseignants %}
 							<tr>
-								<td>{{admin.roleutil}}</td>
-								<td>{{admin.id}}</td>
-								<td>Indéfini</td>
-								<td>Indéfini</td>
-								<td>{{admin.pseudoutil}}</td>
-								<td>{{admin.motdepasseutil}}</td>
-								<td>{{admin.emailutil}}</td>
-								<td>Indéfini</td>
-								<td>Indéfini</td>
-								<td>
-									<a class="btn btn-primary" href="{{ path('page_acceuil_back_office')}}">
-										Liste des réponses
-									</a>
-								</td>
+								<td>{{enseignant.roleutil}}</td>
+								<td>{{enseignant.id}}</td>
+								<td>{{enseignant.nomutil}}</td>
+								<td>{{enseignant.prenomutil}}</td>
+								<td>{{enseignant.pseudoutil}}</td>
+								<td>{{enseignant.motdepasseutil}}</td>
+								<td>{{enseignant.emailutil}}</td>
+								<td>{{enseignant.ageutil}}</td>
+								{# affichage du genre selon sa valeur dans la BD #}
+								{% if enseignant.genreutil == 'H' %}
+									<td>Homme</td>
+								{% else %}
+									<td>Femme</td>
+								{% endif %}
 
+								<td>
+									<a class="btn btn-primary" href="{{ path('page_acceuil_back_office')}}">Liste des cours</a>
+								</td>
+								<td>
+									<a class="btn btn-primary" href="{{ path('page_acceuil_back_office')}}">Liste des formations</a>
+								</td>
+								<td>
+									<a class="btn btn-primary" href="{{ path('page_acceuil_back_office')}}">Liste des réclamations</a>
+								</td>
+								<th><img src="{{asset('images2/icone_supprimer.png')}}" alt="logo"></th>
+								<th><img src="{{asset('images2/icone_supprimer.png')}}" alt="logo"></th>
 							</tr>
 
 						{% endfor %}

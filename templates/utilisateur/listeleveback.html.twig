@@ -2,18 +2,21 @@
 {% block contenu %}
 
 	<div class="container-fluid px-4">
-		<h1 class="mt-4">Tables des utilisateurs</h1>
+		<h1 class="mt-4">Listes des Élèves</h1>
 		<ol class="breadcrumb mb-4">
 			<li class="breadcrumb-item">
 				<a href="{{ path('page_acceuil_back_office')}}">Dashboard Magic Book</a>
 			</li>
-			<li class="breadcrumb-item active">Utilisateurs</li>
+			<li class="breadcrumb-item active">
+				<a href="{{ path('liste_utilisateur')}}">Utilisateurs</a>
+			</li>
+			<li class="breadcrumb-item active">Élèves</li>
 		</ol>
 
 		<div class="card mb-4">
 			<div class="card-header">
 				<i class="fas fa-table me-1"></i>
-				Table des administrateurs
+				Table des élèves
 			</div>
 			<div class="card-body">
 				<table id="datatablesSimple">
@@ -28,7 +31,8 @@
 							<th>Émail</th>
 							<th>Age</th>
 							<th>Genre</th>
-							<th>Réponse</th>
+							<th>Activités</th>
+							<th>Réclamations</th>
 						</tr>
 					</thead>
 					<tfoot>
@@ -42,22 +46,34 @@
 							<th>Émail</th>
 							<th>Age</th>
 							<th>Genre</th>
-							<th>Réponse</th>
+							<th>Activités</th>
+							<th>Réclamations</th>
 						</tr>
 					</tfoot>
 					<tbody>
-						{%for admin in liste_administrateurs %}
+						{% for eleve in liste_eleves %}
 							<tr>
-								<td>{{admin.roleutil}}</td>
-								<td>{{admin.id}}</td>
-								<td>Indéfini</td>
-								<td>Indéfini</td>
-								<td>{{admin.pseudoutil}}</td>
-								<td>{{admin.motdepasseutil}}</td>
-								<td>{{admin.emailutil}}</td>
-								<td>Indéfini</td>
-								<td>Indéfini</td>
-								<td>réponses</td>
+								<td>{{eleve.roleutil}}</td>
+								<td>{{eleve.id}}</td>
+								<td>{{eleve.nomutil}}</td>
+								<td>{{eleve.prenomutil}}</td>
+								<td>{{eleve.pseudoutil}}</td>
+								<td>{{eleve.motdepasseutil}}</td>
+								<td>{{eleve.emailutil}}</td>
+								<td>{{eleve.ageutil}}</td>
+								{# affichage du genre selon sa valeur dans la BD #}
+								{% if eleve.genreutil == 'H' %}
+									<td>Homme</td>
+								{% else %}
+									<td>Femme</td>
+								{% endif %}
+
+								<td>
+									<a class="btn btn-primary" href="{{ path('page_acceuil_back_office')}}">Liste des activités</a>
+								</td>
+								<td>
+									<a class="btn btn-primary" href="{{ path('page_acceuil_back_office')}}">Liste des réclamations</a>
+								</td>
 
 							</tr>
 
