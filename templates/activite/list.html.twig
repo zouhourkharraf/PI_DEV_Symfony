@@ -1,0 +1,38 @@
+
+<br>
+
+<div>
+<div>
+<center>
+
+
+
+
+<table class="table3 table-dark table-condensed table-bordered" bgcolor="#696969" width="500px" border="5">
+<thead class="thead-light">
+    <tr class="head">
+    <th colspan="7">Liste des activites</th>
+    </tr>
+
+{% for i in tabActivite %}
+<tr>
+
+<td>id:{{ i.id }}</td>
+<td>nom: {{ i.nomact }}</td>
+<td><a href="{{path('app_updateactivite',{'id':i.id})}}">Update</a></td>
+<td><a href="{{path('app_removeactivite',{'id':i.id})}}">Delete</a></td>
+</tr>
+
+
+
+{% endfor %}
+
+</table>
+</center>
+</div>
+</div>
+
+
+
+
+

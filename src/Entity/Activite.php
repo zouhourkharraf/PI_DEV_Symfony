@@ -17,26 +17,26 @@ class Activite
     private ?int $id = null;
 
     #[ORM\Column(length: 30)]
-    private ?string $nom_act = null;
+    private ?string $nomact = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $date_act = null;
+    private ?\DateTimeInterface $dateact = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $nb_participants = null;
+    private ?int $nbparticipants = null;
 
     #[ORM\Column(length: 80, nullable: true)]
-    private ?string $position_act = null;
+    private ?string $positionact = null;
 
-    #[ORM\ManyToOne(inversedBy: 'liste_activites')]
+    #[ORM\ManyToOne(inversedBy: 'listeactivites')]
     private ?Type $type = null;
 
-    #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'liste_activites')]
-    private Collection $liste_utilisateurs;
+    #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'listeactivites')]
+    private Collection $listeutilisateurs;
 
     public function __construct()
     {
-        $this->liste_utilisateurs = new ArrayCollection();
+        $this->listeutilisateurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -46,48 +46,48 @@ class Activite
 
     public function getNomAct(): ?string
     {
-        return $this->nom_act;
+        return $this->nomact;
     }
 
-    public function setNomAct(string $nom_act): self
+    public function setNomAct(string $nomact): self
     {
-        $this->nom_act = $nom_act;
+        $this->nomact = $nomact;
 
         return $this;
     }
 
     public function getDateAct(): ?\DateTimeInterface
     {
-        return $this->date_act;
+        return $this->dateact;
     }
 
-    public function setDateAct(?\DateTimeInterface $date_act): self
+    public function setDateAct(?\DateTimeInterface $dateact): self
     {
-        $this->date_act = $date_act;
+        $this->dateact = $dateact;
 
         return $this;
     }
 
     public function getNbParticipants(): ?int
     {
-        return $this->nb_participants;
+        return $this->nbparticipants;
     }
 
-    public function setNbParticipants(?int $nb_participants): self
+    public function setNbParticipants(?int $nbparticipants): self
     {
-        $this->nb_participants = $nb_participants;
+        $this->nbparticipants = $nbparticipants;
 
         return $this;
     }
 
     public function getPositionAct(): ?string
     {
-        return $this->position_act;
+        return $this->positionact;
     }
 
-    public function setPositionAct(?string $position_act): self
+    public function setPositionAct(?string $positionact): self
     {
-        $this->position_act = $position_act;
+        $this->positionact = $positionact;
 
         return $this;
     }
@@ -109,13 +109,13 @@ class Activite
      */
     public function getListeUtilisateurs(): Collection
     {
-        return $this->liste_utilisateurs;
+        return $this->listeutilisateurs;
     }
 
     public function addListeUtilisateur(Utilisateur $listeUtilisateur): self
     {
-        if (!$this->liste_utilisateurs->contains($listeUtilisateur)) {
-            $this->liste_utilisateurs->add($listeUtilisateur);
+        if (!$this->listeutilisateurs->contains($listeUtilisateur)) {
+            $this->listeutilisateurs->add($listeUtilisateur);
             $listeUtilisateur->addListeActivite($this);
         }
 
@@ -124,7 +124,7 @@ class Activite
 
     public function removeListeUtilisateur(Utilisateur $listeUtilisateur): self
     {
-        if ($this->liste_utilisateurs->removeElement($listeUtilisateur)) {
+        if ($this->listeutilisateurs->removeElement($listeUtilisateur)) {
             $listeUtilisateur->removeListeActivite($this);
         }
 

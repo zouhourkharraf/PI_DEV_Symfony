@@ -1,0 +1,140 @@
+
+                    {% extends 'BackOffice.html.twig' %}
+                    {% block contenu %}
+                    
+                    <main>
+                    <!--<div style="width: 1000px; height: 300px;">-->
+                    <div style="position: absolute; top: 50px; left: 330px;width: 1000px; height: 300px;">
+                    <center>
+                    
+                        <h1 class="mt-4">Les activités</h1>
+
+                        <br><br>
+                        <!--
+                        <ol class="breadcrumb mb-4">
+                        
+                            <li class="breadcrumb-item"><a href="{{ path('app_addactivite')}}">Page d'acceuil</a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('page_acceuil_back_office')}}">Ajouter une activité</a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('page_acceuil_back_office')}}">Modifier une activité</a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('page_acceuil_back_office')}}">Supprimer une activité</a></li>
+
+                            <div class="container-fluid px-4">
+                            
+                        <h1 class="mt-4">Dashboard</h1>
+                        <ol class="breadcrumb mb-4">
+                            <li class="breadcrumb-item active">Dashboard</li>
+                        </ol>
+                        -->
+                        
+                        <div class="container">
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <div class="card-body">Ajouter activité</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="{{ path('app_addactivite') }}">Cliquez ici</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-warning text-white mb-4">
+                                    <div class="card-body">Modifier activité</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">Cliquez ici</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-success text-white mb-4">
+                                    <div class="card-body">Supprimer activité</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">Cliquez ici</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4">
+                                    <div class="card-body">Page d'acceuil</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">Cliquez ici</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            
+                        <!--</ol>-->
+                        <!--
+                        <div class="card mb-4">
+                            
+                            <div class="card-body">
+                        
+                            </div>
+                            
+                        </div>
+                        -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                La liste des activités
+                            </div>
+                            <div class="card-body">
+                                <table border="1" cellspacing="5" cellpadding="10">
+                                    <thead>
+                                        <tr bgcolor="lightblue">
+                                            <th style="text-align: center;">Identifiant</th>
+                                            <th style="text-align: center;">Nom</th>
+                                            <th style="text-align: center;">Date</th>
+                                            <th style="text-align: center;">Nombre participants</th>
+                                            <th style="text-align: center;">Position</th>
+                                            <th style="text-align: center;">Type</th>
+                                        </tr>
+                                    </thead>
+                                    <!--
+                                    <tfoot>
+                                        <tr>
+                                            <th>Identifiant</th>
+                                            <th>Nom</th>
+                                            <th>Date</th>
+                                            <th>Nombre participants</th>
+                                            <th>Position</th>
+                                            <th>Type</th>
+                                        </tr>
+                                    </tfoot>
+                                    -->
+                                    <tbody>
+                                        
+                                        {% for i in tabActivite %}
+                                        <tr>
+                                            <td style="text-align: center;">{{ i.id }}</td>
+                                            <td style="text-align: center;">{{ i.nomact }}</td>
+                                            <td style="text-align: center;">{{ i.dateact|date('d/m/Y') }}</td>
+                                            <td style="text-align: center;">{{ i.nbparticipants }}</td>
+                                            <td style="text-align: center;">{{ i.positionact }}</td>
+                                            <td style="text-align: center;">{{ i.type }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                         
+                    </div>
+                    </center>
+                    </div>
+                    </main>
+                    
+                    
+                    {% endblock %}
+                {% block js %}
+
+    <script src="{{ asset('https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js') }}" crossorigin="anonymous"></script>
+        <script src="{{ asset('js_back/scripts.js') }}"></script>
+        <script src="{{ asset('https://cdn.jsdelivr.net/npm/simple-datatables@latest') }}" crossorigin="anonymous"></script>
+        <script src="{{ asset('js_back/datatables-simple-demo.js') }}"></script>
+                
+                {% endblock %}
