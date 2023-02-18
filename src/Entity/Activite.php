@@ -31,12 +31,12 @@ class Activite
     #[ORM\ManyToOne(inversedBy: 'listeactivites')]
     private ?Type $type = null;
 
-    #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'listeactivites')]
-    private Collection $listeutilisateurs;
+    #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'liste_activites')]
+    private Collection $liste_utilisateurs;
 
     public function __construct()
     {
-        $this->listeutilisateurs = new ArrayCollection();
+        $this->liste_utilisateurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -109,25 +109,37 @@ class Activite
      */
     public function getListeUtilisateurs(): Collection
     {
-        return $this->listeutilisateurs;
+        return $this->liste_utilisateurs;
     }
 
-    public function addListeUtilisateur(Utilisateur $listeUtilisateur): self
+    public function addListeUtilisateur(Utilisateur $liste_Utilisateur): self
     {
-        if (!$this->listeutilisateurs->contains($listeUtilisateur)) {
-            $this->listeutilisateurs->add($listeUtilisateur);
-            $listeUtilisateur->addListeActivite($this);
+        if (!$this->liste_utilisateurs->contains($liste_Utilisateur)) {
+            $this->liste_utilisateurs->add($liste_Utilisateur);
+            $liste_Utilisateur->addListeActivite($this);
         }
 
         return $this;
     }
 
-    public function removeListeUtilisateur(Utilisateur $listeUtilisateur): self
+    public function removeListeUtilisateur(Utilisateur $liste_Utilisateur): self
     {
-        if ($this->listeutilisateurs->removeElement($listeUtilisateur)) {
-            $listeUtilisateur->removeListeActivite($this);
+        if ($this->liste_utilisateurs->removeElement($liste_Utilisateur)) {
+            $liste_Utilisateur->removeListeActivite($this);
         }
 
         return $this;
+    }
+
+/*
+    public function getTypeName()
+    {
+        return $this->getType()->getNomType();
+    }
+    */
+
+    public function __toString()
+    {
+        return $this->nomact;
     }
 }

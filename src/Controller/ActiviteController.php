@@ -60,7 +60,7 @@ class ActiviteController extends AbstractController
             return $this->redirectToRoute('app_showactivite');
         }
 
-       return $this->renderForm("activite/updateActivite.html.twig", array("formActivite"=>$form));
+       return $this->renderForm("activite/modifierAct.html.twig", array("formActivite"=>$form));
     }
 
     #[Route('/removeactivite/{id}', name: 'app_removeactivite')]

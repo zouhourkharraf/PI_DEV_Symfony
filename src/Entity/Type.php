@@ -17,10 +17,12 @@ class Type
     private ?int $id = null;
 
     #[ORM\Column(length: 20, nullable: true)]
-    private ?string $nom_type = null;
+    private ?string $nomtype = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $description_type = null;
+    private ?string $descriptiontype = null;
+   
+
 
     #[ORM\OneToMany(mappedBy: 'type', targetEntity: Activite::class)]
     private Collection $liste_activites;
@@ -37,24 +39,24 @@ class Type
 
     public function getNomType(): ?string
     {
-        return $this->nom_type;
+        return $this->nomtype;
     }
 
-    public function setNomType(?string $nom_type): self
+    public function setNomType(?string $nomtype): self
     {
-        $this->nom_type = $nom_type;
+        $this->nomtype = $nomtype;
 
         return $this;
     }
 
     public function getDescriptionType(): ?string
     {
-        return $this->description_type;
+        return $this->descriptiontype;
     }
 
-    public function setDescriptionType(?string $description_type): self
+    public function setDescriptionType(?string $descriptiontype): self
     {
-        $this->description_type = $description_type;
+        $this->descriptiontype = $descriptiontype;
 
         return $this;
     }
@@ -88,4 +90,15 @@ class Type
 
         return $this;
     }
+
+
+    public function __toString()
+    {
+        return $this->nomtype;
+        return $this->descriptiontype;
+        
+    }
+
+
+    
 }

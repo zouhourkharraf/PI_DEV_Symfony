@@ -6,10 +6,10 @@
                         <div style="position: absolute; top: 50px; left: 600px;width: 1000px; height: 300px;">
                             <div class="col-lg-7">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Modifier une nouvelle activité</h3></div>
+                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Modifier un type d'activité</h3></div>
                                     <div class="card-body">
                                         <form method="POST">
-                                        {{ form_start(formActivite) }}
+                                        {{ form_start(formType) }}
 
                                             
                                             <div class="row mb-3">
@@ -20,32 +20,33 @@
                                                     <div class="form-floating mb-3 mb-md-0">
                                                        <!-- <input  class="form-control" id="" type="text" placeholder="enter activity" />-->
                                                        
-                                                        {{ form_widget(formActivite.nomact, { 'attr': {'class': 'form-control'} }) }}
-                                                        {{ form_errors(formActivite.nomact) }}
-                                                            <label for="inputactivitenom" >Nom de l'activité</label>
+                                                        {{ form_widget(formType.nomtype, { 'attr': {'class': 'form-control'} }) }}
+                                                        {{ form_errors(formType.nomtype) }}
+                                                            <label for="inputactivitenom" >Nom du type</label>
 
                                                             
                                                             
                                                             
                                                     </div>
                                                 </div>
+                                                <!--
                                                 <div class="col-md-6">
                                                     <div class="form-floating">
-                                                        <!--<input class="form-control" id="inputDate" type="text" placeholder="Enter date" />-->
-                                                        {{ form_widget(formActivite.dateact, { 'attr': {'class': 'form-control'} }) }}
-                                                        {{ form_errors(formActivite.dateact) }}
+                                                        <input class="form-control" id="inputDate" type="text" placeholder="Enter date" />
+                                                       
 
                                                         
                                                         <label for="inputLastName">Date de l'activité </label>
                                                     </div>
                                                 </div>
+                                                -->
                                             </div>
+                                            <!--
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
-                                                       <!-- <input class="form-control" id="inputPassword" type="password" placeholder="Create a password" />-->
-                                                       {{ form_widget(formActivite.nbparticipants, { 'attr': {'class': 'form-control'} }) }}
-                                                       {{ form_errors(formActivite.nbparticipants) }}
+                                                        <input class="form-control" id="inputPassword" type="password" placeholder="Create a password" />
+                                                    
 
                                                         
                                                         <label for="inputPassword">Nombre de participants</label>
@@ -53,20 +54,20 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
-                                                       <!-- <input class="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" />-->
-                                                       {{ form_widget(formActivite.positionact, { 'attr': {'class': 'form-control'} }) }}
-                                                       {{ form_errors(formActivite.positionact) }}
+                                                        <input class="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" />
+                                                     
                                                         
                                                         <label for="inputPasswordConfirm">Position</label>
                                                     </div>
                                                 </div>
                                             </div>
+                                            -->
                                         
                                             <div class="form-floating mb-3">
                                                 <!--<input class="form-control" id="inputEmail" type="email" placeholder="name@example.com" />-->
-                                                {{ form_widget(formActivite.type, { 'attr': {'class': 'form-control'} }) }}
+                                                {{ form_widget(formType.descriptiontype, { 'attr': {'class': 'form-control'} }) }}
                                                 
-                                                <label>Type de l'activité </label>
+                                                <label>Description </label>
                                             </div>
                                             
                                             
@@ -82,15 +83,15 @@
                                                 
                                             </div>
                                             
-                                            <div class="d-grid">{{ form_widget(formActivite.confirm) }}</div>
+                                            <div class="d-grid">{{ form_widget(formType.confirm) }}</div>
                                             
                                             
-                                          {{ form_end(formActivite) }}
+                                          {{ form_end(formType) }}
                                         </form>
                                     </div>
                                     <br>
                                     <div class="card-footer text-center py-3">
-                                        <div class="small"><a href="{{ path('app_showactivite') }}">cancel</a></div>
+                                        <div class="small"><a href="{{ path('app_showtype') }}">cancel</a></div>
                                     </div>
 
                                     

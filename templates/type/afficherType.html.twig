@@ -49,10 +49,10 @@
 <div style="position: relative; top: 50px; left: 330px;width: 1400px; height: 600px;">
 
                      <div class="container-fluid px-4">
-                        <h1 class="mt-4">Les activités</h1>
+                        <h1 class="mt-4">Les types des activités</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="{{ path('app_addactivite') }}">Ajouter une activité</a></li>
-                            <li class="breadcrumb-item"><a href="{{ path('app_showtype') }}">Les types d'activités</a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('app_addtype') }}">Ajouter un type d'activité</a></li>
+                            <li class="breadcrumb-item"><a href="{{ path('app_showactivite') }}">Retour à la liste des activités</a></li>
                             <!--<li class="breadcrumb-item active">Tables</li>-->
                         </ol>
                         <!--
@@ -67,18 +67,15 @@
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                La liste des activités
+                                La liste des types
                             </div>
                             <div class="card-body">
                                 <table width="1000" height="600">
                                     <thead>
                                         <tr>
                                             <th>Identifiant</th>
-                                            <th>Nom</th>
-                                            <th>Date</th>
-                                            <th>Nombre participants</th>
-                                            <th>Position</th>
-                                            <th>Type</th>
+                                            <th>Nom type</th>
+                                            <th>Description</th>
                                             <th>Modifier </th>
                                             <th>Supprimer </th>
                                         </tr>
@@ -96,16 +93,15 @@
                                     </tfoot>
                                     -->
                                     <tbody>
-                                        {% for i in tabActivite %}
+                                    
+                                        {% for i in tabType %}
+                                        
                                         <tr>
-                                            <td>{{ i.id }}</td>
-                                            <td>{{ i.nomact }}</td>
-                                            <td>{{ i.dateact|date('d/m/Y') }}</td>
-                                            <td>{{ i.nbparticipants }}</td>
-                                            <td>{{ i.positionact }}</td>
-                                            <td>{{ i.type }}</td>
-                                            <td ><a href="{{ path('app_updateactivite',{'id':i.id}) }}"> Update </a></td>
-                                            <td><a href="{{ path('app_removeactivite',{'id':i.id}) }}">Supprimer</a></td>
+                                            <td style="vertical-align: top;">{{ i.id }}</td>
+                                            <td style="vertical-align: top;">{{ i.nomtype }}</td>
+                                            <td style="vertical-align: top;">{{ i.descriptiontype }}</td>
+                                            <td style="vertical-align: top;"><a href="{{ path('app_updatetype',{'id':i.id}) }}"> Update </a></td>
+                                            <td style="vertical-align: top;"><a href="{{ path('app_removetype',{'id':i.id}) }}">Supprimer</a></td>
                                         </tr>
                                         {% endfor %}
                                         
