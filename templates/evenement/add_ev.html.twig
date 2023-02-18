@@ -1,0 +1,88 @@
+
+{% extends 'BackOffice.html.twig' %}
+
+
+{% block body%}
+    <div id="layoutSidenav">
+<div id="layoutSidenav_content">
+    <div class="container-fluid px-4">
+
+    {{form_start(form,{'attr': {'novalidate': 'novalidate'}} )}}
+
+
+
+
+
+    <h3 class="text-center font-weight-light my-4">Ajouter un évènement</h3>
+
+
+                <form class="forms-sample">
+                    <div class="form-group">
+
+                        {{ form_label(form.nom_ev,"Nom de l'evenement")  }}
+                        {{ form_widget(form.nom_ev,{'attr': {'class':'form-control'}} ) }}
+                        {{ form_errors(form.nom_ev) }}
+
+
+                    </div>
+                    <div class="form-group">
+
+                        <td>  {{ form_label(form.dated_ev,"Date Debut") }} </td>
+                        <td> {{ form_widget(form.dated_ev)}} </td>
+                        <td>  {{ form_errors(form.dated_ev) }} </td>
+
+                    </div>
+                    <div class="form-group">
+
+                        <td>  {{ form_label(form.datef_ev,"Date Fin") }} </td>
+                        <td> {{ form_widget(form.datef_ev)}} </td>
+                        <td>  {{ form_errors(form.datef_ev) }} </td>
+
+                    </div>
+                    <div class="form-group">
+
+                        <td>  {{ form_label(form.lieu_ev,"Lieu") }} </td>
+                        <td> {{ form_widget(form.lieu_ev,{'attr': {'class':'form-control'}} )}} </td>
+                        <td>  {{ form_errors(form.lieu_ev) }} </td>
+
+                    </div>
+                    <div class="form-group">
+
+                        <td>  {{ form_label(form.desc_ev,"Description") }} </td>
+                        <td> {{ form_widget(form.desc_ev,{'attr': {'class':'form-control'}} )}} </td>
+                        <td>  {{ form_errors(form.desc_ev) }} </td>
+
+                    </div>
+                    <div class="form-group">
+
+                        <td>  {{ form_label(form.photo,"image") }} </td>
+                        <td> {{ form_widget(form.photo,{'attr': {'class':'form-control'}} )}} </td>
+                        <td>  {{ form_errors(form.photo) }} </td>
+
+                    </div>
+                    <br>
+
+                    </br>
+                    <button type="submit" class="btn btn-primary mr-2" >Ajouter Event</button>
+                    <a href="{{path('app_evenements')}}" class="btn btn-dark">Afficher Events</a>
+
+                    {{form_end(form)}}
+                    <br>
+
+                    </br>
+
+                </form>
+
+
+            </div>
+
+
+
+</div>
+</div>
+    </div>
+
+{% endblock %}
+
+
+

@@ -37,6 +37,13 @@ class Evenement
     #[ORM\OneToMany(mappedBy: 'evenement', targetEntity: Don::class)]
     private Collection $liste_dons;
 
+    public function __toString()
+    {
+        $format = "Evenement (id: %s, nom_ev: %s)\n";
+        return sprintf($format, $this->id, $this->nom_ev);
+    }
+
+
     public function __construct()
     {
         $this->liste_dons = new ArrayCollection();

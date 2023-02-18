@@ -1,0 +1,68 @@
+{% extends 'BackOffice.html.twig' %}
+
+
+{% block body%}
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_content">
+            <div class="container-fluid px-4">
+
+                {{form_start(formDon,{'attr': {'novalidate': 'novalidate'}} )}}
+
+
+
+
+
+                <h3 class="text-center font-weight-light my-4">Ajouter un don</h3>
+
+
+                <form class="forms-sample">
+                    <div class="form-group">
+
+                        {{ form_label(formDon.type_don,"type don")  }}
+                        {{ form_widget(formDon.type_don,{'attr': {'class':'form-control'}} ) }}
+                        {{ form_errors(formDon.type_don) }}
+
+
+                    </div>
+                    <div class="form-group">
+
+                        <td>  {{ form_label(formDon.somme_don,"somme don") }} </td>
+                        <td> {{ form_widget(formDon.somme_don)}} </td>
+                        <td>  {{ form_errors(formDon.somme_don) }} </td>
+
+                    </div>
+                    <form class="forms-sample">
+                        <div class="form-group">
+
+                            {{ form_label(formDon.evenement,"evenement")  }}
+                            {{ form_widget(formDon.evenement,{'attr': {'class':'form-control'}} ) }}
+                            {{ form_errors(formDon.evenement) }}
+
+
+                        </div>
+
+                    <br>
+
+                    </br>
+                    <button type="submit" class="btn btn-primary mr-2" >Ajouter Don</button>
+                    <a href="{{path('app_evenements')}}" class="btn btn-dark">Afficher Dons</a>
+
+                    {{form_end(formDon)}}
+                    <br>
+
+                    </br>
+
+                </form>
+
+
+            </div>
+
+
+
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
+
+

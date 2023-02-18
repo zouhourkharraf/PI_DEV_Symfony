@@ -22,6 +22,8 @@ class Don
     #[ORM\ManyToOne(inversedBy: 'liste_dons')]
     private ?Evenement $evenement = null;
 
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -62,4 +64,13 @@ class Don
 
         return $this;
     }
+
+    public function __toString()
+    {
+
+        return $this->name;
+    }
+
+
+
 }
