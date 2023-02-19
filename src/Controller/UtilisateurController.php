@@ -52,12 +52,15 @@ class UtilisateurController extends AbstractController
     {
         $enseignant = new Utilisateur(); //création de l'objet $enseignant de type Utilisateur
         $FromEnseignant = $this->createForm(AjouterUtilisateurType::class, $enseignant); //création du formulaire associé à l'objet $enseignant
-        $FromEnseignant->handleRequest($request);
+        $FromEnseignant->handleRequest($request); //réccupérer le formulaire envoyé dans la requête 
 
         if ($FromEnseignant->isSubmitted() && $FromEnseignant->isValid()) //si le formulaire est soumis
         {
+            dd($FromEnseignant->getData());
 
-            return $this->redirectToRoute('page_utilisateur_connecte');
+            //echo $enseignant->EmailValide($enseignant->getEmailUtil()); //test pour cette méthode
+            //remarque on peut créer le pseudo qu'après avoir fait le persist de l'objet at avant le flush()bien sur car après le persist($objet)l'objet aura un identifiant 
+            // return $this->redirectToRoute('page_utilisateur_connecte');
         }
 
         return $this->renderForm('utilisateur/AjouterEnseignant.html.twig', ['form_ajout_enseignant' => $FromEnseignant]);
