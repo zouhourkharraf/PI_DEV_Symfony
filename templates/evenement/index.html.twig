@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-
-<title>Hello EvenementController!</title>
-
+{% extends 'FrontOfficeVisiteur.html.twig' %}
 {% block body %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
@@ -9,12 +6,19 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
+    <h1>Votre participation est validée ! ✅</h1>
+    <br>
+    </br>
     This friendly message is coming from:
     <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp8/htdocs/PI_DEV_Symfony/src/Controller/EvenementController.php'|file_link(0) }}">src/Controller/EvenementController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp8/htdocs/PI_DEV_Symfony/templates/evenement/index.html.twig'|file_link(0) }}">templates/evenement/index.html.twig</a></code></li>
+        <li>MAGIC BOOK TEAM <code><a href="{{ 'C:/xampp8/htdocs/PI_DEV_Symfony/src/Controller/EvenementController.php'|file_link(0) }}">src/Controller/EvenementController.php</a></code></li>
     </ul>
+    <br>
+    </br>
+    thank you for your participation
+    <br>
+    </br>
+
+    <a href="{{path('app_evenementsF')}}" class="btn btn-dark" >return</a>
 </div>
 {% endblock %}

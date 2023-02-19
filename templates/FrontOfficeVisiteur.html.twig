@@ -47,7 +47,7 @@
 	<body class="body-wrapper">
 
 
-		<header style="background-color:rgb(247, 239, 14)">
+		<header style="background-color:rgb(243,230,81)">
 
 			<div class="container">
 				<div class="row">
@@ -76,19 +76,19 @@
 										{%	block utilisateurs %}
 
 											<ul class="navbar-nav ml-auto mt-10">
+
 												<li class="nav-item">
 													<a class="nav-link login-button" href="login.html" style="color: rgb(25, 23, 60);">Se connecter</a>
 												</li>
 												<li class="nav-item">
-													<a class="nav-link text-white add-button" href="{{asset(' ')}}">
-														Créer un compte élève
-													</a>
+													<a class="nav-link text-white add-button" href="{{asset(' ')}}">Créer un compte élève</a>
 												</li>
-												<li class="nav-item">__</li>
 												<li class="nav-item">
-													<a class="nav-link text-white add-button" href="{{asset(' ')}}">
-														Créer un compte enseignant
-													</a>
+													<a class="nav-link" href="{{asset(' ')}}"></a>
+												</li>
+
+												<li class="nav-item">
+													<a class="nav-link text-white add-button" href="{{asset(' ')}}">Créer un compte enseignant</a>
 												</li>
 											</ul>
 										{% endblock %}
