@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
+
 class ActiviteController extends AbstractController
 {
     #[Route('/activite', name: 'app_activite')]
@@ -43,7 +45,7 @@ class ActiviteController extends AbstractController
         $activite = new Activite();
         $form=$this->createForm(ActiviteType::class,$activite);
         $form->handleRequest($request);
-        if($form->isSubmitted())
+        if($form->isSubmitted() && $form->isValid())
         {
             $em=$doctrine->getManager();
             $em->persist($activite);
@@ -60,7 +62,7 @@ class ActiviteController extends AbstractController
         $form = $this->createForm(ActiviteType::class, $activite);
         $form->handleRequest($request);
 
-        if($form->isSubmitted())
+        if($form->isSubmitted() && $form->isValid())
         {
             $em = $doctrine->getManager();
             $em->flush();

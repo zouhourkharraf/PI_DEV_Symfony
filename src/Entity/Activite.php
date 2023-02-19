@@ -8,6 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\PositiveOrZero;
+
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 #[ORM\Entity(repositoryClass: ActiviteRepository::class)]
 class Activite
 {
@@ -17,18 +23,23 @@ class Activite
     private ?int $id = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message:"Nom de l'activité est obligatoire")]
     private ?string $nomact = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    
     private ?\DateTimeInterface $dateact = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column]
+    #[Assert\NotBlank(message:"nbparticipants est obligatoire")]
+    #[Assert\Positive(message:'Le nombre de participants doit être un entier positif ou nul.')]
     private ?int $nbparticipants = null;
 
-    #[ORM\Column(length: 80, nullable: true)]
+    #[ORM\Column(length: 80)]
+    #[Assert\NotBlank(message:"positionact est obligatoire")]
     private ?string $positionact = null;
 
-    #[ORM\ManyToOne(inversedBy: 'listeactivites')]
+    #[ORM\ManyToOne(inversedBy: 'liste_activites')]
     private ?Type $type = null;
 
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'liste_activites')]
@@ -142,4 +153,6 @@ class Activite
     {
         return $this->nomact;
     }
+
+  
 }
