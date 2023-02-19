@@ -27,7 +27,14 @@ class ActiviteController extends AbstractController
     public function ShowActivity(ActiviteRepository $repository): Response
     {
         $activite = $repository->findAll();
-        return $this->render("activite/affichTest.html.twig", array("tabActivite"=>$activite));
+        return $this->render("activite/backoffice/affichTest.html.twig", array("tabActivite"=>$activite));
+    }
+
+    #[Route('/showactivitefront', name: 'app_showactivitefront')]
+    public function showAcivityFront(ActiviteRepository $repository): Response
+    {
+        $activite = $repository->findAll();
+        return $this->render("activite/frontoffice/affichTest.html.twig", array("tabActivite"=>$activite));
     }
 
     #[Route('/addactivite', name: 'app_addactivite')]
@@ -43,7 +50,7 @@ class ActiviteController extends AbstractController
             $em->flush();
             return $this->redirectToRoute("app_showactivite");
         }
-        return $this->renderForm("activite/ajouterAct.html.twig", array("formActivite"=>$form));
+        return $this->renderForm("activite/backoffice/ajouterAct.html.twig", array("formActivite"=>$form));
     }
 
     #[Route('/updateactivite/{id}', name: 'app_updateactivite')]
@@ -60,7 +67,7 @@ class ActiviteController extends AbstractController
             return $this->redirectToRoute('app_showactivite');
         }
 
-       return $this->renderForm("activite/modifierAct.html.twig", array("formActivite"=>$form));
+       return $this->renderForm("activite/backoffice/modifierAct.html.twig", array("formActivite"=>$form));
     }
 
     #[Route('/removeactivite/{id}', name: 'app_removeactivite')]

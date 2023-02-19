@@ -5,3 +5,5 @@
 #removeActivity:
 #    path: /removeactivite/{id}/removeActivity
 #    controller: App\Controller\ActiviteController::delete
+
+
