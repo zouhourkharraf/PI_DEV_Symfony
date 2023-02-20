@@ -8,7 +8,14 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\component\Validator\Constraints\NotBlank;
-use Symfony\component\Validator\Constraints\Positive;
+use Symfony\Component\Validator\Constraints\Positive;
+
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+
+use Symfony\Component\Validator\Constraints\GreaterThan;
+
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ActiviteType extends AbstractType
 {
@@ -16,8 +23,16 @@ class ActiviteType extends AbstractType
     {
         $builder
             ->add('nomact')
-            ->add('dateact')
-            ->add('nbparticipants')
+            ->add('dateact', DateType::class, [
+                'constraints' => [
+                    new GreaterThan('today')
+                ]
+            ])
+            ->add('nbparticipants', IntegerType::class, [
+                'constraints' => [
+                    new Positive()
+                ]
+            ])
             ->add('positionact')
             ->add('type')
             #->add('listeutilisateurs')

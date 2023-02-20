@@ -10,8 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\PositiveOrZero;
-
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: ActiviteRepository::class)]

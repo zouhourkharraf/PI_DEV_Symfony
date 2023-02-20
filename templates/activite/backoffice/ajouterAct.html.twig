@@ -34,7 +34,9 @@
                                                     <div class="form-floating">
                                                         <!--<input class="form-control" id="inputDate" type="text" placeholder="Enter date" />-->
                                                         {{ form_widget(formActivite.dateact, { 'attr': {'class': 'form-control'} }) }}
-                                                        {{ form_errors(formActivite.dateact) }}
+                                                        {% if form_errors(formActivite.dateact) %}
+                                                        <ul>{{ form_errors(formActivite.dateact) }}</ul>
+                                                        {% endif %}
 
                                                         
                                                         <label for="inputLastName">Date de l'activité </label>
