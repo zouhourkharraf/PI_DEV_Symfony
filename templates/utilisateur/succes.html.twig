@@ -28,8 +28,8 @@
 		href="{{ asset('images/logo_title1.png') }}" rel="shortcut icon">
 
 		<!-- 
-																																																																																																																																																				  Essential stylesheets
-																																																																																																																																																				  =====================================-->
+																																																																																																																																																								  Essential stylesheets
+																																																																																																																																																								  =====================================-->
 		<link href="{{asset('plugins/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
 		<link href="{{asset('plugins/bootstrap/bootstrap-slider.css')}}" rel="stylesheet">
 		<link href="{{asset('plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
@@ -62,7 +62,8 @@
 							<h1 class="display-1 pt-1 pb-2">Félicitation</h1>
 							<h3 class="px-3 pb-2 text-dark">Votre inscription a été effectué avec succès</h3>
 							<p>
-								<h2 class="px-3 pb-2 text-dark">Votre pseudo :</h2>
+								<h2 class="px-3 pb-2 text-dark">Votre pseudo :
+									{{pseudo}}</h2>
 							</p>
 							<a class="btn btn-info" href="{{ path('page_acceuil') }}">
 								Se connecter
@@ -74,12 +75,12 @@
 		</section>
 
 		<!--============================
-																																																																																																																						=            Footer            =
-																																																																																																																						=============================-->
+																																																																																																																										=            Footer            =
+																																																																																																																										=============================-->
 		<footer class="footer section section-sm" style="background-color:rgb(247, 239, 14)"></footer>
 		<!-- 
-																																																																																																																						Essential Scripts
-																																																																																																																						=====================================-->
+																																																																																																																										Essential Scripts
+																																																																																																																										=====================================-->
 		<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 		<script src="{{asset('plugins/bootstrap/popper.min.js')}}"></script>
 		<script src="{{asset('plugins/bootstrap/bootstrap.min.js')}}"></script>

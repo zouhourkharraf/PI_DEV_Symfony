@@ -340,4 +340,13 @@ class Utilisateur
             return false;
         }
     }
+
+    //cette méthode permet de générer un pseudo à partir du nom,prénom et de l'ID de l'utilisateur passé en paramètres
+    public function GenrerPseudoUtilisateur(): string
+    {
+        $nom_sans_espaces = str_replace(" ", "", $this->getNomUtil()); //le nom sans espaces
+        $prenom_sans_espaces = str_replace(" ", "", $this->getPrenomUtil()); //le prénom sans espaces
+        $id_string = strval($this->getId());
+        return $nom_sans_espaces . $prenom_sans_espaces . $id_string; //la concaténation du nom sans espaces + le prénom sans espaces+l'Id de l'utilisateur
+    }
 }

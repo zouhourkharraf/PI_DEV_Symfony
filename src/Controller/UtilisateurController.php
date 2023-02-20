@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
+use App\Form\AjouterEleveType;
 use App\Form\AjouterUtilisateurType;
 use App\Repository\UtilisateurRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -56,17 +57,43 @@ class UtilisateurController extends AbstractController
 
         if ($FromEnseignant->isSubmitted() && $FromEnseignant->isValid()) //si le formulaire est soumis
         {
-            dd($FromEnseignant->getData());
-
-            //echo $enseignant->EmailValide($enseignant->getEmailUtil()); //test pour cette méthode
-            //remarque on peut créer le pseudo qu'après avoir fait le persist de l'objet at avant le flush()bien sur car après le persist($objet)l'objet aura un identifiant 
-            // return $this->redirectToRoute('page_utilisateur_connecte');
+            //dd($FromEnseignant->getData());
+            $em = $doctrine->getManager();
+            $em->persist($enseignant);
+            $enseignant->setRoleUtil('enseignant'); //affectation du role (enseignant)
+            $em->flush(); //envoyer $enseignant à la BD
+            $enseignant->setPseudoUtil($enseignant->GenrerPseudoUtilisateur()); //(2) 
+            $em->flush(); //envoyer de nouveau $enseignant à la BD après la modification du pseudo
+            $pseudo1 = $enseignant->getPseudoUtil();
+            return $this->render('utilisateur/succes.html.twig', ["pseudo" => $pseudo1]);
         }
 
         return $this->renderForm('utilisateur/AjouterEnseignant.html.twig', ['form_ajout_enseignant' => $FromEnseignant]);
     }
 
+    #[Route('/AjoutEleve', name: 'ajouter_eleve')]
+    public function AjouterEleve(ManagerRegistry $doctrine, Request $request)
+    {
+        $eleve = new Utilisateur();
+        $FromEleve = $this->createForm(AjouterEleveType::class, $eleve);
+        $FromEleve->handleRequest($request); //réccupérer le formulaire envoyé dans la requête
 
+        if ($FromEleve->isSubmitted() && $FromEleve->isValid()) //si le formulaire est soumis
+        {
+            //dd($FromEnseignant->getData());
+            $em = $doctrine->getManager();
+            $em->persist($eleve);
+            $eleve->setRoleUtil('élève'); //affectation du role (eleve)
+            $em->flush(); //envoyer $eleve à la BD
+            $eleve->setPseudoUtil($eleve->GenrerPseudoUtilisateur()); //(2) 
+            $em->flush(); //envoyer de nouveau $enseignant à la BD après la modification du pseudo
+            $pseudo2 = $eleve->getPseudoUtil();
+            return $this->render('utilisateur/succes.html.twig', ["pseudo" => $pseudo2]);
+        }
+        return $this->renderForm('utilisateur/AjouterEleve.html.twig', ['form_ajout_eleve' => $FromEleve]);
+    }
+
+    //(2)affectation du pseudo généré après avoir fait le flush() parce que maintenant l'id est généré auto dans la BD
 
 
 
