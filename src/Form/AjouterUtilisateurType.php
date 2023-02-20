@@ -15,7 +15,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\Validator\Constraints\EqualTo;
+use Symfony\Component\Validator\Constraints\Expression;
 use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\NotEqualTo;
 
 class AjouterUtilisateurType extends AbstractType
 {
@@ -36,6 +39,7 @@ class AjouterUtilisateurType extends AbstractType
     //(1) :on a utilisé la contrainte dans le formulaire et non pas dans l'entité parce que l'utilisateur élève a une contrainte différente
     // pour l'attribut age qu'on va la manipuler au niveau de son formulaire NB: c'est la seule contrainte qui lui est différente par rapport à l'enseignant
 
+    // ->add('confirmation_mp', PasswordType::class, ['mapped' => false, 'attr' => ['placeholder' => 'confirmez votre mot de passe'], 'help' => 'Saisissez de nouveau le mot de passe choisi', 'constraints' => new EqualTo(['value' => '$this->getData()->getMotDePasseUtil()', 'message' => 'Les mots de passe ne sont pas identiques'])]) // ['mapped'=>false] signifie que ce champs n'est associé à aucun attribut de cette entité
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

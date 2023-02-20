@@ -5,13 +5,9 @@ namespace App\Entity;
 use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\BooleanType;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Boolean;
-use phpDocumentor\Reflection\Types\Self_;
-use PhpParser\Node\Expr\BinaryOp\BooleanOr;
-use PhpParser\Node\Expr\Cast\Bool_;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 class Utilisateur
@@ -41,7 +37,7 @@ class Utilisateur
     #[ORM\Column(length: 15, nullable: true)]
     #[Assert\NotBlank(message: "Veuillez renseigner ce champ")]
     #[Assert\Length(min: 8, minMessage: "Le mot de passe doit comporter au moins 8 caractères")]
-    #[Assert\Regex(pattern: "/(?=.*[A-z])(?=.*[A-Z])(?=.*[0-9])/", match: true, message: "le mot de passe doit comporter au moins une lettre majuscule lettre miniscule, et un chiffre ")]
+    #[Assert\Regex(pattern: "/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/", match: true, message: "le mot de passe doit comporter au moins une lettre majuscule lettre miniscule, et un chiffre ")]
     private ?string $mot_de_passe_util = null;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -333,7 +329,7 @@ class Utilisateur
     #[Assert\IsTrue(message: "dddddddddddddddddddddddddddd")]
     public function isEmailUtilValid()
     {
-        $email1 = $this->email_util;
+        $email1 = $this->getEmailUtil();
         $nom_sans_espaces = str_replace(" ", "", $this->getNomUtil()); //le nom sans espaces
         $prenom_sans_espaces = str_replace(" ", "", $this->getPrenomUtil()); //le prénom sans espaces
         $pos_nom = strripos($email1, $nom_sans_espaces);
