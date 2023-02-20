@@ -221,7 +221,13 @@
                                 -->
                                 <td class="text-center">{{ i.nbparticipants }}</td>
                                 <td class="text-center">{{ i.positionact }}</td>
-                                <td class="text-center">{{ i.type.descriptiontype }}</td>
+                                <td class="text-center">
+								{% if i is null or i is not defined or i.type is null or i.type is not defined or i.type.descriptiontype is null %}
+									pas de description
+								{% else %}
+								{{ i.type.descriptiontype }}
+								{% endif %}
+								</td>
 
 							</tr>
                             {% endfor %}

@@ -26,7 +26,7 @@ class Activite
     #[Assert\NotBlank(message:"Nom de l'activité est obligatoire")]
     private ?string $nomact = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     
     private ?\DateTimeInterface $dateact = null;
 
@@ -39,7 +39,9 @@ class Activite
     #[Assert\NotBlank(message:"positionact est obligatoire")]
     private ?string $positionact = null;
 
+  
     #[ORM\ManyToOne(inversedBy: 'liste_activites')]
+    #[Assert\NotBlank(message:"typeact est obligatoire")]
     private ?Type $type = null;
 
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'liste_activites')]
@@ -152,6 +154,7 @@ class Activite
     public function __toString()
     {
         return $this->nomact;
+    
     }
 
   

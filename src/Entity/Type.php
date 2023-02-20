@@ -8,6 +8,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\PositiveOrZero;
+
 #[ORM\Entity(repositoryClass: TypeRepository::class)]
 class Type
 {
@@ -16,10 +20,12 @@ class Type
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 20, nullable: true)]
+    #[ORM\Column(length: 20)]
+    #[Assert\NotBlank(message:"nomtype est obligatoire")]
     private ?string $nomtype = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\NotBlank(message:"nomtype est obligatoire")]
     private ?string $descriptiontype = null;
    
 
