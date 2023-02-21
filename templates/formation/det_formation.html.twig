@@ -1,0 +1,33 @@
+{% extends 'FrontOfficeVisiteur.html.twig' %}
+
+
+{% block body %}
+	<h1>Formation :
+		{{ formation.id }}</h1>
+	<article>
+		<h3>Titre :
+			{{ formation.nomForm | raw }}</h3>
+		<div class="row">
+
+			<div class="col-lg-12">
+				<p>
+					<b>Catégorie :
+					</b>
+					{{ formation.categorie.nomCatg | raw }}
+					<br><b>Description :
+					</b>
+					{{ formation.descriptionForm | raw }}
+					<br><b>Durée :
+					</b>
+					{{ formation.dureeForm }}
+					jours.</p>
+			</div>
+
+			<div class="col-lg-12">
+				<div class="form-group">
+					<a href="{{ path('get_FormationList') }}" class="btn btn-info float-start">Retour</a>
+				</div>
+			</div>
+		</div>
+	</article>
+{% endblock %}

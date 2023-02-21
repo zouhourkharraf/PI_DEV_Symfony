@@ -1,0 +1,58 @@
+{% extends 'FrontOfficeVisiteur.html.twig' %}
+
+{% block body %}
+	<section
+		class="dashboard section">
+		<!-- Container Start -->
+		<div
+			class="container">
+			<!-- Row Start -->
+			<div class="row">
+				<div
+					class="col-lg-12">
+					<!-- Recently Favorited -->
+					<div class="widget dashboard-container my-adslist">
+						<h3 class="widget-header">Liste des Formations</h3>
+						<table class="table table-responsive product-dashboard-table">
+							<thead>
+								<tr>
+									<th>Nom Formation</th>
+									<th>Description</th>
+									<th class="text-center">Catégorie</th>
+									<th class="text-center">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for key, frm in formations %}
+									<tr>
+										<td class="product-titlr">
+											{{ frm.nomForm }}</td>
+										<td class="product-details">
+											{{ frm.descriptionForm }}
+										</td>
+										<td class="product-category">
+											<span class="categories">{{ frm.categorie.nomCatg }}</span>
+										</td>
+										<td class="action" data-title="Action">
+											<div class="">
+												<ul class="list-inline justify-content-center">
+													<li class="list-inline-item">
+														<a data-toggle="tooltip" data-placement="top" title="Détails" class="view" href="{{ path('show_formation', {id: frm.id}) }}">
+															<i class="fa fa-eye"></i>
+														</a>
+													</li>
+												</ul>
+											</div>
+										</td>
+									</tr>
+								{% else %}
+									pas de formation trouvée
+								{% endfor %}
+							</tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>{% endblock %}
