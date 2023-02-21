@@ -28,8 +28,8 @@
 		href="{{ asset('images/logo_title1.png') }}" rel="shortcut icon">
 
 		<!-- 
-																																																																																																																																												  Essential stylesheets
-																																																																																																																																												  =====================================-->
+																																																																																																																																								  Essential stylesheets
+																																																																																																																																								  =====================================-->
 		<link href="{{asset('plugins/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
 		<link href="{{asset('plugins/bootstrap/bootstrap-slider.css')}}" rel="stylesheet">
 		<link href="{{asset('plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
@@ -57,77 +57,68 @@
 				<div class="row justify-content-center">
 					<div class="col-lg-5 col-md-8 align-item-center">
 						<div class="border border">
-							<h3 class="bg-gray p-4" style="background-color:rgb(70, 221, 227)" style="text-align: center;">Créer un compte élève</h3>
+							<h3 class="bg-gray p-4" style="background-color:rgb(70, 221, 227)" style="text-align: center;">Modifier mes informations : Enseignant</h3>
 
-							{{ form_start(form_ajout_eleve, {'attr': {'novalidate': 'novalidate','class':'form-horizontal'}}) }}
+							{{ form_start(form_ajout_enseignant, {'attr': {'novalidate': 'novalidate','class':'form-horizontal'}}) }}
 							{# désactiver la validation du formulaire coté client #}
 							<fieldset
 								class="p-4">
 								{# Le nom #}
 								<div>
 
-									{{ form_label(form_ajout_eleve.nom_util,"Nom : ") }}
-									{{ form_errors(form_ajout_eleve.nom_util) }}
-									{{ form_widget(form_ajout_eleve.nom_util,{'attr': {'class': 'form-control'}}) }}
+									{{ form_label(form_ajout_enseignant.nom_util,"Nom : ") }}
+									{{ form_errors(form_ajout_enseignant.nom_util) }}
+									{{ form_widget(form_ajout_enseignant.nom_util,{'attr': {'class': 'form-control'}}) }}
 
 								</div>
 								{# Le prénom #}
 								<div>
-									{{ form_label(form_ajout_eleve.prenom_util,"Prénom : ") }}
-									{{ form_errors(form_ajout_eleve.prenom_util) }}
-									{{ form_widget(form_ajout_eleve.prenom_util,{'attr': {'class': 'form-control'}}) }}
-									{{ form_help(form_ajout_eleve.prenom_util) }}
+									{{ form_label(form_ajout_enseignant.prenom_util,"Prénom : ") }}
+									{{ form_errors(form_ajout_enseignant.prenom_util) }}
+									{{ form_widget(form_ajout_enseignant.prenom_util,{'attr': {'class': 'form-control'}}) }}
+									{{ form_help(form_ajout_enseignant.prenom_util) }}
 								</div>
 								<br>
 								{# L'age #}
-								{{ form_label(form_ajout_eleve.age_util,"Age : ") }}
-								{{ form_errors(form_ajout_eleve.age_util) }}
-								{{ form_widget(form_ajout_eleve.age_util,{'attr': {'class': 'form-control'}}) }}
+								{{ form_label(form_ajout_enseignant.age_util,"Age : ") }}
+								{{ form_errors(form_ajout_enseignant.age_util) }}
+								{{ form_widget(form_ajout_enseignant.age_util,{'attr': {'class': 'form-control'}}) }}
 								<br>
 								{# Le genre #}
-								{{ form_label(form_ajout_eleve.genre_util,"Genre : ") }}
-								{{ form_errors(form_ajout_eleve.genre_util) }}
-								{{ form_widget(form_ajout_eleve.genre_util,{'attr': {'class': 'form-control'}}) }}
+								{{ form_label(form_ajout_enseignant.genre_util,"Genre : ") }}
+								{{ form_errors(form_ajout_enseignant.genre_util) }}
+								{{ form_widget(form_ajout_enseignant.genre_util,{'attr': {'class': 'form-control'}}) }}
 								<br>
 								{# L'email #}
-								{{ form_label(form_ajout_eleve.email_util,"Email : ") }}
-								{{ form_errors(form_ajout_eleve.email_util) }}
-								{{ form_widget(form_ajout_eleve.email_util,{'attr': {'class': 'form-control'}}) }}
-								{{ form_help(form_ajout_eleve.email_util) }}
-								<br>
-								{# le mp  #}
-								{{ form_label(form_ajout_eleve.mot_de_passe_util,"Mot de passe : ") }}
-								{{ form_errors(form_ajout_eleve.mot_de_passe_util) }}
-								{{ form_widget(form_ajout_eleve.mot_de_passe_util,{'attr': {'class': 'form-control'}}) }}
-								<br>
-								{# confirmation du mp  #}
-								{{ form_label(form_ajout_eleve.confirmation_mp,"Confirmation : ") }}
-								{{ form_errors(form_ajout_eleve.confirmation_mp) }}
-								{{ form_widget(form_ajout_eleve.confirmation_mp,{'attr': {'class': 'form-control'}}) }}
-								{{ form_help(form_ajout_eleve.confirmation_mp) }}
-								<br>
+								{{ form_label(form_ajout_enseignant.email_util,"Email : ") }}
+								{{ form_errors(form_ajout_enseignant.email_util) }}
+								{{ form_widget(form_ajout_enseignant.email_util,{'attr': {'class': 'form-control'}}) }}
+								{{ form_help(form_ajout_enseignant.email_util) }}
+
 								<br>
 								{# Bouton Valider et Bouton Annuler  #}
 								<div class="row">
 									<div class="col">
-										{{ form_row(form_ajout_eleve.Valider,{'attr': {'class': 'btn btn-primary font-weight-bold mt-3'}}) }}</div>
+										{{ form_row(form_ajout_enseignant.Valider,{'attr': {'class': 'btn btn-primary font-weight-bold mt-3'}}) }}
 
-									<div class="col">
-										{{ form_row(form_ajout_eleve.Annuler,{'attr': {'class': 'btn btn-primary font-weight-bold mt-3'}}) }}</div>
+
+										{{ form_row(form_ajout_enseignant.Annuler,{'attr': {'class': 'btn btn-primary font-weight-bold mt-3'}}) }}</div>
 								</div>
 							</fieldset>
-							{{ form_end(form_ajout_eleve) }}
+							{{ form_end(form_ajout_enseignant) }}
 						</div>
 					</div>
 				</div>
 			</div>
 
 		</section>
-
-		{% block footer2 %}{% endblock %}
-
+		<!--============================
+																																																																																																										=            Footer            =
+																																																																																																										=============================-->
 		<footer class="footer section section-sm" style="background-color:rgb(247, 239, 14)"></footer>
-
+		<!-- 
+																																																																																																										Essential Scripts
+																																																																																																										=====================================-->
 		<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 		<script src="{{asset('plugins/bootstrap/popper.min.js')}}"></script>
 		<script src="{{asset('plugins/bootstrap/bootstrap.min.js')}}"></script>

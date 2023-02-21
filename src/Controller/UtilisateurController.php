@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Form\AjouterEleveType;
 use App\Form\AjouterUtilisateurType;
+use App\Form\ModifierEleveType;
+use App\Form\ModifierEnseignantType;
 use App\Repository\UtilisateurRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -96,13 +98,69 @@ class UtilisateurController extends AbstractController
     //(2)affectation du pseudo généré après avoir fait le flush() parce que maintenant l'id est généré auto dans la BD
 
 
-
-
-
-
     // **************************** FIN Ajout Front Office *********************************
 
 
+    // **************************** Modifier *********************************
+
+    // 1) Modifier un enseignnat
+    #[Route('/ModifierEnseignant/{id1}', name: 'modifier_enseignant')]
+    public function ModifierEnseignant(UtilisateurRepository $repository, ManagerRegistry $doctrine, Request $request, $id1)
+    {
+        $enseignant = $repository->findOneByid($id1);
+        $FromEnseignant = $this->createForm(ModifierEnseignantType::class, $enseignant);
+        $FromEnseignant->handleRequest($request); //réccupérer le formulaire envoyé dans la requête 
+
+        if ($FromEnseignant->isSubmitted() && $FromEnseignant->isValid()) //si le formulaire est soumis et valide
+        {
+            $em = $doctrine->getManager();
+            $em->persist($enseignant);
+            $em->flush(); //envoyer $enseignant à la BD
+            $enseignant->setPseudoUtil($enseignant->GenrerPseudoUtilisateur()); //(2) 
+            $em->flush(); //envoyer de nouveau $enseignant à la BD après la modification du pseudo
+            $pseudo1 = $enseignant->getPseudoUtil();
+            return $this->render('utilisateur/succes_update.html.twig', ["pseudo" => $pseudo1]);
+        }
+
+        return $this->renderForm('utilisateur/ModifierEnseignant.html.twig', ['form_ajout_enseignant' => $FromEnseignant]);
+    }
+    // 2) Modifier un eleve
+    #[Route('/ModifierEleve/{id1}', name: 'modifier_eleve')]
+    public function ModifierEleve(UtilisateurRepository $repository, ManagerRegistry $doctrine, Request $request, $id1)
+    {
+        $eleve = $repository->findOneByid($id1);
+        $FromEleve = $this->createForm(ModifierEleveType::class, $eleve);
+        $FromEleve->handleRequest($request); //réccupérer le formulaire envoyé dans la requête 
+
+        if ($FromEleve->isSubmitted() && $FromEleve->isValid()) //si le formulaire est soumis et valide
+        {
+            $em = $doctrine->getManager();
+            $em->persist($eleve);
+            $em->flush(); //envoyer $enseignant à la BD
+            $eleve->setPseudoUtil($eleve->GenrerPseudoUtilisateur()); //(2) 
+            $em->flush(); //envoyer de nouveau $enseignant à la BD après la modification du pseudo
+            $pseudo1 = $eleve->getPseudoUtil();
+            return $this->render('utilisateur/succes_update.html.twig', ["pseudo" => $pseudo1]);
+        }
+
+        return $this->renderForm('utilisateur/ModifierEleve.html.twig', ['form_ajout_enseignant' => $FromEleve]);
+    }
+
+    // **************************** FIN Modifier *********************************
+
+    // **************************** Supprimer *********************************
+
+    #[Route('/SupprimerUtil/{id1}', name: 'supprimer_utilisateur')]
+    public function DeleteClassroom($id1, ManagerRegistry $doctrine, UtilisateurRepository $repository)
+    {
+        $utilisateur = $repository->findOneByid($id1);
+
+        $em = $doctrine->getManager();
+        $em->remove($utilisateur);
+        $em->flush();
+        return $this->redirectToRoute('liste_utilisateur');
+    }
+    // **************************** FIN Supprimer *********************************
 
     //NB: ********************* fonction de test ****************
     #[Route('/routetest', name: 'route_test')]

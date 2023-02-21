@@ -84,8 +84,12 @@
 								<td>
 									<a class="btn btn-primary" href="{{ path('page_acceuil_back_office')}}">Liste des réclamations</a>
 								</td>
-								<th><img src="{{asset('images2/icone_modifier.png')}}" alt="logo"></th>
-								<th><img src="{{asset('images2/icone_supprimer.png')}}" alt="logo"></th>
+								<th>
+									<a href="{{ path('modifier_enseignant',{'id1':enseignant.id}) }}"><img src="{{asset('images2/icone_modifier.png')}}" alt="logo"></a>
+								</th>
+								<th>
+									<a href="{{ path('supprimer_utilisateur',{'id1':enseignant.id}) }}"><img src="{{asset('images2/icone_supprimer.png')}}" alt="logo"></a>
+								</th>
 							</tr>
 
 						{% endfor %}

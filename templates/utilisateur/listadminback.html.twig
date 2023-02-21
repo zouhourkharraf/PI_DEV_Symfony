@@ -70,7 +70,9 @@
 									</a>
 								</td>
 								<th><img src="{{asset('images2/icone_modifier.png')}}" alt="logo"></th>
-								<th><img src="{{asset('images2/icone_supprimer.png')}}" alt="logo"></th>
+								<th>
+									<a href="{{ path('supprimer_utilisateur',{'id1':admin.id}) }}"><img src="{{asset('images2/icone_supprimer.png')}}" alt="logo"></a>
+								</th>
 							</tr>
 
 						{% endfor %}
