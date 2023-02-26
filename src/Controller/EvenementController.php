@@ -5,6 +5,7 @@ use App\Entity\Evenement;
 use App\Form\EvenementType;
 use App\Repository\EvenementRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,9 +64,14 @@ class EvenementController extends AbstractController
     }
 
     #[Route('/evenements', name: 'app_evenements')]
-    public function listevenement(EvenementRepository $repository): Response
+    public function listevenement(Request $request,EvenementRepository $repository,PaginatorInterface $paginator): Response
     {
         $evenements= $repository->findAll();
+        $evenements = $paginator->paginate(
+            $evenements, /* query NOT result */
+            $request->query->getInt('page', 1),
+            4
+        );
         return $this->render("evenement/listevenements.html.twig",array("tabEvenements"=>$evenements));
     }
 

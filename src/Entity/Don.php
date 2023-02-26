@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\DonRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: DonRepository::class)]
 class Don
@@ -14,12 +15,14 @@ class Don
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message:"Type is required")]
     private ?string $type_don = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $somme_don = null;
 
     #[ORM\ManyToOne(inversedBy: 'liste_dons')]
+    #[Assert\NotBlank(message:"Event is required")]
     private ?Evenement $evenement = null;
 
 

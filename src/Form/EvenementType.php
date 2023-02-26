@@ -7,7 +7,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class EvenementType extends AbstractType
 {
@@ -16,7 +20,13 @@ class EvenementType extends AbstractType
         $builder
             ->add('nom_ev')
             ->add('dated_ev')
-            ->add('datef_ev')
+            ->add('datef_ev', DateType::class, [
+                'constraints' => [
+                    new GreaterThan([
+                        'propertyPath' => 'parent.all[dated_ev].data'
+                    ]),
+                ]
+            ])
             ->add('lieu_ev')
             ->add('desc_ev')
             ->add('photo', FileType::class, [

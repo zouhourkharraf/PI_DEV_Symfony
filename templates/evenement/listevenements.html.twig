@@ -42,6 +42,23 @@
         tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+        .pagination {
+            display: inline-block;
+        }
+
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+        }
+
+        .pagination a.active {
+            background-color: #4c9daf;
+            color: white;
+        }
+
+        .pagination a:hover:not(.active) {background-color: #ddd;}
     </style>
 
     <div class="container-fluid px-4">
@@ -101,6 +118,9 @@
 
 {% endfor %}
     </table>
+            <div class="pagination">
+                <a >{{ knp_pagination_render(tabEvenements) }}</a>
+            </div>
     </div>
     </div>
     </div>

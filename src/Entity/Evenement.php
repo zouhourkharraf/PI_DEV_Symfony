@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\Date;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
@@ -35,6 +36,7 @@ class Evenement
     private ?string $lieu_ev = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(min:12,minMessage:"La description de l'évènement doit comporter au moins {{ limit }} caractéres")]
     private ?string $desc_ev = null;
 
     #[ORM\Column(length: 100, nullable: true)]
