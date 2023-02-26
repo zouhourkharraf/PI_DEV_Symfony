@@ -35,14 +35,12 @@ class Utilisateur
     private ?string $pseudo_util = null;
 
     #[ORM\Column(length: 15, nullable: true)]
-    #[Assert\NotBlank(message: "Veuillez renseigner ce champ")]
-    #[Assert\Length(min: 8, minMessage: "Le mot de passe doit comporter au moins 8 caractères")]
-    #[Assert\Regex(pattern: "/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/", match: true, message: "le mot de passe doit comporter au moins une lettre majuscule lettre miniscule, et un chiffre ")]
     private ?string $mot_de_passe_util = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     #[Assert\NotBlank(message: "Veuillez renseigner ce champ")]
-    #[Assert\Email(message: "L'adresse '{{ value }}' n'est pas valide")]
+    #[Assert\Email(message: "Le format de '{{ value }}' est invalide")]
+    //  #[Assert\Expression("this.EmailUtilValid(value)==true", message: "doit contenirrrrrr")]
     private ?string $email_util = null;
 
     #[ORM\Column(nullable: true)]
@@ -325,9 +323,9 @@ class Utilisateur
 
         return $this;
     }
-
-    #[Assert\IsTrue(message: "dddddddddddddddddddddddddddd")]
-    public function isEmailUtilValid()
+    /*
+    #[Assert\IsTrue(message: 'ooooooooooooooooooooooooooooooooooooooooooooooooooo')]
+    public function IsEmailUtilValid(): bool
     {
         $email1 = $this->getEmailUtil();
         $nom_sans_espaces = str_replace(" ", "", $this->getNomUtil()); //le nom sans espaces
@@ -340,6 +338,7 @@ class Utilisateur
             return false;
         }
     }
+*/
 
     //cette méthode permet de générer un pseudo à partir du nom,prénom et de l'ID de l'utilisateur passé en paramètres
     public function GenrerPseudoUtilisateur(): string
