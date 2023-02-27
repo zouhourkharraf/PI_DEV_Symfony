@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 
 class EvenementController extends AbstractController
 {
@@ -148,6 +151,34 @@ class EvenementController extends AbstractController
         return $this->redirectToRoute('app_evenement');
 
     }
+    //Exporter pdf (composer require dompdf/dompdf)
+
+     #[Route("/pdf", name :"PDF_Event", methods :["GET"])]
+    public function pdf(EvenementRepository $repository)
+     {
+         // Configure Dompdf according to your needs
+         $pdfOptions = new Options();
+         $pdfOptions->set('defaultFont', 'Arial');
+
+         // Instantiate Dompdf with our options
+         $dompdf = new Dompdf($pdfOptions);
+         // Retrieve the HTML generated in our twig file
+         $html = $this->renderView('evenement/pdf.html.twig', [
+             'tabEvents' => $repository->findAll(),
+         ]);
+
+         // Load HTML to Dompdf
+         $dompdf->loadHtml($html);
+         // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+         $dompdf->setPaper('A4', 'portrait');
+
+         // Render the HTML as PDF
+         $dompdf->render();
+         // Output the generated PDF to Browser (inline view)
+         $dompdf->stream("ListeDesEvenements.pdf", [
+             "tabEvents" => true
+         ]);
+     }
 
 
 }
