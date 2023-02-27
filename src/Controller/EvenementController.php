@@ -69,8 +69,7 @@ class EvenementController extends AbstractController
         $evenements= $repository->findAll();
         $evenements = $paginator->paginate(
             $evenements, /* query NOT result */
-            $request->query->getInt('page', 1),
-            4
+            $request->query->getInt('page', 1)
         );
         return $this->render("evenement/listevenements.html.twig",array("tabEvenements"=>$evenements));
     }
@@ -135,6 +134,20 @@ class EvenementController extends AbstractController
         return $this->render("evenement/listeventFront.html.twig",array("tabEvenements"=>$evenements));
     }
 
+    #[Route('/traiter/{id}', name: 'participer')]
+    function Traiter(EvenementRepository $repository, $id, Request $request, ManagerRegistry $doctrine)
+    {
+
+        $evenement = new Evenement();
+        $evenement = $repository->find($id);
+        // $reclamation->setEtat(1 );
+        $em = $doctrine->getManager();
+        $em->flush();
+        $repository->sms();
+        $this->addFlash('danger', 'reponse envoyée avec succées');
+        return $this->redirectToRoute('app_evenement');
+
+    }
 
 
 }

@@ -26,7 +26,7 @@
                             <li class="my-4"> <img style="width:200px;" src="{{asset ('uploads/evenements/'~i.getImageEv())}}" ></li>
 
                         </ul>
-                        <a href="{{ path('app_evenement') }}" class="btn btn-primary">participate</a>
+                        <a href="{{ path('participer',{'id':i.id}) }}" class="btn btn-primary">participate</a>
 
                     </div>
                 </div>

@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Evenement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Twilio\Rest\Client;
+
 
 /**
  * @extends ServiceEntityRepository<Evenement>
@@ -37,6 +39,29 @@ class EvenementRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+
+    }
+
+    public  function sms(){
+// Your Account SID and Auth Token from twilio.com/console
+        $sid = 'AC6c526778abadd654ee726d7cafb49951';
+        $auth_token = '8cfceeffb787d4d218f4ab2238d44f95';
+// In production, these should be environment variables. E.g.:
+// $auth_token = $_ENV["TWILIO_AUTH_TOKEN"]
+// A Twilio number you own with SMS capabilities
+        $twilio_number = "+12762849300";
+
+        $client = new Client($sid, $auth_token);
+        $client->messages->create(
+        // the number you'd like to send the message to
+            '+21695173280',
+            [
+                // A Twilio phone number you purchased at twilio.com/console
+                'from' => '+12764092348',
+                // the body of the text message you'd like to send
+                'body' => 'votre reclamation a été traité merci de nous contacter pour plus de détail!'
+            ]
+        );
     }
 
 //    /**
