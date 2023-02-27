@@ -72,7 +72,8 @@ class EvenementController extends AbstractController
         $evenements= $repository->findAll();
         $evenements = $paginator->paginate(
             $evenements, /* query NOT result */
-            $request->query->getInt('page', 1)
+            $request->query->getInt('page', 1),
+            4
         );
         return $this->render("evenement/listevenements.html.twig",array("tabEvenements"=>$evenements));
     }

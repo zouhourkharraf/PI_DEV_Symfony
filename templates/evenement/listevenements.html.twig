@@ -59,6 +59,11 @@
         }
 
         .pagination a:hover:not(.active) {background-color: #ddd;}
+        .space {
+            width: 4px;
+            height: auto;
+            display: inline-block;
+        }
     </style>
 
     <div class="container-fluid px-4">
@@ -93,8 +98,10 @@
 
     </tr>
     </thead>
-            <a href="{{path('Evenement_add')}}" class="btn btn-dark">ajouter Event</a>
-            <a href="{{path('PDF_Event')}}" class="btn btn-dark">PDF</a>
+            <a href="{{path('Evenement_add')}}" class="btn btn-dark">Ajouter Event</a>
+            <div class="space">
+            </div>
+            <a href="{{path('PDF_Event')}}" class="btn btn-dark">Exporter en PDF</a>
 
 <h4>List Events</h4>
 {% for i in tabEvenements %}
@@ -119,10 +126,11 @@
 
 
 {% endfor %}
-    </table>
+        </table>
             <div class="pagination">
                 <a >{{ knp_pagination_render(tabEvenements) }}</a>
             </div>
+
     </div>
     </div>
     </div>
