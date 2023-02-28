@@ -1,0 +1,36 @@
+{% extends 'FrontOfficeConnecte.html.twig' %}
+
+{% block body %}
+<h1 class="align-center">Bienvenue dans votre espace des cours!</h1>
+ 
+ <table class="table">
+        <thead class="thead-light">
+          <tr>        
+           
+    </tr>
+    </thead>
+    <tbody>
+    {% for a in matiere %}
+        <tr>
+            <td> <a class="btn btn-primary" href="{{ path('cour_listele') }}">{{a.NomCatg}} </td>
+           <br>
+            </tr>
+    {% else %}
+        <tr>
+            <td colspan="8">Veuillez patienter un peu ! </td> 
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<center>
+
+</center>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+{% endblock %}

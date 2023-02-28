@@ -1,0 +1,53 @@
+{% extends 'FrontOfficeConnecte.html.twig'%}
+
+
+
+
+
+{% block body %}
+<h1 class="align-center">Bienvenue dans votre espace des cours!</h1>
+ 
+ <table class="table">
+        <thead class="thead-light">
+          <tr>        
+                
+        <th class="col2">Titre</th>
+        <th class="col3">Cour</th>
+     
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for a in tabcours %}
+        <tr>
+            <td> {{a.getTitreCour()}}</td>
+                 
+              <td> <object data="{{ asset('uploads/even/' ~ a.getFichier()) }}" type="application/pdf" width="100%" height="600px">
+            <p> <a href="{{ asset('uploads/Cours/' ~ a.getFichier()) }}">Cliquez-ici !</a></p>
+</object></td>
+           
+           <td><a class="btn btn-dark" href="{{ path('app_updateCour', {'id': a.id}) }}">Modifier</a></td>
+            <td><a href="{{ path('app_removeCour', {'id': a.id}) }}" class="btn btn-danger">supprimer</a></td>
+           <br>
+            </tr>
+  
+    {% endfor %}
+   
+    </tbody>
+</table>
+
+   <center>
+       <h1><a class="btn btn-primary" href="{{ path('cour_add') }}" class="pbtn btn-primary">Ajouter un cour</a></h1> 
+      </center>
+
+<br>
+<br>
+<br>
+<br>
+
+
+  
+
+
+
+{% endblock %}

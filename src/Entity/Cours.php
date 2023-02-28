@@ -33,6 +33,9 @@ class Cours
     #[ORM\ManyToOne(inversedBy: 'liste_cours')]
     private ?Matiere $matiere = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $fichier = null;
+
 
 
     public function getId(): ?int
@@ -101,6 +104,18 @@ class Cours
     public function setMatiere(?Matiere $matiere): self
     {
         $this->matiere = $matiere;
+
+        return $this;
+    }
+
+    public function getFichier(): ?string
+    {
+        return $this->fichier;
+    }
+
+    public function setFichier(string $fichier): self
+    {
+        $this->fichier = $fichier;
 
         return $this;
     }
