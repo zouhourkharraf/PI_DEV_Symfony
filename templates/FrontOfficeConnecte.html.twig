@@ -28,8 +28,8 @@
 		href="{{ asset('images/logo_title1.png') }}" rel="shortcut icon">
 
 		<!-- 
-																																																																																																										  Essential stylesheets
-																																																																																																												  =====================================-->
+																																																																																																																		  Essential stylesheets
+																																																																																																																				  =====================================-->
 		{% block css %}
 
 			<link href="{{asset('plugins/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
@@ -112,7 +112,7 @@
 									<ul class="navbar-nav ml-auto mt-10">
 
 										<li class="nav-item">
-											<a class="nav-link text-white add-button" href="{{asset(' ')}}">
+											<a class="nav-link text-white add-button" href="{{path('app_logout')}}">
 												Déconnexion</a>
 										</li>
 									{% endblock %}
@@ -127,16 +127,16 @@
 </html></header><!-- ******************************* Limite Header ************************************ -->{% block body %}
 
 <!-- ******************************* C'est le bloc à modifier  ************************************ -->{% endblock %}<!-- =============================
-																																																																																													=            Hero Area            =
-																																																																																													================================--><section>
+																																																																																																	=            Hero Area            =
+																																																																																																	================================--><section>
 <!-- Container Start -->
 <div>
 	<img src="{{ asset('images/arrière_plan.jpg') }}" alt="fond">
 </div>
 
 <!-- Container End --></section><!--============================
-																																																																																													=            Footer            =
-																																																																																													=============================--><footer class="footer section section-sm">
+																																																																																																	=            Footer            =
+																																																																																																	=============================--><footer class="footer section section-sm">
 {% block footer1 %}
 	<!-- Container Start -->
 	<div class="container">
@@ -153,7 +153,7 @@
 					<!-- description -->
 					<p class="alt-color">
 						Tel : 70 666 666
-																																																																																																																																																																																																																																																																																																																		email : magic.book@gmail.com
+																																																																																																																																																																																																																																																																																																																																										email : magic.book@gmail.com
 					</p>
 				</div>
 			</div>

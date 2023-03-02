@@ -6,11 +6,13 @@ use App\Repository\UtilisateurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -31,10 +33,10 @@ class Utilisateur
     #[Assert\Expression("value!=this.getNomUtil()", message: "C'est la même valeur que votre nom")]
     private ?string $prenom_util = null;
 
-    #[ORM\Column(length: 60, nullable: true)]
+    #[ORM\Column(length: 60, nullable: false, unique: true)] //modifié
     private ?string $pseudo_util = null;
 
-    #[ORM\Column(length: 15, nullable: true)]
+    #[ORM\Column(length: 60, nullable: true)]
     private ?string $mot_de_passe_util = null;
 
     #[ORM\Column(length: 50, nullable: true)]
@@ -347,5 +349,57 @@ class Utilisateur
         $prenom_sans_espaces = str_replace(" ", "", $this->getPrenomUtil()); //le prénom sans espaces
         $id_string = strval($this->getId());
         return $nom_sans_espaces . $prenom_sans_espaces . $id_string; //la concaténation du nom sans espaces + le prénom sans espaces+l'Id de l'utilisateur
+    }
+
+    //les méthodes des interfaces :
+
+    /**
+     * @return string[]
+     */
+    public function getRoles()
+    {
+        return [];
+    }
+    /**
+     * Returns the salt that was originally used to hash the password.
+     *
+     * This can return null if the password was not hashed using a salt.
+     *
+     * This method is deprecated since Symfony 5.3, implement it from {@link LegacyPasswordAuthenticatedUserInterface} instead.
+     *
+     * @return string|null
+     */
+    public function getSalt()
+    {
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+    } //à voir
+
+
+    public function getPassword(): ?string //retourner le mot de passe de l'utilisateur lors de l'authentification
+    {
+        return $this->mot_de_passe_util; //notre mot de passe
+    }
+
+    public function getUserIdentifier(): string //retourner l'identifiant de l'utilisateur lors de l'authentification
+    {
+        return (string)$this->pseudo_util; //notre pseudo
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return (string)$this->pseudo_util;
     }
 }

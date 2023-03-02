@@ -5,13 +5,16 @@ namespace App\Controller;
 use App\Entity\Utilisateur;
 use App\Form\AjouterEleveType;
 use App\Form\AjouterUtilisateurType;
+use App\Form\ModifierAdminType;
 use App\Form\ModifierEleveType;
 use App\Form\ModifierEnseignantType;
 use App\Repository\UtilisateurRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UtilisateurController extends AbstractController
@@ -51,7 +54,7 @@ class UtilisateurController extends AbstractController
     // **************************** Ajout Front Office *********************************
 
     #[Route('/AjoutEnseignant', name: 'ajouter_enseignant')]
-    public function AjouterEnseignant(ManagerRegistry $doctrine, Request $request)
+    public function AjouterEnseignant(ManagerRegistry $doctrine, Request $request, UserPasswordHasherInterface $hacher)
     {
         $enseignant = new Utilisateur(); //création de l'objet $enseignant de type Utilisateur
         $FromEnseignant = $this->createForm(AjouterUtilisateurType::class, $enseignant); //création du formulaire associé à l'objet $enseignant
@@ -60,6 +63,12 @@ class UtilisateurController extends AbstractController
         if ($FromEnseignant->isSubmitted() && $FromEnseignant->isValid()) //si le formulaire est soumis
         {
             //dd($FromEnseignant->getData());
+            //hacher le mot de passe de l'utilisateur
+            $enseignant->setPseudoUtil(''); //initialiser le pseudo
+            $mp_hache = $hacher->hashPassword($enseignant, $enseignant->getMotDePasseUtil());
+            $enseignant->setMotDePasseUtil($mp_hache);
+
+
             $em = $doctrine->getManager();
             $em->persist($enseignant);
             $enseignant->setRoleUtil('enseignant'); //affectation du role (enseignant)
@@ -74,7 +83,7 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/AjoutEleve', name: 'ajouter_eleve')]
-    public function AjouterEleve(ManagerRegistry $doctrine, Request $request)
+    public function AjouterEleve(ManagerRegistry $doctrine, Request $request, UserPasswordHasherInterface $hacher)
     {
         $eleve = new Utilisateur();
         $FromEleve = $this->createForm(AjouterEleveType::class, $eleve);
@@ -83,6 +92,12 @@ class UtilisateurController extends AbstractController
         if ($FromEleve->isSubmitted() && $FromEleve->isValid()) //si le formulaire est soumis
         {
             //dd($FromEnseignant->getData());
+            //hacher le mot de passe de l'utilisateur
+            $eleve->setPseudoUtil(''); //initialiser le pseudo
+            $mp_hache = $hacher->hashPassword($eleve, $eleve->getMotDePasseUtil());
+            $eleve->setMotDePasseUtil($mp_hache);
+
+
             $em = $doctrine->getManager();
             $em->persist($eleve);
             $eleve->setRoleUtil('élève'); //affectation du role (eleve)
@@ -145,13 +160,36 @@ class UtilisateurController extends AbstractController
 
         return $this->renderForm('utilisateur/ModifierEleve.html.twig', ['form_ajout_enseignant' => $FromEleve]);
     }
+    // 3) Modifier un administrateur :
+    #[Route('/ModifierAdmin/{id1}', name: 'modifier_admin')]
+    public function ModifierAdministateur(UtilisateurRepository $repository, ManagerRegistry $doctrine, Request $request, $id1)
+    {
+        $administrateur = $repository->findOneByid($id1);
+        $administrateur->setMotDePasseUtil(null);
+        $FromAdmin = $this->createForm(ModifierAdminType::class, $administrateur);
+        $FromAdmin->handleRequest($request); //réccupérer le formulaire envoyé dans la requête 
+
+        if ($FromAdmin->isSubmitted() && $FromAdmin->isValid()) //si le formulaire est soumis et valide
+        {
+            //   dd($FromAdmin->getData());
+            $em = $doctrine->getManager();
+            $em->persist($administrateur);
+            $em->flush();
+            return $this->redirectToRoute('liste_administrateurs');
+        }
+
+
+        return $this->renderForm('utilisateur/ModifierAdmin.html.twig', ['form_modif_admin' => $FromAdmin]);
+    }
+
+
 
     // **************************** FIN Modifier *********************************
 
     // **************************** Supprimer *********************************
 
     #[Route('/SupprimerUtil/{id1}', name: 'supprimer_utilisateur')]
-    public function DeleteClassroom($id1, ManagerRegistry $doctrine, UtilisateurRepository $repository)
+    public function SupprimerUtilisateur($id1, ManagerRegistry $doctrine, UtilisateurRepository $repository)
     {
         $utilisateur = $repository->findOneByid($id1);
 

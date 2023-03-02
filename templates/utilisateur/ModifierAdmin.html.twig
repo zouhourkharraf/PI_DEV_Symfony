@@ -13,7 +13,7 @@
 
 		<!-- ** Basic Page Needs ** -->
 		<meta charset="utf-8">
-		<title>Classimax | Classified Marketplace Template</title>
+		<title>Administrateur | Modifier mes informations</title>
 
 		<!-- ** Mobile Specific Metas ** -->
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,8 +28,8 @@
 		href="{{ asset('images/logo_title1.png') }}" rel="shortcut icon">
 
 		<!-- 
-																																																																																																																																														  Essential stylesheets
-																																																																																																																																														  =====================================-->
+																																																																																																																																																																																										  Essential stylesheets
+																																																																																																																																																																																										  =====================================-->
 		<link href="{{asset('plugins/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
 		<link href="{{asset('plugins/bootstrap/bootstrap-slider.css')}}" rel="stylesheet">
 		<link href="{{asset('plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
@@ -46,7 +46,7 @@
 
 		<header style="background-color:rgb(247, 239, 14)">
 			<div class="row justify-content-center">
-				<a class="navbar-brand" href="{{ path('page_acceuil') }}">
+				<a class="navbar-brand" href="{{ path('page_acceuil_back_office') }}">
 					<img src="{{ asset('images/logo.png') }}" alt="">
 				</a>
 			</div>
@@ -57,55 +57,48 @@
 				<div class="row justify-content-center">
 					<div class="col-lg-5 col-md-8 align-item-center">
 						<div class="border border">
-							<h3 class="bg-gray p-4" style="background-color:rgb(70, 221, 227)" style="text-align: center;">Modifier mes informations : Élève</h3>
+							<h3 class="bg-gray p-4" style="background-color:rgb(70, 221, 227)" style="text-align: center;">Modifier mes informations :administrateur</h3>
 
-							{{ form_start(form_ajout_enseignant, {'attr': {'novalidate': 'novalidate','class':'form-horizontal'}}) }}
+							{{ form_start(form_modif_admin, {'attr': {'novalidate': 'novalidate','class':'form-horizontal'}}) }}
 							{# désactiver la validation du formulaire coté client #}
 							<fieldset
 								class="p-4">
-								{# Le nom #}
+								{# Le pseudo #}
 								<div>
-
-									{{ form_label(form_ajout_enseignant.nom_util,"Nom : ") }}
-									{{ form_errors(form_ajout_enseignant.nom_util) }}
-									{{ form_widget(form_ajout_enseignant.nom_util,{'attr': {'class': 'form-control'}}) }}
-
+									{{ form_label(form_modif_admin.pseudo_util,"Pseudo administrateur : ") }}
+									{{ form_errors(form_modif_admin.pseudo_util) }}
+									{{ form_widget(form_modif_admin.pseudo_util,{'attr': {'class': 'form-control'}}) }}
 								</div>
-								{# Le prénom #}
-								<div>
-									{{ form_label(form_ajout_enseignant.prenom_util,"Prénom : ") }}
-									{{ form_errors(form_ajout_enseignant.prenom_util) }}
-									{{ form_widget(form_ajout_enseignant.prenom_util,{'attr': {'class': 'form-control'}}) }}
-									{{ form_help(form_ajout_enseignant.prenom_util) }}
-								</div>
-								<br>
-								{# L'age #}
-								{{ form_label(form_ajout_enseignant.age_util,"Age : ") }}
-								{{ form_errors(form_ajout_enseignant.age_util) }}
-								{{ form_widget(form_ajout_enseignant.age_util,{'attr': {'class': 'form-control'}}) }}
-								<br>
-								{# Le genre #}
-								{{ form_label(form_ajout_enseignant.genre_util,"Genre : ") }}
-								{{ form_errors(form_ajout_enseignant.genre_util) }}
-								{{ form_widget(form_ajout_enseignant.genre_util,{'attr': {'class': 'form-control'}}) }}
 								<br>
 								{# L'email #}
-								{{ form_label(form_ajout_enseignant.email_util,"Email : ") }}
-								{{ form_errors(form_ajout_enseignant.email_util) }}
-								{{ form_widget(form_ajout_enseignant.email_util,{'attr': {'class': 'form-control'}}) }}
-								{{ form_help(form_ajout_enseignant.email_util) }}
+								{{ form_label(form_modif_admin.email_util,"Email : ") }}
+								{{ form_errors(form_modif_admin.email_util) }}
+								{{ form_widget(form_modif_admin.email_util,{'attr': {'class': 'form-control'}}) }}
+								{{ form_help(form_modif_admin.email_util) }}
+								<br>
+								{# le mp  #}
 
+								{{ form_label(form_modif_admin.mot_de_passe_util.first) }}
+								{{ form_errors(form_modif_admin.mot_de_passe_util.first) }}
+								{{ form_widget(form_modif_admin.mot_de_passe_util.first,{'attr': {'class': 'form-control'}}) }}
+								<br>
+								{# confirmation du mp  #}
+								{{ form_label(form_modif_admin.mot_de_passe_util.second) }}
+								{{ form_errors(form_modif_admin.mot_de_passe_util.second) }}
+								{{ form_widget(form_modif_admin.mot_de_passe_util.second,{'attr': {'class': 'form-control'}}) }}
+								{{ form_help(form_modif_admin.mot_de_passe_util.second) }}
+								<br>
 								<br>
 								{# Bouton Valider et Bouton Annuler  #}
 								<div class="row">
 									<div class="col">
-										{{ form_row(form_ajout_enseignant.Valider,{'attr': {'class': 'btn btn-primary font-weight-bold mt-3'}}) }}
+										{{ form_row(form_modif_admin.Modifier,{'attr': {'class': 'btn btn-primary font-weight-bold mt-3'}}) }}</div>
 
-
-										{{ form_row(form_ajout_enseignant.Annuler,{'attr': {'class': 'btn btn-primary font-weight-bold mt-3'}}) }}</div>
+									<div class="col">
+										{{ form_row(form_modif_admin.Annuler,{'attr': {'class': 'btn btn-primary font-weight-bold mt-3'}}) }}</div>
 								</div>
 							</fieldset>
-							{{ form_end(form_ajout_enseignant) }}
+							{{ form_end(form_modif_admin) }}
 						</div>
 					</div>
 				</div>
@@ -113,12 +106,12 @@
 
 		</section>
 		<!--============================
-																																																																																																																=            Footer            =
-																																																																																																																=============================-->
+																																																																																																																																																												=            Footer            =
+																																																																																																																																																												=============================-->
 		<footer class="footer section section-sm" style="background-color:rgb(247, 239, 14)"></footer>
 		<!-- 
-																																																																																																																Essential Scripts
-																																																																																																																=====================================-->
+																																																																																																																																																												Essential Scripts
+																																																																																																																																																												=====================================-->
 		<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 		<script src="{{asset('plugins/bootstrap/popper.min.js')}}"></script>
 		<script src="{{asset('plugins/bootstrap/bootstrap.min.js')}}"></script>
