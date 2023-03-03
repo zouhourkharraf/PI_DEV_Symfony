@@ -5,11 +5,15 @@ use App\Entity\Evenement;
 use App\Form\EvenementType;
 use App\Repository\EvenementRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Component\Pager\PaginatorInterface;
+use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -75,6 +79,7 @@ class EvenementController extends AbstractController
             $request->query->getInt('page', 1),
             4
         );
+
         return $this->render("evenement/listevenements.html.twig",array("tabEvenements"=>$evenements));
     }
 
@@ -180,6 +185,137 @@ class EvenementController extends AbstractController
              "tabEvents" => true
          ]);
      }
+
+    #[Route("/AllEvents", name: "list")]
+    //* Dans cette fonction, nous utilisons les services NormlizeInterface et StudentRepository,
+        //* avec la méthode d'injection de dépendances.
+    public function getEvents(EvenementRepository $repo, SerializerInterface $serializer)
+    {
+        $evenements = $repo->findAll();
+        //* Nous utilisons la fonction normalize qui transforme le tableau d'objets
+        //* students en  tableau associatif simple.
+        // $studentsNormalises = $normalizer->normalize($students, 'json', ['groups' => "students"]);
+
+        // //* Nous utilisons la fonction json_encode pour transformer un tableau associatif en format JSON
+        // $json = json_encode($studentsNormalises);
+
+        $json = $serializer->serialize($evenements, 'json', ['groups' => "evenements"]);
+
+        //* Nous renvoyons une réponse Http qui prend en paramètre un tableau en format JSON
+        return new Response($json);
+    }
+
+    #[Route("/Event/{id}", name: "event")]
+    public function EventId($id, NormalizerInterface $normalizer, EvenementRepository $repo)
+    {
+        $evenement = $repo->find($id);
+        $evenementNormalises = $normalizer->normalize($evenement, 'json', ['groups' => "evenements"]);
+        return new Response(json_encode($evenementNormalises));
+    }
+
+
+    #[Route("addEventJSON/new", name: "addEventJSON")]
+    public function addEventJSON(Request $req,NormalizerInterface $Normalizer)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $evenement = new Evenement();
+        $evenement->setNomEv($req->get('nom_ev'));
+        $evenement->setDatedEv($req->get('dated_ev'));
+        $evenement->setDatefEv($req->get('datef_ev'));
+        $evenement->setLieuEv($req->get('lieu_ev'));
+        $evenement->setDescEv($req->get('desc_ev'));
+        $evenement->setImageEv($req->get('image_ev'));
+        $em->persist($evenement);
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($evenement, 'json', ['groups' => 'evenements']);
+        return new Response(json_encode($jsonContent));
+    }
+    #[Route('updateEventJSON/{id}', name: "updateEventJSON")]
+    public function updateEventJSON(Request $req, $id, NormalizerInterface $Normalizer)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $evenement = $em->getRepository(Evenement::class)->find($id);
+        $evenement->setNomEv($req->get('nom_ev'));
+        $evenement->setDatedEv($req->get('dated_ev'));
+        $evenement->setDatefEv($req->get('datef_ev'));
+        $evenement->setLieuEv($req->get('lieu_ev'));
+        $evenement->setDescEv($req->get('desc_ev'));
+        $evenement->setImageEv($req->get('image_ev'));
+
+        $em->flush();
+
+        $jsonContent = $Normalizer->normalize($evenement, 'json', ['groups' => 'evenements']);
+        return new Response("Event updated successfully " . json_encode($jsonContent));
+    }
+
+    #[Route("deleteEventJSON/{id}", name: "deleteEventJSON")]
+    public function deleteStudentJSON(Request $req, $id, NormalizerInterface $Normalizer)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $evenement = $em->getRepository(Evenement::class)->find($id);
+        $em->remove($evenement);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($evenement, 'json', ['groups' => 'students']);
+        return new Response("Event deleted successfully " . json_encode($jsonContent));
+    }
+
+    #[Route('/star/{id}', name: 'star')]
+    public function yourAction(Request $request,$id,ManagerRegistry $doctrine)
+    {
+        if ($request->isXmlHttpRequest()) {
+            // handle the AJAX request
+            $data = $request->getContent(); // retrieve the data sent by the client-side JavaScript code
+            $repository = $doctrine->getRepository(Evenement::class);
+            $evenements = $repository->find($id);
+            if($evenements->getNoteEv()==0)
+              $evenements->setNoteEv(5);
+            else
+                $evenements->setNoteEv(($evenements->getNoteEv()+$data[6])/2);//modifier la note du produit
+            $em=$doctrine->getManager();
+            $em->persist($evenements);
+            $em->flush();
+            $event = $repository->find($id);
+            $test=$event->getNoteEv();
+            $response = new Response($data[6]);//nouvelle instance du response pour la renvoyer a la fonction ajax
+            $response->setContent(json_encode($test));//encoder les donnes sous forme JSON et les attribuer a la variable response
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;//envoie du response
+        }
+    }
+
+    #[Route('/chercherE', name: 'chercher')]
+        public function chercherparnom(EvenementRepository $repository, string $nom): Response
+    {
+        $nom=
+        $evenements = $repository->search($nom);
+
+        return $this->render('evenement/listeventFront.html.twig', [
+            'evnements' => $evenements,
+        ]);
+    }
+    #[Route('/get/{id}', name: 'getid')]
+    public function show_id(ManagerRegistry $doctrine, $id): Response
+    {
+        $repository = $doctrine->getRepository(Evenement::class);
+        $produits = $repository->find($id);
+        return $this->render('evenement/detail.html.twig', [
+            'event' => $produits,
+            'id' => $id,
+        ]);
+    }
+     #[Route('/recherche_ajax', name:'recherche_ajax')]
+    public function rechercheAjax(Request $request,EvenementRepository $sr): JsonResponse
+    {
+        $requestString = $request->query->get('searchValue');
+        $resultats = $sr->findStudentByLieu($requestString);
+
+        return $this->json($resultats);
+    }
+
 
 
 }

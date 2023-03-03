@@ -1,0 +1,9 @@
+knp_snappy:
+  pdf:
+    enabled:    true
+    binary:     /usr/local/bin/wkhtmltopdf # chemin vers l'exécutable de wkhtmltopdf
+    options:    []
+  image:
+    enabled:    true
+    binary:     /usr/local/bin/wkhtmltoimage # chemin vers l'exécutable de wkhtmltoimage
+    options:    []

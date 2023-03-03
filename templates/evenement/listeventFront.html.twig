@@ -22,11 +22,12 @@
                             <li class="my-4"> Date Debut : {{ i.getDatedEv() |date('d-m-Y') }}</li>
                             <li class="my-4"> Date Fin : {{ i.getDatefEv()|date('d-m-Y') }}</li>
                             <li class="my-4"> Lieu : {{ i.getLieuEv() }}</li>
-                            <li class="my-4"> Description : {{ i.getDescEv() }}</li>
                             <li class="my-4"> <img style="width:200px;" src="{{asset ('uploads/evenements/'~i.getImageEv())}}" ></li>
 
                         </ul>
-                        <a href="{{ path('participer',{'id':i.id}) }}" class="btn btn-primary">participate</a>
+
+
+                        <a href="{{ path('participer',{'id':i.id}) }}" class="btn btn-primary">participer</a>
 
                     </div>
                 </div>
