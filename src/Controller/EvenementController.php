@@ -172,6 +172,7 @@ class EvenementController extends AbstractController
          // Retrieve the HTML generated in our twig file
          $html = $this->renderView('evenement/pdf.html.twig', [
              'tabEvents' => $repository->findAll(),
+             'image_path' => 'C:/Users/user/OneDrive/Bureau/google.jpg',
          ]);
 
          // Load HTML to Dompdf
