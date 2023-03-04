@@ -9,6 +9,7 @@ use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Component\Pager\PaginatorInterface;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -287,16 +288,7 @@ class EvenementController extends AbstractController
         }
     }
 
-    #[Route('/chercherE', name: 'chercher')]
-        public function chercherparnom(EvenementRepository $repository, string $nom): Response
-    {
-        $nom=
-        $evenements = $repository->search($nom);
 
-        return $this->render('evenement/listeventFront.html.twig', [
-            'evnements' => $evenements,
-        ]);
-    }
     #[Route('/get/{id}', name: 'getid')]
     public function show_id(ManagerRegistry $doctrine, $id): Response
     {
@@ -306,15 +298,31 @@ class EvenementController extends AbstractController
             'event' => $produits,
             'id' => $id,
         ]);
+        return $this->redirectToRoute('app_evenement');
     }
-     #[Route('/recherche_ajax', name:'recherche_ajax')]
-    public function rechercheAjax(Request $request,EvenementRepository $sr): JsonResponse
-    {
-        $requestString = $request->query->get('searchValue');
-        $resultats = $sr->findStudentByLieu($requestString);
 
-        return $this->json($resultats);
+    #[Route("/event/search", name: "event_search")]
+
+    public function search(Request $request)
+    {
+        $form = $this->createFormBuilder()
+            ->add('lieu', TextType::class)
+            ->getForm();
+
+        $events = [];
+        if ($request->isMethod('POST')) {
+            $lieu = $request->request->get('form')['lieu'];
+            $events = $this->getDoctrine()
+                ->getRepository(Evenement::class)
+                ->findByLocation($lieu);
+        }
+
+        return $this->render('evenement/search.html.twig', [
+            'form' => $form->createView(),
+            'events' => $events,
+        ]);
     }
+
 
 
 

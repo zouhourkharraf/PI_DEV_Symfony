@@ -9,8 +9,8 @@
     #stars
     {
         width:200px;
-        height:200px;
-        margin:50px auto;
+        height:50px;
+        margin:1px auto;
     }
     lt
     {
@@ -68,10 +68,17 @@
 
     })
 </script>
+    <div class="container-fluid px-4" style="margin-left:50px ;">
+        <br>
 
-    <div class="container-fluid py-5">
+        </br>
+        <div class="container-fluid px-4" style="margin-left:350px ;">
+          <h1 class="font-weight-bold">&#x1F506; Magic Book Event &#x1F506;</h1>
+        </div>
+
+      <div class="container-fluid py-5">
         <div class="row px-xl-5">
-            <div class="col-lg-5 pb-5">
+
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner border">
 
@@ -81,10 +88,23 @@
                     </div>
 
                 </div>
+
+            <div class="container-fluid px-4" style="margin-left:380px ;">
+
+              <div class="col-lg-7 pb-5">
+                <div class="container-fluid px-4" style="margin-left:20px ;">
+                <h1 class="font-weight-semi-bold">{{ event.getNomEv() }}</h1>
+                </div>
+                  <br>
+                <td><img style="width:200px;" src="{{asset ('uploads/evenements/'~event.getImageEv())}}" ></td>
+              </div>
             </div>
 
-            <div class="col-lg-7 pb-5">
-                <h3 class="font-weight-semi-bold">{{ event.getNomEv() }}</h3>
+        </div>
+      </div>
+    </div>
+
+
                 <div id="stars">
                     <ul>
                         <lt><i value="1" class="fa fa-star fa-fw"></i></lt>
@@ -96,17 +116,20 @@
                     </ul>
                 </div>
 
-                <h3 class="font-weight-semi-bold mb-4">{{event.getDatedEv()|date('d-m-Y')}}</h3>
-                <h3 class="font-weight-semi-bold mb-4">{{event.getDatefEv()|date('d-m-Y')}}</h3>
+    <div class="container-fluid px-4" style="margin-left:490px ;">
+
+                <h3 class="font-weight-semi-bold mb-4">Date Début : {{event.getDatedEv()|date('d-m-Y')}}</h3>
+                <h3 class="font-weight-semi-bold mb-4">Date Fin :{{event.getDatefEv()|date('d-m-Y')}}</h3>
 
 
-                <p class="mb-4">{{ event.getDescEv() }}</p>
+                <p class="mb-4">Description : {{ event.getDescEv() }}</p>
+        <a href="{{ path('participer',{'id':event.id}) }}" class="btn btn-primary">participer</a>
+        <a href="{{path('app_evenementsF')}}" class="btn btn-dark" >return</a>
 
-            </div>
-        </div>
-                </div>
-            </div>
-        </div>
+
     </div>
+    <br>
+
+
 
 {% endblock %}

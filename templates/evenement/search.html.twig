@@ -1,0 +1,72 @@
+{# templates/event/search.html.twig #}
+
+{% extends 'BackOffice.html.twig' %}
+
+{% block title %}Search Events{% endblock %}
+
+{% block body %}
+<div class="container-fluid px-4" style="margin-left:350px ;">
+
+<br>
+    <br>
+    <br>
+    <h1>Search Events By Location :</h1>
+    <br>
+
+ <div class="forms-sample">
+    <div class="form-group">
+        <div class="input-group">
+
+            {{ form_start(form, { 'attr': {'id': 'search-form'} }) }}
+            <div class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch">
+
+            {{ form_row(form.lieu) }}
+            </div>
+            <br>
+
+
+            <button type="submit" class="btn btn-primary">Search
+                <i class="fas fa-search"></i>
+            </button>
+
+
+             {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+    <div id="search-results">
+        {% if events %}
+            <h2>Results :</h2>
+            <ul>
+                {% for event in events %}
+                    <li>{{ event.getNomEv()}} - {{ event.getLieuEv() }} - {{ event.getDatedEv()|date('d-m-Y') }} - {{ event.getDatefEv()|date('d-m-Y')  }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    <script src="{{ asset('build/jquery.min.js') }}"></script>
+    <script src="{{ asset('build/jquery.form.min.js') }}"></script>
+    <script>
+        $(function() {
+            $('#search-form').submit(function(event) {
+                event.preventDefault();
+                var form = $(this);
+                $.ajax({
+                    type: form.attr('method'),
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    success: function(data) {
+                        $('#search-results').html(data);
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}
+
+
+
+

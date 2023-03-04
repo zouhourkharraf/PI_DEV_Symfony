@@ -45,7 +45,7 @@ class EvenementRepository extends ServiceEntityRepository
     public  function sms(){
 // Your Account SID and Auth Token from twilio.com/console
         $sid = 'AC6c526778abadd654ee726d7cafb49951';
-        $auth_token = '0104672ea1f14df61ed3bb7ab5d4ad7b';
+        $auth_token = '6f59d6aeed838a1f3ef292f59f28041a';
 // In production, these should be environment variables. E.g.:
 // $auth_token = $_ENV["TWILIO_AUTH_TOKEN"]
 // A Twilio number you own with SMS capabilities
@@ -88,6 +88,15 @@ class EvenementRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findByLocation($lieu)
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.lieu_ev LIKE :lieu')
+            ->setParameter('lieu', '%'.$lieu.'%')
+            ->getQuery()
+            ->getResult();
+    }
 
     public function searchEvent($nom) :array {
         $em = $this->getEntityManager();
