@@ -28,8 +28,8 @@
 		href="{{ asset('images/logo_title1.png') }}" rel="shortcut icon">
 
 		<!-- 
-																																																																																																																																																																																										  Essential stylesheets
-																																																																																																																																																																																										  =====================================-->
+																																																																																																																																																																																														  Essential stylesheets
+																																																																																																																																																																																														  =====================================-->
 		<link href="{{asset('plugins/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
 		<link href="{{asset('plugins/bootstrap/bootstrap-slider.css')}}" rel="stylesheet">
 		<link href="{{asset('plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
@@ -76,19 +76,8 @@
 								{{ form_widget(form_modif_admin.email_util,{'attr': {'class': 'form-control'}}) }}
 								{{ form_help(form_modif_admin.email_util) }}
 								<br>
-								{# le mp  #}
 
-								{{ form_label(form_modif_admin.mot_de_passe_util.first) }}
-								{{ form_errors(form_modif_admin.mot_de_passe_util.first) }}
-								{{ form_widget(form_modif_admin.mot_de_passe_util.first,{'attr': {'class': 'form-control'}}) }}
-								<br>
-								{# confirmation du mp  #}
-								{{ form_label(form_modif_admin.mot_de_passe_util.second) }}
-								{{ form_errors(form_modif_admin.mot_de_passe_util.second) }}
-								{{ form_widget(form_modif_admin.mot_de_passe_util.second,{'attr': {'class': 'form-control'}}) }}
-								{{ form_help(form_modif_admin.mot_de_passe_util.second) }}
-								<br>
-								<br>
+
 								{# Bouton Valider et Bouton Annuler  #}
 								<div class="row">
 									<div class="col">
@@ -106,12 +95,12 @@
 
 		</section>
 		<!--============================
-																																																																																																																																																												=            Footer            =
-																																																																																																																																																												=============================-->
+																																																																																																																																																																=            Footer            =
+																																																																																																																																																																=============================-->
 		<footer class="footer section section-sm" style="background-color:rgb(247, 239, 14)"></footer>
 		<!-- 
-																																																																																																																																																												Essential Scripts
-																																																																																																																																																												=====================================-->
+																																																																																																																																																																Essential Scripts
+																																																																																																																																																																=====================================-->
 		<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 		<script src="{{asset('plugins/bootstrap/popper.min.js')}}"></script>
 		<script src="{{asset('plugins/bootstrap/bootstrap.min.js')}}"></script>

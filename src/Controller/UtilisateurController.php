@@ -28,11 +28,22 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/listadmin', name: 'liste_administrateurs')]
-    public function AfficherAdministrateurs(UtilisateurRepository $utilisateurRepository)
+    public function AfficherAdministrateurs(UtilisateurRepository $utilisateurRepository, UserPasswordHasherInterface $hacher, ManagerRegistry $doctrine)
     {
-        $ListAdmin = $utilisateurRepository->findBy(array('role_util' => 'administrateur'));
+        $ListAdmin = $utilisateurRepository->findBy(array('role_util' => 'administrateur')); //récupérer tout les administrateurs
+        $em = $doctrine->getManager();
+        //on va hacher les mots de passe des administrateurs déja enregistés avant de faire l'affichage
+        foreach ($ListAdmin as $admin) {
+            $mp_hache = $hacher->hashPassword($admin, $admin->getMotDePasseUtil());
+            $admin->setMotDePasseUtil($mp_hache);
+            $em->persist($admin);
+        } // ------>fin du hachage des mots de passe
+        $em->flush(); //envoyer tous les données à la BD
+        $ListAdmin = $utilisateurRepository->findBy(array('role_util' => 'administrateur')); //récupérer tout les administrateurs après avoir modifier leurs mot de passe
+
         return $this->render('utilisateur/listadminback.html.twig', array("liste_administrateurs" => $ListAdmin));
     }
+
 
     #[Route('/listprof', name: 'liste_enseignants')]
     public function AfficherEnseignants(UtilisateurRepository $utilisateurRepository)
@@ -63,8 +74,8 @@ class UtilisateurController extends AbstractController
         if ($FromEnseignant->isSubmitted() && $FromEnseignant->isValid()) //si le formulaire est soumis
         {
             //dd($FromEnseignant->getData());
-            //hacher le mot de passe de l'utilisateur
             $enseignant->setPseudoUtil(''); //initialiser le pseudo
+            //hacher le mot de passe de l'utilisateur
             $mp_hache = $hacher->hashPassword($enseignant, $enseignant->getMotDePasseUtil());
             $enseignant->setMotDePasseUtil($mp_hache);
 
@@ -160,27 +171,7 @@ class UtilisateurController extends AbstractController
 
         return $this->renderForm('utilisateur/ModifierEleve.html.twig', ['form_ajout_enseignant' => $FromEleve]);
     }
-    // 3) Modifier un administrateur :
-    #[Route('/ModifierAdmin/{id1}', name: 'modifier_admin')]
-    public function ModifierAdministateur(UtilisateurRepository $repository, ManagerRegistry $doctrine, Request $request, $id1)
-    {
-        $administrateur = $repository->findOneByid($id1);
-        $administrateur->setMotDePasseUtil(null);
-        $FromAdmin = $this->createForm(ModifierAdminType::class, $administrateur);
-        $FromAdmin->handleRequest($request); //réccupérer le formulaire envoyé dans la requête 
-
-        if ($FromAdmin->isSubmitted() && $FromAdmin->isValid()) //si le formulaire est soumis et valide
-        {
-            //   dd($FromAdmin->getData());
-            $em = $doctrine->getManager();
-            $em->persist($administrateur);
-            $em->flush();
-            return $this->redirectToRoute('liste_administrateurs');
-        }
-
-
-        return $this->renderForm('utilisateur/ModifierAdmin.html.twig', ['form_modif_admin' => $FromAdmin]);
-    }
+    // ************ 3) Modifier le mot de passe d'un utilisateur ***********************
 
 
 
@@ -200,11 +191,49 @@ class UtilisateurController extends AbstractController
     }
     // **************************** FIN Supprimer *********************************
 
+
+
+
     //NB: ********************* fonction de test ****************
     #[Route('/routetest', name: 'route_test')]
     public function fonction_de_test(UtilisateurRepository $utilisateurRepository)
     {
-        $ListAdmin = $utilisateurRepository->findAll();
+        /*$ListAdmin = $utilisateurRepository->findAll();
         return $this->render('utilisateur/test.html.twig', array("liste_administrateurs" => $ListAdmin));
+        */
+        return new Response(dd($this->getUser()));
     }
+
+    // ***************** Méthodes pour l'utilisateur connecté ***************************
+
+    //1)redirection:
+    #[Route('/RouteRedirestion', name: 'route_redirection')] //cette méthode permet de rediriger l'utilisateur vers la page adéquate selon son rôle
+    public function rediriger_utilisateur(UtilisateurRepository $utilisateurRepository)
+    {
+        if ($this->getUser()->getRoleUtil() == 'élève' || $this->getUser()->getRoleUtil() == 'enseignant') {
+            return $this->redirectToRoute('page_utilisateur_connecte');
+        } else {
+            return $this->redirectToRoute('page_acceuil_back_office');
+        }
+    }
+    // 2) Afficher profil élève:
+    #[Route('/ProfilEleve/{id1}', name: 'profil_eleve')]
+    public function AfficherProfilEleve(UtilisateurRepository $repository, $id1)
+    {
+        $eleve1 = $repository->findOneByid($id1);
+        return $this->render('utilisateur/ProfilEleve.html.twig', ['eleve' => $eleve1]);
+    }
+    #[Route('/ProfilEnseignant/{id1}', name: 'profil_enseignant')]
+    public function AfficherProfilEnseignant(UtilisateurRepository $repository, $id1)
+    {
+        $enseignant1 = $repository->findOneByid($id1);
+        return $this->render('utilisateur/ProfilEnseignant.html.twig', ['enseignant' => $enseignant1]);
+    }
+
+
+    // 3) Afficher profil enseignant:
+
+    // ***************** Fin Méthodes pour l'utilisateur connecté ***************************
+
+
 }

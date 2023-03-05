@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Repository\UtilisateurRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,9 +28,9 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $pseudoUtil = $request->request->get('pseudo_util', '');
+        $pseudoUtil = $request->request->get('pseudo_util', ''); //récupérer le pseudo saisi
 
-        $request->getSession()->set(Security::LAST_USERNAME, $pseudoUtil);
+        $request->getSession()->set(Security::LAST_USERNAME, $pseudoUtil); //insérer l'utilisateur qui a le pseudo $pseudoUtil dans la session
 
         return new Passport(
             new UserBadge($pseudoUtil),
@@ -37,7 +38,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             [
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
             ]
-        );
+        ); //Passport va chercher l'utilisateur avec son pseudo (qui est $pseudoUtil ) et son mot de passe et un clé de sécurité qui nous permet de vérifier que le formulaire vien de notre site
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
@@ -46,9 +47,9 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-       //réccupérer l'utilisateur pour savoir son rôle
-       
-        return new RedirectResponse($this->urlGenerator->generate('page_utilisateur_connecte'));
+ 
+          return new RedirectResponse($this->urlGenerator->generate('route_redirection'));
+          //-----> RQ: la route 'route_redirection' permet de rediriger l'utilisateur vers route dont sa méthode permet de le rediriger dans la page adéquate selon son rôle
         // throw new \Exception('TODO: provide a valid redirect inside ' . __FILE__);
     }
 

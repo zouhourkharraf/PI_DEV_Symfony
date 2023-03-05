@@ -1,0 +1,104 @@
+{% extends 'FrontOfficeConnecte.html.twig' %}
+{% block body %}
+	<section class="user-profile section" style="background-color:rgb(172, 252, 244)">>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4" style="background-color:greenyellow;">
+					<div class="sidebar">
+						<!-- User Widget -->
+						<div class="widget user">
+							<!-- User Image -->
+							<div class="image d-flex justify-content-center">
+							{% if app.user.genreutil=='F' %}
+								<img src="{{ asset('images/avatar_femme.jpg') }}" alt="" class="">
+							
+							{% else %}
+							<img src="{{ asset('images/avatar_homme.png') }}" alt="" class="">
+							{% endif %}
+							</div>
+							<!-- User Name -->
+							<h5 class="text-center">{{ app.user.pseudoutil }}</h5>
+						</div>
+						<!-- Dashboard Links -->
+						<div class="widget user-dashboard-menu">
+							<ul>
+								<li><a href="index.html">Mes cours</a></li>
+								<li><a href="index.html">Mes formations</a></li>
+								<li><a href="index.html">Espace réclamations</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8"> 
+					<!-- Edit Profile Welcome Text -->
+					<div class="widget welcome-message" style="background-color:rgb(243, 198, 102);">
+						<h2 style="color:rgb(1, 13, 21)" class="col-lg-6 col-md-6">Bonjour</h2>
+						<h3 style="color:rgb(1, 13, 21)">
+							« Enseigner, c’est apprendre deux fois. »</h3>
+						<h3 style="color:rgb(1, 13, 21)"> – Joseph Joubert</h3>
+					</div>
+					<!-- Edit Personal Info -->
+					<div class="row">
+						<div class="col-lg-6 col-md-6">
+							<div class="widget personal-info">
+								<h3 class="widget-header user">Informations personnelles</h3>
+								<form action="#">
+									<!-- First Name -->
+									<div class="form-group">
+
+										<h6 style="color:darkcyan" class="col-lg-6 col-md-6">Nom :</h6>
+										<p class="col-lg-6 col-md-6" style="color:rgb(56, 54, 54);">{{ app.user.nomutil }}</p>
+										<h6 style="color:darkcyan" class="col-lg-6 col-md-6">Préom :</h6>
+										<p class="col-lg-6 col-md-6" style="color:rgb(56, 54, 54);">{{ app.user.prenomutil }}</p>
+										<h6 style="color:darkcyan" class="col-lg-6 col-md-6">Age :</h6>
+										<p class="col-lg-6 col-md-6" style="color:rgb(56, 54, 54);">{{ app.user.ageutil }} ans</p>
+										<h6 style="color:darkcyan" class="col-lg-6 col-md-6">Genre :</h6>
+{% if app.user.genreutil=='F' %}
+
+										<p class="col-lg-6 col-md-6" style="color:rgb(56, 54, 54);">Femme</p>
+										{% else %}
+										<p class="col-lg-6 col-md-6" style="color:rgb(56, 54, 54);">Homme</p>
+										{% endif %}
+										<h6 style="color:darkcyan" class="col-lg-6 col-md-6">Pseudo :</h6>
+										<p class="col-lg-6 col-md-6" style="color:rgb(56, 54, 54);">{{ app.user.pseudoutil }}</p>
+										<h6 style="color:darkcyan" class="col-lg-6 col-md-6">Email:</h6>
+										<p class="col-lg-6 col-md-6" style="color:rgb(56, 54, 54);">{{ app.user.emailutil }}</p>
+
+
+
+									</div>
+
+
+
+									<!-- Submit button -->
+									<button class="btn btn-transparent"><a href="{{ path('modifier_enseignant',{'id1':app.user.id}) }}">Modifier mes informations</a></button>
+								</form>
+							</div>
+						</div>
+
+						<div class="col-lg-6 col-md-6">
+							<!-- Change Password -->
+							<div class="widget change-password">
+								<h3 class="widget-header user">Edit Password</h3>
+
+								<!-- Submit Button -->
+								<button class="btn btn-transparent">Change Password</button>
+
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-6">
+							<!-- Change Email Address -->
+							<div class="widget change-email mb-0">
+
+								<h3 class="widget-header user">Supprimer mon compte</h3>
+								<!-- Submit Button -->
+								<button class="btn btn-transparent">Envoyer la demande</button>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

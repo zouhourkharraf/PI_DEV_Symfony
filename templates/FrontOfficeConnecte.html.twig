@@ -7,7 +7,7 @@
 		<!-- ** Basic Page Needs ** -->
 		<meta charset="utf-8">
 		<title>
-			{% block titel %}Magic Book
+			{% block titel %}Magic Book | {{ app.user.roleutil }}
 			{% endblock %}
 		</title>
 
@@ -47,7 +47,7 @@
 	<body class="body-wrapper">
 
 
-		<header style="background-color:rgb(247, 239, 14)">
+		<header style="background-color:greenyellow;">>
 
 			<div class="container">
 				<div class="row">
@@ -90,19 +90,25 @@
 
 									<li class="nav-item dropdown dropdown-slide @@listing">
 										{%	block moncompte %}
-											<a class="nav-link dropdown-toggle" href="{{asset('#!')}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: rgb(25, 23, 60);">
-												Mon compte
+									<b>		<a class="nav-link dropdown-toggle" href="{{asset('#!')}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: rgb(25, 23, 60);">
+												{{ app.user.pseudoutil }}
 												<span>
 													<i class="fa fa-angle-down"></i>
 												</span>
-											</a>
+											</a></b>
 											<!-- Dropdown list -->
 											<ul class="dropdown-menu">
+											{% if app.user.roleutil=='élève' %}
 												<li>
-													<a class="dropdown-item @@category" href="{{asset(' ')}}">profil</a>
+													<a class="dropdown-item @@category" href="{{ path('profil_eleve',{'id1':app.user.id}) }}">profil</a>
 												</li>
+												{% else %}
 												<li>
-													<a class="dropdown-item @@listView" href="{{asset(' ')}}">Déconnexion</a>
+													<a class="dropdown-item @@category" href="{{ path('profil_enseignant',{'id1':app.user.id}) }}">profil</a>
+												</li>
+												{% endif %}
+												<li>
+													<a class="dropdown-item @@listView" href="{{path('app_logout')}}">Déconnexion</a>
 												</li>
 
 											</ul>
@@ -110,11 +116,17 @@
 										</li>
 									</ul>
 									<ul class="navbar-nav ml-auto mt-10">
-
+                                    
 										<li class="nav-item">
-											<a class="nav-link text-white add-button" href="{{path('app_logout')}}">
-												Déconnexion</a>
-										</li>
+										  {% if app.user.roleutil=='enseignnat' %}
+											<div class="nav-link text-white add-button">
+												Espace enseignnat
+												</div>
+										{% else %}
+											<div class="nav-link text-white add-button">
+												Espace élève</div>
+										{% endif %}
+										
 									{% endblock %}
 								</li>
 							</ul>
@@ -125,16 +137,16 @@
 		</div>
 	</body>
 </html></header><!-- ******************************* Limite Header ************************************ -->{% block body %}
-
-<!-- ******************************* C'est le bloc à modifier  ************************************ -->{% endblock %}<!-- =============================
-																																																																																																	=            Hero Area            =
-																																																																																																	================================--><section>
-<!-- Container Start -->
 <div>
 	<img src="{{ asset('images/arrière_plan.jpg') }}" alt="fond">
 </div>
+<!-- ******************************* C'est le bloc à modifier  ************************************ -->{% endblock %}<!-- =============================
+																																																																																																	=            Hero Area            =
+																																																																																																	================================-->   
+<!-- Container Start -->
 
-<!-- Container End --></section><!--============================
+
+<!-- Container End --> <!--============================
 																																																																																																	=            Footer            =
 																																																																																																	=============================--><footer class="footer section section-sm">
 {% block footer1 %}
