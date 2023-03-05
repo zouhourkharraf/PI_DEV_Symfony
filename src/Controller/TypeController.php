@@ -73,6 +73,7 @@ class TypeController extends AbstractController
         $em->remove($type);
         $em->flush();
         return $this->redirectToRoute('app_showtype');
+    
     }
 
 }

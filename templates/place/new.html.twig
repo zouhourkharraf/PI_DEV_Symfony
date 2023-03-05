@@ -1,0 +1,55 @@
+
+
+    <h1>Ajouter une place</h1>
+
+    {{ form_start(form) }}
+        <div id="map" style="height: 400px;"></div>
+        {{ form_widget(form.latitude) }}
+        {{ form_widget(form.longtitude) }}
+        <br>
+        {{ form_row(form.name) }}
+        {{ form_row(form.save) }}
+    {{ form_end(form) }}
+
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}"></script>
+    <script>
+        var map;
+        var marker;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 48.856614, lng: 2.3522219},
+                zoom: 12
+            });
+
+            marker = new google.maps.Marker({
+                position: {lat: 48.856614, lng: 2.3522219},
+                map: map,
+                draggable: true
+            });
+
+            google.maps.event.addListener(marker, 'dragend', function() {
+                document.getElementById('place_latitude').value = marker.getPosition().lat();
+                document.getElementById('place_longitude').value = marker.getPosition().lng();
+            });
+        }
+
+        function geolocate() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var pos = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+
+                    map.setCenter(pos);
+                    marker.setPosition(pos);
+                    document.getElementById('place_latitude').value = pos.lat;
+                    document.getElementById('place_longitude').value = pos.lng;
+                });
+            }
+        }
+
+        initMap();
+    </script>
+

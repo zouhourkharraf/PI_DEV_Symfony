@@ -1,0 +1,23 @@
+<h1>{{ place.name }}</h1>
+
+    <div id="map" style="height: 400px;"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}"></script>
+    <script>
+        var map;
+        var marker;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: {{ place.latitude }}, lng: {{ place.longitude }}},
+                zoom: 16
+            });
+
+            marker = new google.maps.Marker({
+                position: {lat: {{ place.latitude }}, lng: {{ place.longitude }}},
+                map: map,
+                draggable: false
+            });
+        }
+
+        initMap();
+    </script>

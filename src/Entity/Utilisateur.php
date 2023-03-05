@@ -45,7 +45,11 @@ class Utilisateur
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Reponse::class)]
     private Collection $liste_reponse;
 
+
+
     #[ORM\ManyToMany(targetEntity: Activite::class, inversedBy: 'liste_utilisateurs')]
+    
+
     private Collection $liste_activites;
 
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Cours::class)]
@@ -307,4 +311,7 @@ class Utilisateur
 
         return $this;
     }
+
+
+
 }

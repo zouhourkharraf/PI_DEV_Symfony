@@ -2,27 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Utilisateur;
+use App\Entity\UtilisateurActivite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-
 /**
- * @extends ServiceEntityRepository<Utilisateur>
+ * @extends ServiceEntityRepository<UtilisateurActivite>
  *
- * @method Utilisateur|null find($id, $lockMode = null, $lockVersion = null)
- * @method Utilisateur|null findOneBy(array $criteria, array $orderBy = null)
- * @method Utilisateur[]    findAll()
- * @method Utilisateur[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UtilisateurActivite|null find($id, $lockMode = null, $lockVersion = null)
+ * @method UtilisateurActivite|null findOneBy(array $criteria, array $orderBy = null)
+ * @method UtilisateurActivite[]    findAll()
+ * @method UtilisateurActivite[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UtilisateurRepository extends ServiceEntityRepository
+class UtilisateurActiviteRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Utilisateur::class);
+        parent::__construct($registry, UtilisateurActivite::class);
     }
 
-    public function save(Utilisateur $entity, bool $flush = false): void
+    public function save(UtilisateurActivite $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -31,7 +30,7 @@ class UtilisateurRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Utilisateur $entity, bool $flush = false): void
+    public function remove(UtilisateurActivite $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -39,13 +38,9 @@ class UtilisateurRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    public function getUtilisateurByUsername(string $username): ?Utilisateur
-    {
-        return $this->findOneBy(['username' => $username]);
-    }
 
 //    /**
-//     * @return Utilisateur[] Returns an array of Utilisateur objects
+//     * @return UtilisateurActivite[] Returns an array of UtilisateurActivite objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -59,7 +54,7 @@ class UtilisateurRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Utilisateur
+//    public function findOneBySomeField($value): ?UtilisateurActivite
 //    {
 //        return $this->createQueryBuilder('u')
 //            ->andWhere('u.exampleField = :val')

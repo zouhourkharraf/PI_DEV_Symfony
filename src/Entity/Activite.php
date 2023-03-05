@@ -12,7 +12,10 @@ use Symfony\component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
+
+
 #[ORM\Entity(repositoryClass: ActiviteRepository::class)]
+
 class Activite
 {
     #[ORM\Id]
@@ -43,6 +46,7 @@ class Activite
     private ?Type $type = null;
 
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'liste_activites')]
+   
     private Collection $liste_utilisateurs;
 
     public function __construct()
@@ -154,6 +158,8 @@ class Activite
         return $this->nomact;
     
     }
+
+
 
   
 }
