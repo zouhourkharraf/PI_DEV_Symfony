@@ -9,6 +9,7 @@ use App\Form\ModifierAdminType;
 use App\Form\ModifierEleveType;
 use App\Form\ModifierEnseignantType;
 use App\Repository\UtilisateurRepository;
+use App\Service\MailerService;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -196,10 +197,14 @@ class UtilisateurController extends AbstractController
 
     //NB: ********************* fonction de test ****************
     #[Route('/routetest', name: 'route_test')]
-    public function fonction_de_test(UtilisateurRepository $utilisateurRepository)
+    public function fonction_de_test(MailerService $mailer)
     {
-        /*$ListAdmin = $utilisateurRepository->findAll();
-        return $this->render('utilisateur/test.html.twig', array("liste_administrateurs" => $ListAdmin));
+        /*  $detinataire = 'zouhour.kharraf1@esprit.tn';
+        $objet = 'objet1';
+        $contenu = '<p>AAAAAAAAAAAAAAAA</p><h1>AAAAAAAAAAAAAAAAAAAAAAAA</h1>';
+        $mailer->sendEmail($detinataire, $objet, $contenu);
+        return new Response('aaaaaaaaaa');
+    
         */
         return new Response(dd($this->getUser()));
     }
@@ -207,7 +212,8 @@ class UtilisateurController extends AbstractController
     // ***************** Méthodes pour l'utilisateur connecté ***************************
 
     //1)redirection:
-    #[Route('/RouteRedirestion', name: 'route_redirection')] //cette méthode permet de rediriger l'utilisateur vers la page adéquate selon son rôle
+    //cette méthode permet de rediriger l'utilisateur vers la page adéquate selon son rôle
+    #[Route('/RouteRedirestion', name: 'route_redirection')]
     public function rediriger_utilisateur(UtilisateurRepository $utilisateurRepository)
     {
         if ($this->getUser()->getRoleUtil() == 'élève' || $this->getUser()->getRoleUtil() == 'enseignant') {
@@ -223,16 +229,16 @@ class UtilisateurController extends AbstractController
         $eleve1 = $repository->findOneByid($id1);
         return $this->render('utilisateur/ProfilEleve.html.twig', ['eleve' => $eleve1]);
     }
+
+
+
+    // 3) Afficher profil enseignant:
     #[Route('/ProfilEnseignant/{id1}', name: 'profil_enseignant')]
     public function AfficherProfilEnseignant(UtilisateurRepository $repository, $id1)
     {
         $enseignant1 = $repository->findOneByid($id1);
         return $this->render('utilisateur/ProfilEnseignant.html.twig', ['enseignant' => $enseignant1]);
     }
-
-
-    // 3) Afficher profil enseignant:
-
     // ***************** Fin Méthodes pour l'utilisateur connecté ***************************
 
 
