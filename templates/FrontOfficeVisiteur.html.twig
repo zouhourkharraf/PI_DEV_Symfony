@@ -28,8 +28,8 @@
 		href="{{ asset('images/logo_title1.png') }}" rel="shortcut icon">
 
 		<!-- 
-																																																																																																																																																																												  Essential stylesheets
-																																																																																																																																																																														  =====================================-->
+																																																																																																																																																																														  Essential stylesheets
+																																																																																																																																																																																  =====================================-->
 		{% block css %}
 
 			<link href="{{asset('plugins/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
@@ -68,7 +68,7 @@
 									</li>
 									<li class="nav-item active">
 										{%	block evenements %}
-											<a class="nav-link" href="{{ path('page_utilisateur_connecte') }}" style="color: rgb(25, 23, 60);">Nos évènements</a>
+											<a class="nav-link" href="{{ path('app_evenementsF') }}" style="color: rgb(25, 23, 60);">Nos évènements</a>
 										{% endblock %}
 									</li>
 
@@ -106,8 +106,8 @@
 
 			{# ******************************* C'est le bloc à modifier  ************************************ #}
 		{% endblock %}<!-- =============================
-																																																																																																																																																																																														=            Hero Area            =
-																																																																																																																																																																																														================================--><section>
+																																																																																																																																																																																																	=            Hero Area            =
+																																																																																																																																																																																																	================================--><section>
 			<!-- Container Start -->
 			<div>
 				<img src="{{ asset('images/arrière_plan.jpg') }}" alt="fond">
@@ -115,8 +115,8 @@
 
 			<!-- Container End -->
 		</section><!--============================
-																																																																																																																																																																																														=            Footer            =
-																																																																																																																																																																																														=============================--><footer class="footer section section-sm">
+																																																																																																																																																																																																	=            Footer            =
+																																																																																																																																																																																																	=============================--><footer class="footer section section-sm">
 			{% block footer1 %}
 				<!-- Container Start -->
 				<div class="container">
@@ -133,7 +133,7 @@
 								<!-- description -->
 								<p class="alt-color">
 									Tel : 70 666 666
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																	email : magic.book@gmail.com
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																										email : magic.book@gmail.com
 								</p>
 							</div>
 						</div>
@@ -224,8 +224,8 @@ document.write(CurrentYear)
 				</div>
 			{% endblock %}
 		</footer><!-- 
-																																																																																																																																																																																														Essential Scripts
-																																																																																																																																																																																														=====================================-->{% block js %}
+																																																																																																																																																																																																	Essential Scripts
+																																																																																																																																																																																																	=====================================-->{% block js %}
 
 			<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 			<script src="{{asset('plugins/bootstrap/popper.min.js')}}"></script>

@@ -6,6 +6,10 @@ use App\Repository\EvenementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\Date;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
@@ -14,28 +18,50 @@ class Evenement
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("evenements")]
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message:"Name is required")]
+    #[Groups("evenements")]
     private ?string $nom_ev = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\GreaterThan('today')]
+    #[Groups("evenements")]
     private ?\DateTimeInterface $dated_ev = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\GreaterThan('today')]
+    #[Groups("evenements")]
     private ?\DateTimeInterface $datef_ev = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message:"Lieu is required")]
+    #[Groups("evenements")]
     private ?string $lieu_ev = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Assert\Length(min:12,minMessage:"La description de l'évènement doit comporter au moins {{ limit }} caractéres")]
+    #[Groups("evenements")]
     private ?string $desc_ev = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups("evenements")]
     private ?string $image_ev = null;
 
     #[ORM\OneToMany(mappedBy: 'evenement', targetEntity: Don::class)]
     private Collection $liste_dons;
+
+    #[ORM\Column]
+    private ?float $note_ev = null;
+
+    public function __toString()
+    {
+        $format = "Evenement (id: %s, nom_ev: %s)\n";
+        return sprintf($format, $this->id, $this->nom_ev);
+    }
+
 
     public function __construct()
     {
@@ -145,6 +171,18 @@ class Evenement
                 $listeDon->setEvenement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNoteEv(): ?float
+    {
+        return $this->note_ev;
+    }
+
+    public function setNoteEv(float $note_ev): self
+    {
+        $this->note_ev = $note_ev;
 
         return $this;
     }

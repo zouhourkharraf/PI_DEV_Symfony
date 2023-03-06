@@ -1,0 +1,112 @@
+{% extends 'BackOffice.html.twig' %}
+
+{% block contenu %}
+	<div id="layoutSidenav_content">
+
+
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+
+			.row {
+				margin-left: -5px;
+				margin-right: -5px;
+			}
+
+			.column {
+				float: left;
+				width: 50%;
+				padding: 5px;
+			}
+
+			/* Clearfix (clear floats) */
+			.row::after {
+				content: "";
+				clear: both;
+				display: table;
+			}
+
+			table {
+				border-collapse: collapse;
+				border-spacing: 0;
+				width: 100%;
+				border: 1px solid #ddd;
+			}
+
+			th,
+			td {
+				text-align: left;
+				padding: 16px;
+			}
+
+			tr:nth-child(even) {
+				background-color: #f2f2f2;
+			}
+		</style>
+
+		<div class="container-fluid px-4">
+			<h1 class="mt-4">Tables</h1>
+			<ol class="breadcrumb mb-4">
+				<li class="breadcrumb-item">
+					<a href="index.html">Dashboard</a>
+				</li>
+				<li class="breadcrumb-item active">Tables</li>
+			</ol>
+			<div class="card mb-4">
+				<div class="card-body">
+					DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the
+					<a target="_blank" href="https://datatables.net/">official DataTables documentation</a>
+
+				</div>
+			</div>
+			<div class="card mb-4">
+				<div class="card-header">
+					<i class="fas fa-table me-1"></i>
+					Dons TABLE
+				</div>
+				<div class="card-body">
+					<table class="center" id="datatablesSimple" class="table3 table-dark table-condensed table-bordered" width="100px" border="5">
+						<thead class="thead-light">
+							<tr>
+								<th class="col1">ID</th>
+								<th class="col2">type</th>
+								<th class="col3">somme</th>
+								<th class="col4">Evenement</th>
+
+							</tr>
+						</thead>
+						<a href="{{path('app_adddon')}}" class="btn btn-dark">Ajouter Don</a>
+						<h4>List Dons</h4>
+						{% for i in tabdons %}
+
+							<td>{{ i.id}}</td>
+							<td>{{ i.getTypeDon() }}</td>
+							<td>{{ i.getSommeDon() }}
+							</td>
+							<td>{{ i.getEvenement() }}
+							</td>
+
+							<td></td>
+							<td></td>
+
+							<td>
+								<a href="{{path('app_updateDon', { 'id': i.id })}}" class="btn btn-dark">
+									Modifier
+								</a>
+							</td>
+							<td>
+								<a href="{{path('app_removeDon', { 'id': i.id })}}" class="btn btn-danger">Supprimer</a>
+							</td>
+
+							<td></td>
+
+						</tr>
+
+
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+</div>{% endblock %}{% block footer %}{% endblock %}

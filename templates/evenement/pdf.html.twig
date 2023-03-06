@@ -1,0 +1,44 @@
+<h1 class="align-center">Bienvenue dans votre application Magic Book </h1>
+<img src="{{ asset(image_path) }}" alt="Image description" width="626px" height="626px">
+
+
+<p>Voila la liste de tous ls evenements</p>
+<table class="table" border="5" >
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>NOM</th>
+        <th>DATE DEB</th>
+        <th>DATE FIN</th>
+        <th>LIEU</th>
+        <th>DESC</th>
+        <th>Image</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in tabEvents %}
+
+            <tr>
+                <td>{{ i.id}}</td>
+                <td>{{ i.getNomEv() }}</td>
+                <td>{{ i.getDatedEv() |date('d-m-Y') }}</td>
+                <td>{{ i.getDatefEv()|date('d-m-Y') }}</td>
+                <td>{{ i.getLieuEv() }} </td>
+                <td>{{ i.getDescEv() }} </td>
+                <td><img style="width:200px;" src="{{asset ('uploads/evenements/'~i.getImageEv())}}" ></td>
+            </tr>
+
+    {% else %}
+        <tr>
+            <td colspan="8">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<br>
+<br>
+<br>
+<br>
+
+</div>

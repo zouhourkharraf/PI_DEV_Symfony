@@ -8,7 +8,10 @@
 		<meta name="description" content=""/>
 		<meta name="author" content=""/>
 		<title>
-			{% block titleback %}Dashboard {{ app.user.pseudoutil }}
+			{% block titleback %}Dashboard
+				{% if app.user %}
+					{{ app.user.pseudoutil }}
+				{% endif %}
 			{% endblock %}
 		</title>
 		{% block style %}
@@ -85,7 +88,7 @@
 							<div>
 
 								{% block evenements %}
-									<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+									<a class="nav-link collapsed" href="{{ path('app_evenements')}}">
 										<div class="sb-nav-link-icon">
 											<i class="fas fa-columns"></i>
 										</div>
@@ -160,7 +163,9 @@
 					<div class="sb-sidenav-footer">
 						{% block nom_admin %}
 							<div class="small">Administrateur connecté:</div>
-							{{ app.user.pseudoutil }}
+							{% if app.user %}
+								{{ app.user.pseudoutil }}
+							{% endif %}
 						{% endblock %}
 					</div>
 				</nav>

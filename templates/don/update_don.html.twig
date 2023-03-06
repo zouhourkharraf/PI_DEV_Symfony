@@ -1,0 +1,66 @@
+{% extends 'BackOffice.html.twig' %}
+
+
+{% block contenu %}
+	<div id="layoutSidenav">
+		<div id="layoutSidenav_content">
+			<div class="container-fluid px-4">
+
+				{{form_start(form,{'attr': {'novalidate': 'novalidate'}}
+				)}}
+
+
+				<h3 class="text-center font-weight-light my-4">Modifier un don</h3>
+
+
+				<form class="forms-sample">
+					<div class="form-group">
+
+						{{ form_label(form.type_don,"type don")  }}
+						{{ form_widget(form.type_don,{'attr': {'class':'form-control'}}
+						) }}
+						{{ form_errors(form.type_don) }}
+
+
+					</div>
+					<div class="form-group">
+
+						<td>
+							{{ form_label(form.somme_don,"somme don") }}
+						</td>
+						<td>
+							{{ form_widget(form.somme_don)}}
+						</td>
+						<td>
+							{{ form_errors(form.somme_don) }}
+						</td>
+
+					</div>
+					<form class="forms-sample">
+						<div class="form-group">
+
+							{{ form_label(form.evenement,"evenement")  }}
+							{{ form_widget(form.evenement,{'attr': {'class':'form-control'}}
+							) }}
+							{{ form_errors(form.evenement) }}
+
+
+						</div>
+
+						<br>
+
+					</br>
+					<button type="submit" class="btn btn-primary mr-2">Modifier Don</button>
+					<a href="{{path('app_dons')}}" class="btn btn-dark">Afficher Dons</a>
+
+					{{form_end(form)}}
+				</br>
+
+			</form>
+
+
+		</div>
+
+
+	</div>
+</div></div>{% endblock %}
