@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html lang="en">
+
+	<head>
+
+		<!-- ** Basic Page Needs ** -->
+		<meta charset="utf-8">
+		<title>Vérification</title>
+
+		<!-- ** Mobile Specific Metas ** -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="Agency HTML Template">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+		<meta name="author" content="Themefisher">
+		<meta
+		name="generator" content="Themefisher Classified Marketplace Template v1.0">
+
+		{# favicon #}
+		<link
+		href="{{ asset('images/logo_title1.png') }}" rel="shortcut icon">
+
+		<!-- 
+																																																																																																																																																																																																																																				  Essential stylesheets
+																																																																																																																																																																																																																																				  =====================================-->
+		<link href="{{asset('plugins/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
+		<link href="{{asset('plugins/bootstrap/bootstrap-slider.css')}}" rel="stylesheet">
+		<link href="{{asset('plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
+		<link href="{{asset('plugins/slick/slick.css')}}" rel="stylesheet">
+		<link href="{{asset('plugins/slick/slick-theme.css')}}" rel="stylesheet">
+		<link href="{{asset('plugins/jquery-nice-select/css/nice-select.css')}}" rel="stylesheet">
+
+		<link href="{{asset('css/style.css')}}" rel="stylesheet">
+
+	</head>
+
+	<body class="body-wrapper">
+
+
+		<header style="background-color:rgb(247, 239, 14)">
+			<div class="row justify-content-center">
+				<a class="navbar-brand" href="{{ path('page_acceuil') }}">
+					<img src="{{ asset('images/logo.png') }}" alt="">
+				</a>
+			</div>
+		</header>
+
+		<section class="login py-5 border-top-1">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-lg-5 col-md-8 align-item-center">
+						<div class="border border">
+							<h3 class="bg-gray p-4" style="background-color:rgb(70, 221, 227)" style="text-align: center;">Vérification :
+							</h3>
+
+							<h5 class="text-danger">{{erreur_p}}</h5>
+							{{ form_start(form_verif_pseudo, {'attr': {'class':'form-horizontal'}}) }}
+							<fieldset>
+								{# désactiver la validation du formulaire coté client #}
+								<div>
+									{{ form_label(form_verif_pseudo.pseudo,'Votre pseudo :') }}
+									{{ form_widget(form_verif_pseudo.pseudo,{'attr': {'class': 'form-control'}}) }}
+								</div>
+								<br>
+								{# Bouton Valider et Bouton Annuler  #}
+								<div class="row">
+									<div class="col">
+										{{ form_row(form_verif_pseudo.Valider,{'attr': {'class': 'btn btn-primary font-weight-bold mt-3'}}) }}</div>
+
+									<div class="col">
+										{{ form_row(form_verif_pseudo.Annuler,{'attr': {'class': 'btn btn-primary font-weight-bold mt-3'}}) }}</div>
+								</div>
+							</fieldset>
+							{{ form_end(form_verif_pseudo) }}
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</section>
+
+		<footer class="footer section section-sm" style="background-color:rgb(247, 239, 14)"></footer>
+
+
+		<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+		<script src="{{asset('plugins/bootstrap/popper.min.js')}}"></script>
+		<script src="{{asset('plugins/bootstrap/bootstrap.min.js')}}"></script>
+		<script src="{{asset('plugins/bootstrap/bootstrap-slider.js')}}"></script>
+		<script src="{{asset('plugins/tether/js/tether.min.js')}}"></script>
+		<script src="{{asset('plugins/raty/jquery.raty-fa.js')}}"></script>
+		<script src="{{asset('plugins/slick/slick.min.js')}}"></script>
+		<script src="{{asset('plugins/jquery-nice-select/js/jquery.nice-select.min.js')}}"></script><!-- google map --><script src="{{asset('https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU')}}" defer></script>
+		<script src="{{asset('plugins/google-map/map.js')}}" defer></script>
+		<script src="{{asset('js/script.js')}}"></script>
+	</body>
+</html>

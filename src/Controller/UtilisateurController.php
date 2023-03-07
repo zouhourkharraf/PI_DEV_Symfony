@@ -8,6 +8,9 @@ use App\Form\AjouterUtilisateurType;
 use App\Form\ModifierAdminType;
 use App\Form\ModifierEleveType;
 use App\Form\ModifierEnseignantType;
+use App\Form\ReinitialiserMPType;
+use App\Form\VerifCodeType;
+use App\Form\VerifierPseudoType;
 use App\Repository\UtilisateurRepository;
 use App\Service\MailerService;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,6 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
 
 class UtilisateurController extends AbstractController
 {
@@ -199,20 +204,19 @@ class UtilisateurController extends AbstractController
     #[Route('/routetest', name: 'route_test')]
     public function fonction_de_test(MailerService $mailer)
     {
-        /*  $detinataire = 'zouhour.kharraf1@esprit.tn';
+        /*
+        $detinataire = 'zouhour.kharraf1@esprit.tn';
         $objet = 'objet1';
         $contenu = '<p>AAAAAAAAAAAAAAAA</p><h1>AAAAAAAAAAAAAAAAAAAAAAAA</h1>';
         $mailer->sendEmail($detinataire, $objet, $contenu);
-        return new Response('aaaaaaaaaa');
-    
         */
-        return new Response(dd($this->getUser()));
+        return new Response('aaaaaaaaaa');
     }
 
     // ***************** Méthodes pour l'utilisateur connecté ***************************
 
-    //1)redirection:
-    //cette méthode permet de rediriger l'utilisateur vers la page adéquate selon son rôle
+    //1) Liée à l'authentification :redirection:
+    // ----> cette méthode permet de rediriger l'utilisateur vers la page adéquate selon son rôle
     #[Route('/RouteRedirestion', name: 'route_redirection')]
     public function rediriger_utilisateur(UtilisateurRepository $utilisateurRepository)
     {
@@ -222,6 +226,7 @@ class UtilisateurController extends AbstractController
             return $this->redirectToRoute('page_acceuil_back_office');
         }
     }
+
     // 2) Afficher profil élève:
     #[Route('/ProfilEleve/{id1}', name: 'profil_eleve')]
     public function AfficherProfilEleve(UtilisateurRepository $repository, $id1)
@@ -229,7 +234,6 @@ class UtilisateurController extends AbstractController
         $eleve1 = $repository->findOneByid($id1);
         return $this->render('utilisateur/ProfilEleve.html.twig', ['eleve' => $eleve1]);
     }
-
 
 
     // 3) Afficher profil enseignant:
@@ -241,5 +245,86 @@ class UtilisateurController extends AbstractController
     }
     // ***************** Fin Méthodes pour l'utilisateur connecté ***************************
 
+
+
+
+
+
+    //  ************************** réccupération du mot de passe: *****************************
+    //1)verifier le pseudo 
+    #[Route('/MotDePasseOublie', name: 'mot_de_passe_oublie')]
+    public function gerer_lien_mp_oublie(UtilisateurRepository $repository, Request $request): Response
+    {
+        $FromVerifPseudo = $this->createForm(VerifierPseudoType::class);
+        $FromVerifPseudo->handleRequest($request); //réccupérer le formulaire envoyé dans la requête
+        $erreur = '';
+        if ($FromVerifPseudo->isSubmitted()) {
+            $pseudo_saisi = $FromVerifPseudo->getData()['pseudo']; //récupérer le pseudo saisi 
+            $utilisateur = $repository->findOneByPseudoUtilisateur($pseudo_saisi); //retourner l'utilisateur avec le pseudo $pseudo_saisi
+            if ($utilisateur == null) //si l'utilisateur n'existe pas
+            {
+                $erreur = "Le pseudo n'existe pas !";
+            } else {
+                $code_secret = rand(10000, 99999);
+                $id = $utilisateur->getId(); //réccupérer l'email de l'utilisateur
+                return $this->redirectToRoute('verifier_code', ['id' => $id, 'code' => $code_secret]);
+            }
+        }
+        return $this->renderForm('utilisateur/VerifPseudo.html.twig', ['form_verif_pseudo' => $FromVerifPseudo, 'erreur_p' => $erreur]);
+    }
+
+    // 2) vérifier le code envoyé:
+    #[Route('/verifiercode/{id}/{code}', name: 'verifier_code')]
+    public function verifier_code(UtilisateurRepository $repository, Request $request, MailerService $mailer, $id, $code): Response
+    {
+        $utilisateur = $repository->findOneByid($id);
+        $email_utilisateur = $utilisateur->getEmailUtil();
+        //Envoyer un email à l'utilisateur qui contient un code secret
+        $objet = 'Magic Book : Récupération du mot de passe';
+        $contenu = " <h5>Bonjour " . $utilisateur->getPrenomUtil() . "</h5><h5>Votre code est : " . $code . "</h5>
+        <p>
+        <h5>
+          L'équipe Magic Book
+        </h5>
+        </p>";
+        $mailer->sendEmail($email_utilisateur, $objet, $contenu); //envoyer l'email
+        $FromVerifCode = $this->createForm(VerifCodeType::class);
+        $FromVerifCode->handleRequest($request);
+        $erreur_code = '';
+        if ($FromVerifCode->isSubmitted()) {
+            if (strval($code) == $FromVerifCode->getData()['code_secret']) {
+                return $this->redirectToRoute('modifier_MP', ['id3' => $id]);
+            } else {
+                $erreur_code = 'Code incorrect';
+            }
+            //  return new Response(dd($code));
+        }
+
+        //rediriger l'utilisateur vers une page pour saisir le code envoyé
+        return $this->renderForm('utilisateur/VerifCode.html.twig', ['form_verif_code' => $FromVerifCode, 'erreur_c' => $erreur_code, 'email' => $email_utilisateur]);
+    }
+
+    //3) modifier le mot de passe en cas de succès
+    #[Route('/modifierMP/{id3}', name: 'modifier_MP')]
+    public function reinitialiser_mot_de_passe_utilisateur(UtilisateurRepository $repository, Request $request, $id3, ManagerRegistry $doctrine, UserPasswordHasherInterface $hacher): Response
+    {
+        $utilisateur = $repository->findOneByid($id3);
+        $FromModif_MP = $this->createForm(ReinitialiserMPType::class);
+        $FromModif_MP->handleRequest($request); //réccupérer le formulaire envoyé dans la requête 
+
+        if ($FromModif_MP->isSubmitted() && $FromModif_MP->isValid()) {
+            $em = $doctrine->getManager();
+            $mp_hache = $hacher->hashPassword($utilisateur, $FromModif_MP->getData()['mot_de_passe']);
+            $utilisateur->setMotDePasseUtil($mp_hache);
+            $em->persist($utilisateur);
+            $em->flush();
+
+            return $this->render('utilisateur/succes_update_password.html.twig');
+        }
+
+        return $this->renderForm('utilisateur/reinitialiserMP.html.twig', ['form_modif_mp' => $FromModif_MP]);
+    }
+
+    //  ************************** FIN réccupération du mot de passe: *****************************
 
 }
