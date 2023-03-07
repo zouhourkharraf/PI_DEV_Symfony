@@ -22,6 +22,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
 
+
+
     
 
 class ActiviteController extends AbstractController
@@ -178,24 +180,26 @@ class ActiviteController extends AbstractController
        $activite = $repositoryact->find($idActivite);
        $utilisateur = $repositoryuser->find($idUtilisateur);
 
-        // Vérification que les entités existent
-        if (!$activite) {
-            throw $this->createNotFoundException('L\'activité n\'existe pas.');
-        }
-        if (!$utilisateur) {
-            throw $this->createNotFoundException('L\'utilisateur n\'existe pas.');
-        }
-
+        
         if ($activite->getListeUtilisateurs()->contains($utilisateur)) {
             //$this->addFlash('warning', 'L\'utilisateur est déjà inscrit à cette activité.');
             //return $this->redirectToRoute('app_showactivitefront');
-            return new Response('warning L\'utilisateur est déjà inscrit à cette activité');
+            //return new Response('warning L\'utilisateur est déjà inscrit à cette activité');
+            return $this->render('activite/frontoffice/eleveexiste.html.twig',[
+                'existe'=>$activite
+                
+            ]);
+            
         }
         // Ajout de l'utilisateur à l'activité
         //$activite->addUtilisateur($utilisateur);
         if($activite->getNbParticipants()<1)
         {
-            return new Response('pas de place disponile');
+            //return new Response('pas de place disponile');
+            return $this->render('activite/frontoffice/pasdeplace.html.twig',[
+                'noPlace'=>$activite
+                
+            ]);
         }
         if($utilisateur->getRoleUtil()=="eleve")
         {
@@ -206,11 +210,15 @@ class ActiviteController extends AbstractController
         $entityManager->flush();
 
         // Réponse HTTP
-       return new Response('L\'utilisateur a été ajouté à l\'activité.');
+       //return new Response('L\'utilisateur a été ajouté à l\'activité.');
       // $this->addFlash('success', 'L\'utilisateur a été ajouté à l\'activité.');
+      return $this->render('activite/frontoffice/nouveaueleve.html.twig',[
+        'nouveau'=>$activite
+        
+      ]);
        
       
-       return $this->redirectToRoute('app_showactivitefront');
+       //return $this->redirectToRoute('app_showactivitefront');
        
         }
         
@@ -218,7 +226,12 @@ class ActiviteController extends AbstractController
         {
             //$this->addFlash('danger', 'L\'utilisateur n\'est pas un élève');
             //return $this->redirectToRoute('app_showactivitefront');
-            return new Response('L\'utilisateur n\'est pas un eleve');
+           // return new Response('L\'utilisateur n\'est pas un eleve');
+           return $this->render('activite/frontoffice/paseleve.html.twig',[
+            'paseleve'=>$activite
+            
+            
+           ]);
 
         } 
     }

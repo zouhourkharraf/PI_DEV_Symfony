@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<!--
+ // WEBSITE: https://themefisher.com
+ // TWITTER: https://twitter.com/themefisher
+ // FACEBOOK: https://www.facebook.com/themefisher
+ // GITHUB: https://github.com/themefisher/
+-->
+
+<html lang="en">
+
+	<head>
+
+		<!-- ** Basic Page Needs ** -->
+		<meta charset="utf-8">
+		<title>Classimax | Classified Marketplace Template</title>
+
+		<!-- ** Mobile Specific Metas ** -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="Agency HTML Template">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+		<meta name="author" content="Themefisher">
+		<meta
+		name="generator" content="Themefisher Classified Marketplace Template v1.0">
+
+		{# favicon #}
+		<link
+		href="{{ asset('images/logo_title1.png') }}" rel="shortcut icon">
+
+		<!-- 
+																																																																																																																																																																												  Essential stylesheets
+																																																																																																																																																																												  =====================================-->
+		<link href="{{asset('plugins/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
+		<link href="{{asset('plugins/bootstrap/bootstrap-slider.css')}}" rel="stylesheet">
+		<link href="{{asset('plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
+		<link href="{{asset('plugins/slick/slick.css')}}" rel="stylesheet">
+		<link href="{{asset('plugins/slick/slick-theme.css')}}" rel="stylesheet">
+		<link href="{{asset('plugins/jquery-nice-select/css/nice-select.css')}}" rel="stylesheet">
+
+		<link href="{{asset('css/style.css')}}" rel="stylesheet">
+
+	</head>
+
+	<body class="body-wrapper">
+
+
+		<header style="background-color:rgb(247, 239, 14)">
+			<div class="row justify-content-center">
+				<img src="{{ asset('images/logo.png') }}" alt="">
+			</div>
+		</header>
+
+
+		<section class="section bg-gray">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 text-center mx-auto">
+						<div class="404-img">
+							<img src="{{ asset('images/logo.png') }}" alt="">
+						</div>
+						<div class="404-content">
+							<h2 class="display-1 pt-1 pb-2">Notification!</h2>
+							<h2 class="px-3 pb-2 text-dark">Pas de place disponible dans cette activité</h2>
+							<p>
+								<h2 class="px-3 pb-2 text-dark">
+									</h2>
+							</p>
+							<a class="btn btn-info" href="{{ path('app_showactivitefront') }}">
+								Retour
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!--============================
+																																																																																																																																														=            Footer            =
+																																																																																																																																														=============================-->
+		<footer class="footer section section-sm" style="background-color:rgb(247, 239, 14)"></footer>
+		<!-- 
+																																																																																																																																														Essential Scripts
+																																																																																																																																														=====================================-->
+		<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+		<script src="{{asset('plugins/bootstrap/popper.min.js')}}"></script>
+		<script src="{{asset('plugins/bootstrap/bootstrap.min.js')}}"></script>
+		<script src="{{asset('plugins/bootstrap/bootstrap-slider.js')}}"></script>
+		<script src="{{asset('plugins/tether/js/tether.min.js')}}"></script>
+		<script src="{{asset('plugins/raty/jquery.raty-fa.js')}}"></script>
+		<script src="{{asset('plugins/slick/slick.min.js')}}"></script>
+		<script src="{{asset('plugins/jquery-nice-select/js/jquery.nice-select.min.js')}}"></script><!-- google map --><script src="{{asset('https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU')}}" defer></script>
+		<script src="{{asset('plugins/google-map/map.js')}}" defer></script>
+		<script src="{{asset('js/script.js')}}"></script>
+	</body>
+</html>
