@@ -1,0 +1,134 @@
+{% extends 'FrontOfficeConnecte.html.twig' %}
+{% block body %}
+
+
+	<section class="dashboard section">
+
+		<div class="container">
+
+			<div class="row">
+				<div class="col-lg-2">
+					<div class="sidebar">
+
+
+						<div class="modal fade" id="deleteaccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header border-bottom-0">
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+				<div
+					class="col-lg-9">
+					<!-- Recently Favorited -->
+					<div class="widget dashboard-container my-adslist">
+						<h3 class="widget-header">La liste des activités</h3>
+						{% if app.flashes('success') %}
+							<div class="alert alert-success">
+								{% for message in app.flashes('success') %}
+									{{ message }}
+								{% endfor %}
+							</div>
+						{% endif %}
+						<table class="table table-responsive product-dashboard-table">
+							<thead>
+								<tr>
+									<th class="text-center">Nom</th>
+									<th class="text-center">Date de l'activité</th>
+									<th class="text-center">Type de l'activité</th>
+									<th class="text-center">Nombre de participants</th>
+									<th class="text-center">Lieu de l'activité</th>
+									<th class="text-center">Description</th>
+									<th class="text-center">Participer</th>
+
+								</tr>
+							</thead>
+
+
+							<tbody>
+
+								{% for i in tabActivite %}
+									<tr>
+										<td class="text-center">{{ i.nomact }}</td>
+										<td class="text-center">{{ i.dateact|date('d/m/Y') }}</td>
+										<td class="text-center">{{ i.type }}<span class="categories"></span>
+										</td>
+
+										<td class="text-center">{{ i.nbparticipants }}</td>
+										<td class="text-center">{{ i.positionact }}</td>
+										<td class="text-center">
+											{% if i is null or i is not defined or i.type is null or i.type is not defined or i.type.descriptiontype is null %}
+												pas de description
+											{% else %}
+												{{ i.type.descriptiontype }}
+											{% endif %}
+										</td>
+										<td>
+											{%   if app.user %}
+												<form action="{{ path('app_participer', {'idActivite': i.id,'idUtilisateur':app.user.id}) }}" method="POST">
+
+
+													<button type="submit" class="btn btn-primary">Participer</button>
+
+												</form>
+												<script></script>
+											{% endif %}
+										</td>
+
+									</tr>
+								{% endfor %}
+
+							</tbody>
+						</table>
+
+					</div>
+
+					<!-- pagination -->
+					<div class="pagination justify-content-center">
+						<nav aria-label="Page navigation example">
+							<ul class="pagination">
+								<li class="page-item">
+									<a class="page-link" href="dashboard-my-ads.html" aria-label="Previous">
+										<span aria-hidden="true">&laquo;</span>
+										<span class="sr-only">Previous</span>
+									</a>
+								</li>
+								<li class="page-item">
+									<a class="page-link" href="dashboard-my-ads.html">1</a>
+								</li>
+								<li class="page-item active">
+									<a class="page-link" href="dashboard-my-ads.html">2</a>
+								</li>
+								<li class="page-item">
+									<a class="page-link" href="dashboard-my-ads.html">3</a>
+								</li>
+								<li class="page-item">
+									<a class="page-link" href="dashboard-my-ads.html" aria-label="Next">
+										<span aria-hidden="true">&raquo;</span>
+										<span class="sr-only">Next</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+					<!-- pagination -->
+
+				</div>
+			</div>
+			<!-- Row End -->
+		</div>
+		<!-- Container End -->
+	</section>
+
+
+{% endblock %}

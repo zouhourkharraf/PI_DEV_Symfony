@@ -8,7 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
+
+
 #[ORM\Entity(repositoryClass: ActiviteRepository::class)]
+
 class Activite
 {
     #[ORM\Id]
@@ -17,21 +24,29 @@ class Activite
     private ?int $id = null;
 
     #[ORM\Column(length: 30)]
-    private ?string $nom_act = null;
+    #[Assert\NotBlank(message:"Nom de l'activité est obligatoire")]
+    private ?string $nomact = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $date_act = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    
+    private ?\DateTimeInterface $dateact = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $nb_participants = null;
+    #[ORM\Column]
+    #[Assert\NotBlank(message:"nbparticipants est obligatoire")]
+    #[Assert\Positive(message:'Le nombre de participants doit être un entier positif ou nul.')]
+    private ?int $nbparticipants = null;
 
-    #[ORM\Column(length: 80, nullable: true)]
-    private ?string $position_act = null;
+    #[ORM\Column(length: 80)]
+    #[Assert\NotBlank(message:"positionact est obligatoire")]
+    private ?string $positionact = null;
 
+  
     #[ORM\ManyToOne(inversedBy: 'liste_activites')]
+    #[Assert\NotBlank(message:"typeact est obligatoire")]
     private ?Type $type = null;
 
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'liste_activites')]
+   
     private Collection $liste_utilisateurs;
 
     public function __construct()
@@ -46,48 +61,48 @@ class Activite
 
     public function getNomAct(): ?string
     {
-        return $this->nom_act;
+        return $this->nomact;
     }
 
-    public function setNomAct(string $nom_act): self
+    public function setNomAct(string $nomact): self
     {
-        $this->nom_act = $nom_act;
+        $this->nomact = $nomact;
 
         return $this;
     }
 
     public function getDateAct(): ?\DateTimeInterface
     {
-        return $this->date_act;
+        return $this->dateact;
     }
 
-    public function setDateAct(?\DateTimeInterface $date_act): self
+    public function setDateAct(?\DateTimeInterface $dateact): self
     {
-        $this->date_act = $date_act;
+        $this->dateact = $dateact;
 
         return $this;
     }
 
     public function getNbParticipants(): ?int
     {
-        return $this->nb_participants;
+        return $this->nbparticipants;
     }
 
-    public function setNbParticipants(?int $nb_participants): self
+    public function setNbParticipants(?int $nbparticipants): self
     {
-        $this->nb_participants = $nb_participants;
+        $this->nbparticipants = $nbparticipants;
 
         return $this;
     }
 
     public function getPositionAct(): ?string
     {
-        return $this->position_act;
+        return $this->positionact;
     }
 
-    public function setPositionAct(?string $position_act): self
+    public function setPositionAct(?string $positionact): self
     {
-        $this->position_act = $position_act;
+        $this->positionact = $positionact;
 
         return $this;
     }
@@ -112,22 +127,39 @@ class Activite
         return $this->liste_utilisateurs;
     }
 
-    public function addListeUtilisateur(Utilisateur $listeUtilisateur): self
+    public function addListeUtilisateur(Utilisateur $liste_Utilisateur): self
     {
-        if (!$this->liste_utilisateurs->contains($listeUtilisateur)) {
-            $this->liste_utilisateurs->add($listeUtilisateur);
-            $listeUtilisateur->addListeActivite($this);
+        if (!$this->liste_utilisateurs->contains($liste_Utilisateur)) {
+            $this->liste_utilisateurs->add($liste_Utilisateur);
+            $liste_Utilisateur->addListeActivite($this);
         }
 
         return $this;
     }
 
-    public function removeListeUtilisateur(Utilisateur $listeUtilisateur): self
+    public function removeListeUtilisateur(Utilisateur $liste_Utilisateur): self
     {
-        if ($this->liste_utilisateurs->removeElement($listeUtilisateur)) {
-            $listeUtilisateur->removeListeActivite($this);
+        if ($this->liste_utilisateurs->removeElement($liste_Utilisateur)) {
+            $liste_Utilisateur->removeListeActivite($this);
         }
 
         return $this;
     }
+
+/*
+    public function getTypeName()
+    {
+        return $this->getType()->getNomType();
+    }
+    */
+
+    public function __toString()
+    {
+        return $this->nomact;
+    
+    }
+
+
+
+  
 }

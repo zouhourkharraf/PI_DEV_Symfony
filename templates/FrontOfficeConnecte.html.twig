@@ -7,7 +7,10 @@
 		<!-- ** Basic Page Needs ** -->
 		<meta charset="utf-8">
 		<title>
-			{% block titel %}Magic Book | {{ app.user.roleutil }}
+			{% block titel %}Magic Book |
+				{% if app.user %}
+					{{ app.user.roleutil }}
+				{% endif %}
 			{% endblock %}
 		</title>
 
@@ -28,8 +31,8 @@
 		href="{{ asset('images/logo_title1.png') }}" rel="shortcut icon">
 
 		<!-- 
-																																																																																																																		  Essential stylesheets
-																																																																																																																				  =====================================-->
+																																																																																																																												  Essential stylesheets
+																																																																																																																														  =====================================-->
 		{% block css %}
 
 			<link href="{{asset('plugins/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
@@ -83,50 +86,54 @@
 									</li>
 									<li class="nav-item active">
 										{%	block activites %}
-											<a class="nav-link" href="{{ path('page_utilisateur_connecte') }}" style="color: rgb(25, 23, 60);">Activités</a>
+											<a class="nav-link" href="{{ path('app_showactivitefront') }}" style="color: rgb(25, 23, 60);">Activités</a>
 										{% endblock %}
 									</li>
 
 
 									<li class="nav-item dropdown dropdown-slide @@listing">
 										{%	block moncompte %}
-									<b>		<a class="nav-link dropdown-toggle" href="{{asset('#!')}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: rgb(25, 23, 60);">
-												{{ app.user.pseudoutil }}
-												<span>
-													<i class="fa fa-angle-down"></i>
-												</span>
-											</a></b>
-											<!-- Dropdown list -->
-											<ul class="dropdown-menu">
-											{% if app.user.roleutil=='élève' %}
-												<li>
-													<a class="dropdown-item @@category" href="{{ path('profil_eleve',{'id1':app.user.id}) }}">profil</a>
-												</li>
-												{% else %}
-												<li>
-													<a class="dropdown-item @@category" href="{{ path('profil_enseignant',{'id1':app.user.id}) }}">profil</a>
-												</li>
-												{% endif %}
-												<li>
-													<a class="dropdown-item @@listView" href="{{path('app_logout')}}">Déconnexion</a>
-												</li>
+											{% if app.user %}
+												<b>
+													<a class="nav-link dropdown-toggle" href="{{asset('#!')}}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: rgb(25, 23, 60);">
 
-											</ul>
+														{{ app.user.pseudoutil }}
+														<span>
+															<i class="fa fa-angle-down"></i>
+														</span>
+													</a>
+												</b>
+												<!-- Dropdown list -->
+												<ul class="dropdown-menu">
+													{% if app.user.roleutil=='élève' %}
+														<li>
+															<a class="dropdown-item @@category" href="{{ path('profil_eleve',{'id1':app.user.id}) }}">profil</a>
+														</li>
+													{% else %}
+														<li>
+															<a class="dropdown-item @@category" href="{{ path('profil_enseignant',{'id1':app.user.id}) }}">profil</a>
+														</li>
+													{% endif %}
+													<li>
+														<a class="dropdown-item @@listView" href="{{path('app_logout')}}">Déconnexion</a>
+													</li>
 
+												</ul>
+											</li>
 										</li>
 									</ul>
 									<ul class="navbar-nav ml-auto mt-10">
-                                    
+
 										<li class="nav-item">
-										  {% if app.user.roleutil=='enseignnat' %}
-											<div class="nav-link text-white add-button">
-												Espace enseignnat
+											{% if app.user.roleutil=='enseignnat' %}
+												<div class="nav-link text-white add-button">
+													Espace enseignnat
 												</div>
-										{% else %}
-											<div class="nav-link text-white add-button">
-												Espace élève</div>
+											{% else %}
+												<div class="nav-link text-white add-button">
+													Espace élève</div>
+											{% endif %}
 										{% endif %}
-										
 									{% endblock %}
 								</li>
 							</ul>
@@ -136,135 +143,98 @@
 			</div>
 		</div>
 	</body>
-</html></header><!-- ******************************* Limite Header ************************************ -->{% block body %}
-<div>
-	<img src="{{ asset('images/arrière_plan.jpg') }}" alt="fond">
-</div>
-<!-- ******************************* C'est le bloc à modifier  ************************************ -->{% endblock %}<!-- =============================
-																																																																																																	=            Hero Area            =
-																																																																																																	================================-->   
-<!-- Container Start -->
-
-
-<!-- Container End --> <!--============================
-																																																																																																	=            Footer            =
-																																																																																																	=============================--><footer class="footer section section-sm">
-{% block footer1 %}
-	<!-- Container Start -->
-	<div class="container">
-		<div class="row">
-			<div
-				class="col-lg-3 col-md-7 offset-md-1 offset-lg-0 mb-4 mb-lg-0">
-				<!-- About -->
-				<div
-					class="block about">
-					<!-- footer logo -->
-					<a href="{{ path('page_utilisateur_connecte') }}">
-						<img src="{{ asset('images/logo_footer.png') }}" alt="logo">
-					</a>
-					<!-- description -->
-					<p class="alt-color">
-						Tel : 70 666 666
-																																																																																																																																																																																																																																																																																																																																										email : magic.book@gmail.com
-					</p>
-				</div>
+</html></body></html></header><!-- ******************************* Limite Header ************************************ -->{% block body %}<div><img src="{{ asset('images/arrière_plan.jpg') }}" alt="fond"></div><!-- ******************************* C'est le bloc à modifier  ************************************ -->{% endblock %}<!-- =============================
+																																																																																																						=            Hero Area            =
+																																																																																																						================================--><!-- Container Start --><!-- Container End --><!--============================
+																																																																																																						=            Footer            =
+																																																																																																						=============================--><footer class="footer section section-sm"> {% block footer1 %}<!-- Container Start --><div class="container">
+<div class="row">
+	<div
+		class="col-lg-3 col-md-7 offset-md-1 offset-lg-0 mb-4 mb-lg-0">
+		<!-- About -->
+		<div
+			class="block about">
+			<!-- footer logo -->
+			<a href="{{ path('page_utilisateur_connecte') }}">
+				<img src="{{ asset('images/logo_footer.png') }}" alt="logo">
+			</a>
+			<!-- description -->
+			<p class="alt-color">
+				Tel : 70 666 666
+																																																																																																																																																																																																																																																																																																																																																																		email : magic.book@gmail.com
+			</p>
+		</div>
+	</div>
+	<!-- Link list -->
+	<div class="col-lg-2 offset-lg-1 col-md-3 col-6 mb-4 mb-lg-0">
+		<div class="block">
+			<h4>Magic Book</h4>
+			<ul>
+				<li><ahref="{{path('page_utilisateur_connecte')}}">Réclamations</a></li>
+				<li><ahref="{{path('page_utilisateur_connecte')}}">À propos</a></li>
+				<li><ahref="{{path('page_utilisateur_connecte')}}">FAQ</a></li>
+			</ul>
+		</div>
+	</div>
+	<!-- Link list -->
+	<div class="col-lg-2 col-md-3 offset-md-1 offset-lg-0 col-6 mb-4 mb-md-0">
+		<div class="block">
+			<h4>Mon compte</h4>
+			<ul>
+				<li><ahref="{{path('page_utilisateur_connecte')}}">Cours</a></li>
+				<li><ahref="{{path('page_utilisateur_connecte')}}">Formations</a></li>
+				<li><ahref="{{path('page_utilisateur_connecte')}}">Activités</a></li>
+			</ul>
+		</div>
+	</div>
+	<!-- Promotion -->
+	<div
+		class="col-lg-4 col-md-7">
+		<!-- App promotion -->
+		<div class="block-2 app-promotion">
+			<div class="mobile d-flex  align-items-center">
+				<a
+					href="{{ path('page_utilisateur_connecte') }}">
+					<!-- Icon -->
+					<img src="{{ asset('images/footer/phone-icon.png') }}" alt="mobile-icon">
+				</a>
+				<p class="mb-0">Téléchargez l'application Magic Book</p>
 			</div>
-			<!-- Link list -->
-			<div class="col-lg-2 offset-lg-1 col-md-3 col-6 mb-4 mb-lg-0">
-				<div class="block">
-					<h4>Magic Book</h4>
-					<ul>
-						<li><ahref="{{path('page_utilisateur_connecte')}}">Réclamations</a></li>
-						<li><ahref="{{path('page_utilisateur_connecte')}}">À propos</a></li>
-						<li><ahref="{{path('page_utilisateur_connecte')}}">FAQ</a></li>
-					</ul>
-				</div>
-			</div>
-			<!-- Link list -->
-			<div class="col-lg-2 col-md-3 offset-md-1 offset-lg-0 col-6 mb-4 mb-md-0">
-				<div class="block">
-					<h4>Mon compte</h4>
-					<ul>
-						<li><ahref="{{path('page_utilisateur_connecte')}}">Cours</a></li>
-						<li><ahref="{{path('page_utilisateur_connecte')}}">Formations</a></li>
-						<li><ahref="{{path('page_utilisateur_connecte')}}">Activités</a></li>
-					</ul>
-				</div>
-			</div>
-			<!-- Promotion -->
-			<div
-				class="col-lg-4 col-md-7">
-				<!-- App promotion -->
-				<div class="block-2 app-promotion">
-					<div class="mobile d-flex  align-items-center">
-						<a
-							href="{{ path('page_utilisateur_connecte') }}">
-							<!-- Icon -->
-							<img src="{{ asset('images/footer/phone-icon.png') }}" alt="mobile-icon">
-						</a>
-						<p class="mb-0">Téléchargez l'application Magic Book</p>
-					</div>
-					<div class="download-btn d-flex my-3">
-						<a href="{{ path('page_utilisateur_connecte') }}"><img src="{{ asset('images/apps/google-play-store.png') }}" class="img-fluid" alt=""></a>
-						<a href="{{ path('page_utilisateur_connecte') }}" class=" ml-3"><img src="{{ asset('images/apps/apple-app-store.png') }}" class="img-fluid" alt=""></a>
-					</div>
-				</div>
+			<div class="download-btn d-flex my-3">
+				<a href="{{ path('page_utilisateur_connecte') }}"><img src="{{ asset('images/apps/google-play-store.png') }}" class="img-fluid" alt=""></a>
+				<a href="{{ path('page_utilisateur_connecte') }}" class=" ml-3"><img src="{{ asset('images/apps/apple-app-store.png') }}" class="img-fluid" alt=""></a>
 			</div>
 		</div>
 	</div>
-	<!-- Container End -->
-{% endblock %}</footer><!-- Footer Bottom --><footer class="footer-bottom">
-{% block footer2 %}
-	<!-- Container Start -->
-	<div class="container">
-		<div class="row">
-			<div
-				class="col-lg-6 text-center text-lg-left mb-3 mb-lg-0">
-				<!-- Copyright -->
-				<div class="copyright">
-					<p>Copyright &copy;
-						<script>
-							var CurrentYear = new Date().getFullYear()
+</div></div><!-- Container End -->{% endblock %}</footer><!-- Footer Bottom --><footer class="footer-bottom">{% block footer2 %}<!-- Container Start --><div class="container">
+<div class="row">
+	<div
+		class="col-lg-6 text-center text-lg-left mb-3 mb-lg-0">
+		<!-- Copyright -->
+		<div class="copyright">
+			<p>Copyright &copy;
+				<script>
+					var CurrentYear = new Date().getFullYear()
 document.write(CurrentYear)
-						</script>. Designed & Developed by
-						<a class="text-white" href="{{asset('https://themefisher.com')}}">Geeks</a>
-					</p>
-				</div>
-			</div>
-			<div
-				class="col-lg-6">
-				<!-- Social Icons -->
-				<ul class="social-media-icons text-center text-lg-right">
-					<li>
-						<a class="fa fa-facebook" href="{{asset('https://www.facebook.com/themefisher')}}"></a>
-					</li>
-					<li>
-						<a class="fa fa-twitter" href="{{asset('https://www.twitter.com/themefisher')}}"></a>
-					</li>
-					<li>
-						<a class="fa fa-github-alt" href="{{asset('https://www.github.com/themefisher')}}"></a>
-					</li>
-				</ul>
-			</div>
+				</script>. Designed & Developed by
+				<a class="text-white" href="{{asset('https://themefisher.com')}}">Geeks</a>
+			</p>
 		</div>
 	</div>
-	<!-- Container End -->
-	<!-- To Top -->
-	<div class="scroll-top-to">
-		<i class="fa fa-angle-up"></i>
+	<div
+		class="col-lg-6">
+		<!-- Social Icons -->
+		<ul class="social-media-icons text-center text-lg-right">
+			<li>
+				<a class="fa fa-facebook" href="{{asset('https://www.facebook.com/themefisher')}}"></a>
+			</li>
+			<li>
+				<a class="fa fa-twitter" href="{{asset('https://www.twitter.com/themefisher')}}"></a>
+			</li>
+			<li>
+				<a class="fa fa-github-alt" href="{{asset('https://www.github.com/themefisher')}}"></a>
+			</li>
+		</ul>
 	</div>
-{% endblock %}</footer>{% block js %}
-
-<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
-<script src="{{asset('plugins/bootstrap/popper.min.js')}}"></script>
-<script src="{{asset('plugins/bootstrap/bootstrap.min.js')}}"></script>
-<script src="{{asset('plugins/bootstrap/bootstrap-slider.js')}}"></script>
-<script src="{{asset('plugins/tether/js/tether.min.js')}}"></script>
-<script src="{{asset('plugins/raty/jquery.raty-fa.js')}}"></script>
-<script src="{{asset('plugins/slick/slick.min.js')}}"></script>
-<script src="{{asset('plugins/jquery-nice-select/js/jquery.nice-select.min.js')}}"></script>
-<!-- google map -->
-<script src="{{asset('https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU')}}" defer></script>
-<script src="{{asset('plugins/google-map/map.js')}}" defer></script>
-
-<script src="{{asset('js/script.js')}}"></script>{% endblock %}</body></html></body></html>
+</div></div><!-- Container End --><!-- To Top --><div class="scroll-top-to">
+<i class="fa fa-angle-up"></i></div>{% endblock %}</footer>{% block js %}<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script><script src="{{asset('plugins/bootstrap/popper.min.js')}}"></script><script src="{{asset('plugins/bootstrap/bootstrap.min.js')}}"></script><script src="{{asset('plugins/bootstrap/bootstrap-slider.js')}}"></script><script src="{{asset('plugins/tether/js/tether.min.js')}}"></script><script src="{{asset('plugins/raty/jquery.raty-fa.js')}}"></script><script src="{{asset('plugins/slick/slick.min.js')}}"></script><script src="{{asset('plugins/jquery-nice-select/js/jquery.nice-select.min.js')}}"></script><!-- google map --><script src="{{asset('https://maps.googleapis.com/maps/api/js?key=AIzaSyCcABaamniA6OL5YvYSpB3pFMNrXwXnLwU')}}" defer></script><script src="{{asset('plugins/google-map/map.js')}}" defer></script><script src="{{asset('js/script.js')}}"></script>{% endblock %}</body></html></body></html>
