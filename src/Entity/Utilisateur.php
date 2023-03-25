@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -17,6 +18,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups("utilisateurs")]
     private ?int $id = null;
 
     #[ORM\Column(length: 30, nullable: true)]
@@ -24,6 +26,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 2, minMessage: "Le nom doit comporter au moins deux caractères")]
     #[Assert\Regex(pattern: "/\d/", match: false, message: "Le nom ne doit pas contenir des chiffres")]
     #[Assert\Expression("value!=this.getPrenomUtil()", message: "C'est la même valeur que votre prénom")]
+    #[Groups("utilisateurs")]
     private ?string $nom_util = null;
 
     #[ORM\Column(length: 30, nullable: true)]
@@ -31,30 +34,41 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 2, minMessage: "Le prénom doit comporter au moins deux caractères")]
     #[Assert\Regex(pattern: "/\d/", match: false, message: "Le prénom ne doit pas contenir des chiffres")]
     #[Assert\Expression("value!=this.getNomUtil()", message: "C'est la même valeur que votre nom")]
+    #[Groups("utilisateurs")]
     private ?string $prenom_util = null;
 
     #[ORM\Column(length: 60, nullable: false, unique: true)] //modifié
+    #[Groups("utilisateurs")]
     private ?string $pseudo_util = null;
 
-    #[ORM\Column(length: 60, nullable: true)]
+    #[ORM\Column(length: 120, nullable: true)]
+    #[Groups("utilisateurs")]
     private ?string $mot_de_passe_util = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     #[Assert\NotBlank(message: "Veuillez renseigner ce champ")]
     #[Assert\Email(message: "Le format de '{{ value }}' est invalide")]
+    #[Groups("utilisateurs")]
     //  #[Assert\Expression("this.EmailUtilValid(value)==true", message: "doit contenirrrrrr")]
     private ?string $email_util = null;
 
     #[ORM\Column(nullable: true)]
     #[Assert\NotBlank(message: "Veuillez renseigner ce champ")]
+    #[Groups("utilisateurs")]
     private ?int $age_util = null;
 
     #[ORM\Column(length: 2, nullable: true)]
     #[Assert\NotBlank(message: "Veuillez renseigner ce champ")]
+    #[Groups("utilisateurs")]
     private ?string $genre_util = null;
 
     #[ORM\Column(length: 20)]
+    #[Groups("utilisateurs")]
     private ?string $role_util = null;
+
+    //le code captcha à vérifier dans quelques formulaires de l'entoté Utilisateur (attrubut non mappé)
+    protected $captchaCode;
+
 
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Reclamation::class)]
     private Collection $liste_reclamations;
@@ -79,8 +93,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->liste_cours = new ArrayCollection();
         $this->liste_formations = new ArrayCollection();
     }
+    // **** pour l'attribut captchaCode ************
+    public function getCaptchaCode()
+    {
+        return $this->captchaCode;
+    }
 
+    public function setCaptchaCode($captchaCode)
+    {
+        $this->captchaCode = $captchaCode;
+    }
 
+    // **** FIN pour l'attribut captchaCode ************
     public function getId(): ?int
     {
         return $this->id;

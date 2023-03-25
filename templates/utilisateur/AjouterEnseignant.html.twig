@@ -28,8 +28,8 @@
 		href="{{ asset('images/logo_title1.png') }}" rel="shortcut icon">
 
 		<!-- 
-																																																																																																																																																		  Essential stylesheets
-																																																																																																																																																		  =====================================-->
+																																																																																																																																																								  Essential stylesheets
+																																																																																																																																																								  =====================================-->
 		<link href="{{asset('plugins/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
 		<link href="{{asset('plugins/bootstrap/bootstrap-slider.css')}}" rel="stylesheet">
 		<link href="{{asset('plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
@@ -58,7 +58,7 @@
 					<div class="col-lg-5 col-md-8 align-item-center">
 						<div class="border border">
 							<h3 class="bg-gray p-4" style="background-color:rgb(70, 221, 227)" style="text-align: center;">Créer un
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																								              compte enseignant</h3>
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																              compte enseignant</h3>
 
 							{{ form_start(form_ajout_enseignant, {'attr': {'novalidate': 'novalidate','class':'form-horizontal'}}) }}
 							{# désactiver la validation du formulaire coté client #}
@@ -107,6 +107,9 @@
 								{{ form_widget(form_ajout_enseignant.mot_de_passe_util.second,{'attr': {'class': 'form-control'}}) }}
 								{{ form_help(form_ajout_enseignant.mot_de_passe_util.second) }}
 								<br>
+								{# le champ captcha  #}
+								{{ form_row(form_ajout_enseignant.captchaCode,{'attr': {'class': 'form-control'}}) }}
+								<br>
 								<br>
 								{# Bouton Valider et Bouton Annuler  #}
 								<div class="row">
@@ -125,12 +128,12 @@
 
 		</section>
 		<!--============================
-																																																																																																																				=            Footer            =
-																																																																																																																				=============================-->
+																																																																																																																										=            Footer            =
+																																																																																																																										=============================-->
 		<footer class="footer section section-sm" style="background-color:rgb(247, 239, 14)"></footer>
 		<!-- 
-																																																																																																																				Essential Scripts
-																																																																																																																				=====================================-->
+																																																																																																																										Essential Scripts
+																																																																																																																										=====================================-->
 		<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
 		<script src="{{asset('plugins/bootstrap/popper.min.js')}}"></script>
 		<script src="{{asset('plugins/bootstrap/bootstrap.min.js')}}"></script>

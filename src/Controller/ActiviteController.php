@@ -192,7 +192,7 @@ class ActiviteController extends AbstractController
 
             ]);
         }
-        if ($utilisateur->getRoleUtil() == "eleve") {
+        if ($utilisateur->getRoleUtil() == "élève") {
             $activite->addListeUtilisateur($utilisateur);
             $nb = $activite->getNbParticipants();
             $nb--;

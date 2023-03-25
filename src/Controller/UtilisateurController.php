@@ -14,6 +14,7 @@ use App\Form\VerifierPseudoType;
 use App\Repository\UtilisateurRepository;
 use App\Service\MailerService;
 use Doctrine\Persistence\ManagerRegistry;
+use PharIo\Manifest\Requirement;
 use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class UtilisateurController extends AbstractController
 {
@@ -34,19 +36,9 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/listadmin', name: 'liste_administrateurs')]
-    public function AfficherAdministrateurs(UtilisateurRepository $utilisateurRepository, UserPasswordHasherInterface $hacher, ManagerRegistry $doctrine)
+    public function AfficherAdministrateurs(UtilisateurRepository $utilisateurRepository)
     {
         $ListAdmin = $utilisateurRepository->findBy(array('role_util' => 'administrateur')); //récupérer tout les administrateurs
-        $em = $doctrine->getManager();
-        //on va hacher les mots de passe des administrateurs déja enregistés avant de faire l'affichage
-        foreach ($ListAdmin as $admin) {
-            $mp_hache = $hacher->hashPassword($admin, $admin->getMotDePasseUtil());
-            $admin->setMotDePasseUtil($mp_hache);
-            $em->persist($admin);
-        } // ------>fin du hachage des mots de passe
-        $em->flush(); //envoyer tous les données à la BD
-        $ListAdmin = $utilisateurRepository->findBy(array('role_util' => 'administrateur')); //récupérer tout les administrateurs après avoir modifier leurs mot de passe
-
         return $this->render('utilisateur/listadminback.html.twig', array("liste_administrateurs" => $ListAdmin));
     }
 
@@ -201,6 +193,7 @@ class UtilisateurController extends AbstractController
 
 
     //NB: ********************* fonction de test ****************
+    /*
     #[Route('/routetest', name: 'route_test')]
     public function fonction_de_test(MailerService $mailer)
     {
@@ -210,15 +203,16 @@ class UtilisateurController extends AbstractController
         $contenu = '<p>AAAAAAAAAAAAAAAA</p><h1>AAAAAAAAAAAAAAAAAAAAAAAA</h1>';
         $mailer->sendEmail($detinataire, $objet, $contenu);
         */
-        return new Response('aaaaaaaaaa');
+    /*      return new Response('aaaaaaaaaa');
     }
+*/
 
     // ***************** Méthodes pour l'utilisateur connecté ***************************
 
-    //1) Liée à l'authentification :redirection:
+    //1) Liée à l'authentification : ******** La redirection: *****************
     // ----> cette méthode permet de rediriger l'utilisateur vers la page adéquate selon son rôle
     #[Route('/RouteRedirestion', name: 'route_redirection')]
-    public function rediriger_utilisateur(UtilisateurRepository $utilisateurRepository)
+    public function rediriger_utilisateur()
     {
         if ($this->getUser()->getRoleUtil() == 'élève' || $this->getUser()->getRoleUtil() == 'enseignant') {
             return $this->redirectToRoute('page_utilisateur_connecte');
@@ -316,7 +310,7 @@ class UtilisateurController extends AbstractController
             $em = $doctrine->getManager();
             $mp_hache = $hacher->hashPassword($utilisateur, $FromModif_MP->getData()['mot_de_passe']);
             $utilisateur->setMotDePasseUtil($mp_hache);
-            $em->persist($utilisateur);
+            // $em->persist($utilisateur);
             $em->flush();
 
             return $this->render('utilisateur/succes_update_password.html.twig');
@@ -326,5 +320,133 @@ class UtilisateurController extends AbstractController
     }
 
     //  ************************** FIN réccupération du mot de passe: *****************************
+
+
+
+
+
+
+
+
+
+
+
+
+    // ****************************************** Prasing JSON *********************************************************************
+
+    // ****************** Affichage JSON ***********************************
+
+
+    #[Route('/listUtilisateursJSON', name: 'liste_utilisateursJSON')]
+    public function AfficherUtilisateurssJSON(SerializerInterface $serializer, UtilisateurRepository $utilisateurRepository)
+    {
+        $ListUsers = $utilisateurRepository->findAll();
+        $json = $serializer->serialize($ListUsers, 'json', ['groups' => "utilisateurs"]);
+        return new Response($json);
+    }
+
+    #[Route('/AfficherUtilisateur/{id1}', name: 'profil_utilisateur')]
+    public function AfficherUtilisateur(NormalizerInterface $normalizer, UtilisateurRepository $repository, $id1)
+    {
+        $utilisateur = $repository->findOneByid($id1);
+        $UtilisateurNormalises = $normalizer->normalize($utilisateur, 'json', ['groups' => "utilisateurs"]);
+        return new Response(json_encode($UtilisateurNormalises));
+    }
+
+    // ****************** FIN Affichage JSON ***********************************
+
+    // ****************** Ajout JSON ***********************************
+    #[Route('/AjoutEnseignantJSON', name: 'ajouter_enseignantJSON')]
+    public function AjouterEnseignantJSON(NormalizerInterface $normalizer, ManagerRegistry $doctrine, Request $request, UserPasswordHasherInterface $hacher)
+    {
+        $enseignant = new Utilisateur(); //création de l'objet $enseignant de type Utilisateur
+
+
+        $enseignant->setPseudoUtil(''); //initialiser le pseudo
+        //hacher le mot de passe de l'utilisateur
+        $mp_hache = $hacher->hashPassword($enseignant, $enseignant->getMotDePasseUtil());
+        $enseignant->setMotDePasseUtil($mp_hache);
+
+        $em = $doctrine->getManager();
+        $em->persist($enseignant);
+        $enseignant->setRoleUtil('enseignant'); //affectation du role (enseignant)
+        $em->flush(); //envoyer $enseignant à la BD
+        $enseignant->setPseudoUtil($enseignant->GenrerPseudoUtilisateur()); //(2) 
+        $em->flush(); //envoyer de nouveau $enseignant à la BD après la modification du pseudo
+
+        $jsonContent = $normalizer->normalize($enseignant, 'json', ['groups' => 'utilisateurs']);
+        return new Response(json_encode($jsonContent));
+    }
+
+    #[Route('/AjoutEleveJSON', name: 'ajouter_eleveJSON')]
+    public function AjouterEleveJSON(NormalizerInterface $normalizer, ManagerRegistry $doctrine, Request $request, UserPasswordHasherInterface $hacher)
+    {
+        $eleve = new Utilisateur();
+        //hacher le mot de passe de l'utilisateur
+        $eleve->setPseudoUtil(''); //initialiser le pseudo
+        $mp_hache = $hacher->hashPassword($eleve, $eleve->getMotDePasseUtil());
+        $eleve->setMotDePasseUtil($mp_hache);
+
+        $em = $doctrine->getManager();
+        $em->persist($eleve);
+        $eleve->setRoleUtil('élève'); //affectation du role (eleve)
+        $em->flush(); //envoyer $eleve à la BD
+        $eleve->setPseudoUtil($eleve->GenrerPseudoUtilisateur()); //(2) 
+        $em->flush(); //envoyer de nouveau $enseignant à la BD après la modification du pseudo
+        $jsonContent = $normalizer->normalize($eleve, 'json', ['groups' => 'utilisateurs']);
+        return new Response(json_encode($jsonContent));
+    }
+
+    // ****************** FIN Ajout JSON ***********************************
+
+    // ***************************************** Modification JSON *******************************************
+
+    // 1) Modifier un enseignnat JSON
+    #[Route('/ModifierEnseignantJSON/{id1}', name: 'modifier_enseignantJSON')]
+    public function ModifierEnseignantJSON(UtilisateurRepository $repository, ManagerRegistry $doctrine, Request $request, $id1, NormalizerInterface $Normalizer)
+    {
+        $enseignant = $repository->findOneByid($id1);
+        $em = $doctrine->getManager();
+        $em->persist($enseignant);
+        $em->flush(); //envoyer $enseignant à la BD
+        $enseignant->setPseudoUtil($enseignant->GenrerPseudoUtilisateur()); //(2) 
+        $em->flush(); //envoyer de nouveau $enseignant à la BD après la modification du pseudo
+
+        $jsonContent = $Normalizer->normalize($enseignant, 'json', ['groups' => 'utilisateurs']);
+        return new Response("Student updated successfully " . json_encode($jsonContent));
+    }
+
+    // 2) Modifier un eleve JSON
+    #[Route('/ModifierEleveJSON/{id1}', name: 'modifier_eleveJSON')]
+    public function ModifierEleveJSON(UtilisateurRepository $repository, ManagerRegistry $doctrine, Request $request, $id1, NormalizerInterface $Normalizer)
+    {
+        $eleve = $repository->findOneByid($id1);
+        $em = $doctrine->getManager();
+        $em->persist($eleve);
+        $em->flush(); //envoyer $enseignant à la BD
+        $eleve->setPseudoUtil($eleve->GenrerPseudoUtilisateur()); //(2) 
+        $em->flush(); //envoyer de nouveau $enseignant à la BD après la modification du pseudo
+
+        $jsonContent = $Normalizer->normalize($eleve, 'json', ['groups' => 'utilisateurs']);
+        return new Response("Student updated successfully " . json_encode($jsonContent));
+    }
+
+    // ********************************************* FIN Modification JSON *******************************************
+
+    //****************** Suppression JSON
+    #[Route('/SupprimerUtilJSON/{id1}', name: 'supprimer_utilisateurJSON')]
+    public function SupprimerUtilisateurJSON($id1, ManagerRegistry $doctrine, UtilisateurRepository $repository, NormalizerInterface $Normalizer)
+    {
+        $utilisateur = $repository->findOneByid($id1);
+        $em = $doctrine->getManager();
+        $em->remove($utilisateur);
+        $em->flush();
+        $jsonContent = $Normalizer->normalize($utilisateur, 'json', ['groups' => 'utilisateurs']);
+        return new Response("Student deleted successfully " . json_encode($jsonContent));
+    }
+
+    //****************** FIN Suppression JSON
+
+    // ************************************************** FIN prasing JSON *********************************************************
 
 }

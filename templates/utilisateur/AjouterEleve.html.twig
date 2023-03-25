@@ -13,6 +13,8 @@
 
 		<!-- ** Basic Page Needs ** -->
 		<meta charset="utf-8">
+
+
 		<title>Classimax | Classified Marketplace Template</title>
 
 		<!-- ** Mobile Specific Metas ** -->
@@ -28,8 +30,8 @@
 		href="{{ asset('images/logo_title1.png') }}" rel="shortcut icon">
 
 		<!-- 
-																																																																																																																																																												  Essential stylesheets
-																																																																																																																																																												  =====================================-->
+																																																																																																																																																																																																		  Essential stylesheets
+																																																																																																																																																																																																		  =====================================-->
 		<link href="{{asset('plugins/bootstrap/bootstrap.min.css')}}" rel="stylesheet">
 		<link href="{{asset('plugins/bootstrap/bootstrap-slider.css')}}" rel="stylesheet">
 		<link href="{{asset('plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
@@ -105,6 +107,9 @@
 								{{ form_errors(form_ajout_eleve.mot_de_passe_util.second) }}
 								{{ form_widget(form_ajout_eleve.mot_de_passe_util.second,{'attr': {'class': 'form-control'}}) }}
 								{{ form_help(form_ajout_eleve.mot_de_passe_util.second) }}
+								<br>
+								{# le champ captcha  #}
+								{{ form_row(form_ajout_eleve.captchaCode,{'attr': {'class': 'form-control'}}) }}
 								<br>
 								<br>
 								{# Bouton Valider et Bouton Annuler  #}

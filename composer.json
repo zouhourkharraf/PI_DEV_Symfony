@@ -6,7 +6,9 @@
     "require": {
         "php": ">=7.2.5",
         "ext-ctype": "*",
+        "ext-gd": "*",
         "ext-iconv": "*",
+        "carlos-mg89/symfony-captcha-bundle": "^4.2",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.8",
         "doctrine/doctrine-migrations-bundle": "^3.2",
