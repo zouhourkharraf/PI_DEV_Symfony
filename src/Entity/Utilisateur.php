@@ -85,6 +85,10 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: Formation::class)]
     private Collection $liste_formations;
 
+    #[ORM\Column(length: 3)]
+    private ?string $DemandeSuppression = null; //pour cette propriété ajouter une annotation après pour le JSON
+
+
     public function __construct()
     {
         $this->liste_reclamations = new ArrayCollection();
@@ -425,5 +429,17 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getUsername()
     {
         return (string)$this->pseudo_util;
+    }
+
+    public function getDemandeSuppression(): ?string
+    {
+        return $this->DemandeSuppression;
+    }
+
+    public function setDemandeSuppression(string $DemandeSuppression): self
+    {
+        $this->DemandeSuppression = $DemandeSuppression;
+
+        return $this;
     }
 }

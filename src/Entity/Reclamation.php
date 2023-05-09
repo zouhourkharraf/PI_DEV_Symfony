@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\ReclamationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\JoinColumn;
 #[ORM\Entity(repositoryClass: ReclamationRepository::class)]
 class Reclamation
 {
@@ -16,47 +18,37 @@ class Reclamation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $type_rec = null;
-
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank (message: "Le titre est requis!")]
     private ?string $titre_rec = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $contenu_rec = null;
-
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank (message: "Le type est requis!")]
+    private ?string $type_rec = null;
+   
+    #[assert\Range(min: 'now',)]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank (message: "La date est requise!")]
     private ?\DateTimeInterface $date_rec = null;
 
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $image_rec = null;
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank (message: "La description est requise!")]
+    #[Assert\Length (max:255)]
+    private ?string $contenu_rec = null;
 
-    #[ORM\OneToMany(mappedBy: 'reclamation', targetEntity: Reponse::class)]
-    private Collection $liste_reponse;
+    #[ORM\Column]
+    #[Assert\NotBlank (message: "Le status est requise!")]
+    #[Assert\Length (max:255)]
+    #[Assert\Choice(choices: ["NON_TRAITE", "TRAITE", "EN_ATTENTE"])]
+    private ?string $statut_rec = null;
 
-    #[ORM\ManyToOne(inversedBy: 'liste_reclamations')]
-    private ?Utilisateur $utilisateur = null;
-
-    public function __construct()
-    {
-        $this->liste_reponse = new ArrayCollection();
-    }
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank (message: "User Name est requise!")]
+    private ?string $username = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTypeRec(): ?string
-    {
-        return $this->type_rec;
-    }
-
-    public function setTypeRec(string $type_rec): self
-    {
-        $this->type_rec = $type_rec;
-
-        return $this;
     }
 
     public function getTitreRec(): ?string
@@ -71,14 +63,14 @@ class Reclamation
         return $this;
     }
 
-    public function getContenuRec(): ?string
+    public function getTypeRec(): ?string
     {
-        return $this->contenu_rec;
+        return $this->type_rec;
     }
 
-    public function setContenuRec(string $contenu_rec): self
+    public function setTypeRec(string $type_rec): self
     {
-        $this->contenu_rec = $contenu_rec;
+        $this->type_rec = $type_rec;
 
         return $this;
     }
@@ -95,56 +87,42 @@ class Reclamation
         return $this;
     }
 
-    public function getImageRec(): ?string
+    public function getContenuRec(): ?string
     {
-        return $this->image_rec;
+        return $this->contenu_rec;
     }
 
-    public function setImageRec(?string $image_rec): self
+    public function setContenuRec(string $contenu_rec): self
     {
-        $this->image_rec = $image_rec;
+        $this->contenu_rec = $contenu_rec;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Reponse>
-     */
-    public function getListeReponse(): Collection
+    public function getStatutRec(): ?string
     {
-        return $this->liste_reponse;
+        return $this->statut_rec;
     }
 
-    public function addListeReponse(Reponse $listeReponse): self
+    public function setStatutRec(string $statut_rec): self
     {
-        if (!$this->liste_reponse->contains($listeReponse)) {
-            $this->liste_reponse->add($listeReponse);
-            $listeReponse->setReclamation($this);
-        }
+        $this->statut_rec = $statut_rec;
 
         return $this;
     }
-
-    public function removeListeReponse(Reponse $listeReponse): self
+    public function __toString()
     {
-        if ($this->liste_reponse->removeElement($listeReponse)) {
-            // set the owning side to null (unless already changed)
-            if ($listeReponse->getReclamation() === $this) {
-                $listeReponse->setReclamation(null);
-            }
-        }
-
-        return $this;
+        return $this->getUsername();
     }
 
-    public function getUtilisateur(): ?Utilisateur
+    public function getUsername(): ?string
     {
-        return $this->utilisateur;
+        return $this->username;
     }
 
-    public function setUtilisateur(?Utilisateur $utilisateur): self
+    public function setUsername(string $username): self
     {
-        $this->utilisateur = $utilisateur;
+        $this->username = $username;
 
         return $this;
     }
