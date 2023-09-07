@@ -15,36 +15,59 @@ class CoursType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('date_cour')
-            ->add('temps_cour')
-            ->add('titre_cour')
-            ->add('utilisateur')
-            ->add('matiere') 
+            ->add('date_cour', null, [
+                'label' => 'Date du Cours',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('temps_cour', null, [
+                'label' => 'Temps du Cours',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('titre_cour', null, [
+                'label' => 'Titre du Cours',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('utilisateur', null, [
+                'label' => 'Utilisateur',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
+            ->add('matiere', null, [
+                'label' => 'Matière',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+            ])
             ->add('photo', FileType::class, [
-                'label' => 'fichier',
-                // unmapped means that this field is not associated to any entity property
+                'label' => 'Fichier PDF',
                 'mapped' => false,
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
                 'required' => false,
-
-                // unmapped fields can't define their validation using annotations
-                // in the associated entity, so you can use the PHP constraint classes
+                'attr' => [
+                    'class' => 'form-control-file', // Bootstrap class for file input
+                ],
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
                         'mimeTypes' => [
-                          
                             'application/pdf',
                             'application/x-pdf',
-
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid fichier',
-                    ])
+                        'mimeTypesMessage' => 'Veuillez télécharger un fichier PDF valide.',
+                    ]),
                 ],
             ])
-        
-            ->add("Ajouter",SubmitType::class)
+            ->add("Ajouter", SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-primary', // Bootstrap class for the submit button
+                ],
+            ])
         ;
     }
 
@@ -54,5 +77,4 @@ class CoursType extends AbstractType
             'data_class' => Cours::class,
         ]);
     }
-
 }

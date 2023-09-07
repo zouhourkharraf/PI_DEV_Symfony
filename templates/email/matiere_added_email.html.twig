@@ -1,0 +1,14 @@
+{% block subject %}Matiere Added{% endblock %}
+
+{% block body %}
+<p>Hello,</p>
+
+<p>A new Matiere has been added to your system:</p>
+
+<ul>
+    <li><strong>ID:</strong> {{ matiere.id }}</li>
+    <li><strong>Nom:</strong> {{ matiere.getNomMat }}</li>
+</ul>
+
+<p>Thank you for using our system.</p>
+{% endblock %}

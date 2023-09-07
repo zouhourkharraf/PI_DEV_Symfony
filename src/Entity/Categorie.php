@@ -72,4 +72,9 @@ class Categorie
 
         return $this;
     }
+    //  ************************ To String ************************************
+    public function __toString()
+    {
+        return $this->nom_catg;
+    }
 }

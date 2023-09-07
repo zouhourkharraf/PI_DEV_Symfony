@@ -1,14 +1,13 @@
-{% extends 'FrontOfficeConnecte.html.twig' %}
+{% extends 'BackOffice.html.twig' %}
 
-{% block body %}
-    <div class="container mt-5">
-        <div class="text-center mb-4">
-            <h1 class="font-weight-bold">&#x1F506; Ajouter une Matière &#x1F506;</h1>
-            <p class="lead">Complétez le formulaire ci-dessous pour ajouter une nouvelle matière.</p>
-        </div>
+{% block footer %}
+	<div class="container mt-5">
+		<div class="text-center">
+			<h1 class="font-weight-bold">&#x1F506; Ajouter Matiere &#x1F506;</h1>
+		</div>
 
-        <div class="row justify-content-center">
-            <div class="col-md-8">
+		<div class="row justify-content-center">
+			<div class="col-md-6">
                 {{ form_start(AjouterMatiere, {'attr': {'class': 'my-form'}}) }}
                 
                 <div class="form-group">
@@ -21,11 +20,11 @@
                 </div>
                 
                 {{ form_end(AjouterMatiere) }}
-            </div>
-        </div>
+				</div>
+			</div>
 
-        <div class="text-center mt-4">
-            <a href="{{ path('app_aff') }}" class="btn btn-outline-primary">Retour au menu des matières</a>
-        </div>
-    </div>
-{% endblock %}
+			<div class="text-center mt-4">
+				<a href="{{ path('app_affback') }}" class="btn btn-outline-primary">Retour au menu des matières</a>
+			</div>
+		</div>
+	{% endblock %}

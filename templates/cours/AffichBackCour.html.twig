@@ -1,0 +1,66 @@
+{% extends 'BackOffice.html.twig' %}
+
+{% block footer %}
+    <div class="container mt-5">
+        <br>
+        <h1 class="text-center">
+            <a href="{{ path('app_affback') }}" class="btn btn-outline-primary">Retour au menu des matières</a>
+        </h1>
+        <br>
+        <br>
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th class="col-6">Titre</th>
+                    <th class="col-4">Fichier</th>
+                    <th class="col-2 text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cour in tabcoursback %}
+                    <tr>
+                        <td>{{ cour.getTitreCour() }}</td>
+                        <td>
+                            <div>
+                                <object data="{{ asset('uploads/even/' ~ cour.getFichier()) }}" type="application/pdf" width="100%" height="600px">
+                                    <p>
+                                        <a href="{{ asset('uploads/Cours/' ~ cour.getFichier()) }}" class="btn btn-sm btn-primary" target="_blank">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf" viewBox="0 0 16 16">
+                                                <path d="M6.293 0c-.28 0-.52.093-.707.28S5.5.52 5.5.8v14.4c0 .28.093.52.293.72s.43.28.707.28h6.4c.28 0 .52-.093.72-.28s.28-.43.28-.71V2.494L11.006.293A.997.997 0 0 0 10.3 0H6.293zM6 1.414L8.586 4H6V1.414zm7 11.586H6.293a1 1 0 0 1-.707-.293L2.293 8l3.293-3.293a1 1 0 0 1 1.414 0L13.707 8l-3.293 3.293a1 1 0 0 1-1.414 0L2.293 8h2.586a1 1 0 0 1 .707.293L8 11.586l3.293-3.293a1 1 0 0 1 1.414 0L13.707 8l-3.293 3.293a1 1 0 0 1-.707.293z"/>
+                                            </svg>
+                                            Télécharger
+                                        </a>
+                                    </p>
+                                </object>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <a class="btn btn-sm btn-primary" href="{{ path('app_updateCourback', {'id': cour.id}) }}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502 .646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg>
+                                Modifier
+                            </a>
+                            <a href="{{ path('app_removeCourback', {'id': cour.id}) }}" class="btn btn-sm btn-danger">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                                </svg>
+                                Supprimer
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-center">
+            <h1>
+                <a class="btn btn-primary" href="{{ path('cour_addback') }}">Ajouter un cours</a>
+            </h1>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends 'BackOffice.html.twig' %}
+
+{% block footer %}
+	<div class="container mt-5">
+		<h1 class="text-center">Bienvenue</h1>
+
+		<!-- Filter input -->
+		<div class="form-group">
+			<input type="text" class="form-control" id="filterInput" placeholder="Search">
+		</div>
+		<button class="btn btn-primary" id="sortByName">Trier avec nom</button>
+
+		<table class="table" id="dataTable">
+
+			<thead class="thead-light">
+				<tr>
+					<th class="col-4" data-sort="id">ID Matiere</th>
+					<th class="col-4" data-sort="name">Nom de la Matière</th>
+					<th class="col-4">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for a in matiere %}
+					<tr>
+						<td>
+							{{ a.id }}
+						</td>
+						<td>
+						<a href="{{ path('cour_listback', {'id': a.id}) }}" class="matiere-link" data-toggle="tooltip" data-placement="top" title="Voir details">
+							{{ a.getNomMat }}
+</a>						</td>
+						<td>
+							<a class="btn btn-dark" href="{{ path('app_updateback', {'id': a.id}) }}">Modifier</a>
+							<a href="{{ path('app_removeback', {'id': a.id}) }}" class="btn btn-danger">Supprimer</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="2" class="text-center">Veuillez ajouter une matière</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<div class="text-center mt-4">
+			<h1>
+				<a class="btn btn-primary" href="{{ path('AjouterMatiereback') }}">Ajouter une matière</a>
+			</h1>
+		</div>
+
+		<div class="text-center mt-4">
+			<a class="btn btn-primary" href="{{ path('excel') }}">Generate Excel File</a>
+		</div>
+
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function () { // Handle filter input changes
+$('#filterInput').on('keyup', function () {
+var searchText = $(this).val().toLowerCase();
+
+// Loop through table rows and hide those that don't match the search text
+$('#dataTable tbody tr').each(function () {
+var rowData = $(this).text().toLowerCase();
+
+if (rowData.indexOf(searchText) === -1) {
+$(this).hide();
+} else {
+$(this).show();
+}
+});
+});
+
+// Handle sorting by name when the button is clicked
+$('#sortByName').on('click', function () {
+var table = $('#dataTable');
+var rows = table.find('tbody tr').get();
+
+rows.sort(function (a, b) {
+var nameA = $(a).find('td:eq(1)').text().toLowerCase();
+var nameB = $(b).find('td:eq(1)').text().toLowerCase();
+
+return nameA.localeCompare(nameB);
+});
+
+$.each(rows, function (index, row) {
+table.children('tbody').append(row);
+});
+});
+});
+	</script>
+
+{% endblock %}

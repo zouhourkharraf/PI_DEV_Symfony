@@ -119,4 +119,5 @@ class Cours
 
         return $this;
     }
+    
 }

@@ -1,53 +1,122 @@
-{% extends 'FrontOfficeConnecte.html.twig'%}
-
-
-
-
+{% extends 'FrontOfficeConnecte.html.twig' %}
 
 {% block body %}
-<h1 class="align-center">Bienvenue dans votre espace des cours!</h1>
- 
- <table class="table">
-        <thead class="thead-light">
-          <tr>        
-                
-        <th class="col2">Titre</th>
-        <th class="col3">Cour</th>
-     
+	<div class="container mt-5">
+		<h1 class="text-center">Bienvenue dans votre espace des cours!</h1>
+		<br>
+		<div class="text-center">
+			<a href="{{ path('app_aff') }}" class="btn btn-outline-primary">Retour au menu des matières</a>
+		</div>
+		<br>
+		<br>
+		<div class="form-group">
+			<input type="text" class="form-control" id="filterInput" placeholder="Search by Name">
+		</div>
+		<button class="btn btn-primary" id="sortByTitle">Sort by Title</button>
 
-    </tr>
-    </thead>
-    <tbody>
-    {% for a in tabcours %}
-        <tr>
-            <td> {{a.getTitreCour()}}</td>
-                 
-              <td> <object data="{{ asset('uploads/even/' ~ a.getFichier()) }}" type="application/pdf" width="100%" height="600px">
-            <p> <a href="{{ asset('uploads/Cours/' ~ a.getFichier()) }}">Cliquez-ici !</a></p>
-</object></td>
-           
-           <td><a class="btn btn-dark" href="{{ path('app_updateCour', {'id': a.id}) }}">Modifier</a></td>
-            <td><a href="{{ path('app_removeCour', {'id': a.id}) }}" class="btn btn-danger">supprimer</a></td>
-           <br>
-            </tr>
-  
-    {% endfor %}
-   
-    </tbody>
-</table>
+		<table class="table" id="dataTable">
+			<thead class="thead-light">
+				<tr>
+					<th class="col-6">Titre</th>
+					<th class="col-6">Fichier</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for cour in tabcours %}
+					<tr>
+						<td>{{ cour.getTitreCour() }}</td>
+						<td>
+							<object data="{{ asset('uploads/even/' ~ cour.getFichier()) }}" type="application/pdf" width="100%" height="600px">
+								<p>
+									<a href="{{ asset('uploads/Cours/' ~ cour.getFichier()) }}">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-pdf" viewbox="0 0 16 16">
+											<path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z"/>
+										</svg>
+										Telecharger
+									</a>
+								</p>
+							</object>
+						</td>
+						<td class="text-center">
+							<a class="btn btn-sm btn-dark" href="{{ path('app_updateCour', {'id': cour.id}) }}">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewbox="0 0 16 16">
+									<path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+									<path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+								</svg>Modifier</a>
+							<a href="{{ path('app_removeCour', {'id': cour.id}) }}" class="btn btn-sm btn-danger">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewbox="0 0 16 16">
+									<path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+								</svg>Supprimer</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div class="text-center">
+			<h1>
+				<a class="btn btn-primary" href="{{ path('cour_add') }}">Ajouter un cours</a>
+			</h1>
+		</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script>
+			$(document).ready(function () { // Handle filter input changes
+$('#filterInput').on('keyup', function () {
+var searchText = $(this).val().toLowerCase();
 
-   <center>
-       <h1><a class="btn btn-primary" href="{{ path('cour_add') }}" class="pbtn btn-primary">Ajouter un cour</a></h1> 
-      </center>
+// Loop through table rows and hide those that don't match the search text in the first column
+$('#dataTable tbody tr').each(function () {
+var rowData = $(this).find('td:eq(0)').text().toLowerCase(); // Assuming name is in the first column
 
-<br>
-<br>
-<br>
-<br>
+if (rowData.indexOf(searchText) === -1) {
+$(this).hide();
+} else {
+$(this).show();
+}
+});
+});
 
+$(document).ready(function () { // Handle sorting by title when the button is clicked
+$('#sortByTitle').on('click', function () {
+var table = $('.table');
+var rows = table.find('tbody tr').get();
 
-  
+rows.sort(function (a, b) {
+var titleA = $(a).find('td:eq(0)').text().toLowerCase();
+var titleB = $(b).find('td:eq(0)').text().toLowerCase();
 
+return titleA.localeCompare(titleB);
+});
 
+$.each(rows, function (index, row) {
+table.children('tbody').append(row);
+});
+});
+});
+});
 
+$(document).ready(function () { // Handle sorting by title when the button is clicked
+$('#sortByTitle').on('click', function () {
+var table = $('.table');
+var rows = table.find('tbody tr').get();
+
+rows.sort(function (a, b) {
+var titleA = $(a).find('td:eq(0)').text().toLowerCase();
+var titleB = $(b).find('td:eq(0)').text().toLowerCase();
+
+return titleA.localeCompare(titleB);
+});
+
+$.each(rows, function (index, row) {
+table.children('tbody').append(row);
+});
+});
+});
+		</script>
+
+	</div>
 {% endblock %}
